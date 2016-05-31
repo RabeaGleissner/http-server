@@ -14,5 +14,7 @@ public class Main {
         }
 
         System.out.println("Port: " + port + "\nDirectory: " + directory);
+        HttpServer httpServer = new HttpServer();
+        httpServer.start(Integer.parseInt(port), directory);
     }
 }
