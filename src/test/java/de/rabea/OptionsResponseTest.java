@@ -17,4 +17,10 @@ public class OptionsResponseTest {
         OptionsResponse response = new OptionsResponse("/method_options2");
         assertEquals("Allow: GET,OPTIONS", response.generate());
     }
+
+    @Test
+    public void returnsNullForUnknownRoute() {
+        OptionsResponse response = new OptionsResponse("/unknown_options");
+        assertEquals(null, response.generate());
+    }
 }

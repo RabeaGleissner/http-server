@@ -15,6 +15,7 @@ public class Routes {
         return new LinkedList<String>(Arrays.asList(
                 "/",
                 "/form",
+                "/tea",
                 "/method_options",
                 "/method_options2"
         ));
@@ -22,5 +23,9 @@ public class Routes {
 
     public boolean isExisting(String route) {
         return allRoutes.contains(route);
+    }
+
+    public boolean coffeeRoute(String route) {
+        return route.equals("/coffee");
     }
 }
