@@ -1,10 +1,9 @@
 package de.rabea.response;
 
-import de.rabea.response.Response;
 import org.junit.Test;
 
-import static de.rabea.HttpVerb.*;
 import static de.rabea.HttpVerb.GET;
+import static de.rabea.HttpVerb.OPTIONS;
 import static org.junit.Assert.assertEquals;
 
 public class ResponseTest {
@@ -33,5 +32,11 @@ public class ResponseTest {
         Response response = new Response(GET, "/coffee");
         assertEquals(protocol + "418 I'm a teapot\n\nI'm a teapot", response.generate());
 
+    }
+
+    @Test
+    public void returns302ForRedirect() {
+        Response response = new Response(GET, "/redirect");
+        assertEquals(protocol + "302 Found\nLocation: http://localhost:5000/", response.generate());
     }
 }

@@ -23,6 +23,10 @@ public class Response {
     }
 
     public String generate() {
+        if (route.equals("/redirect")) {
+            return protocol + "302 Found\nLocation: http://localhost:5000/";
+        }
+
         if (routes.coffeeRoute(route)) {
             return teapotResponse;
         }
