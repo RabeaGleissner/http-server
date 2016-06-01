@@ -2,7 +2,7 @@ package de.rabea;
 
 public class HttpServer {
 
-    private Connection connection;
+    private final Connection connection;
 
     public HttpServer(Connection connection) {
         this.connection = connection;

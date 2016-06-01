@@ -2,7 +2,7 @@ package de.rabea;
 
 public class RequestHandler {
 
-    private String[] request;
+    private final String[] request;
 
     public RequestHandler(String incoming) {
         this.request = split(incoming);

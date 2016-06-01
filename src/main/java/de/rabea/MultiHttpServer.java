@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class MultiHttpServer {
-    private boolean listening = true;
-    private ServerSocket serverSocket;
+    private final boolean listening = true;
+    private final ServerSocket serverSocket;
 
     public MultiHttpServer(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;

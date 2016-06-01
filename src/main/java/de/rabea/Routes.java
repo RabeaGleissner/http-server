@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Routes {
-    private List<String> allRoutes;
+    private final List<String> allRoutes;
 
     public Routes() {
         allRoutes = allRoutes();

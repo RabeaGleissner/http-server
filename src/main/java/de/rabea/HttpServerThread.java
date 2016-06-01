@@ -2,7 +2,7 @@ package de.rabea;
 
 public class HttpServerThread extends Thread {
 
-    private Network network;
+    private final Network network;
 
     public HttpServerThread(Network network) {
         this.network = network;

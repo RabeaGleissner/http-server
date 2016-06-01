@@ -2,7 +2,7 @@ package de.rabea;
 
 public class OptionsResponse {
 
-    private String route;
+    private final String route;
 
     public OptionsResponse(String route) {
         this.route = route;

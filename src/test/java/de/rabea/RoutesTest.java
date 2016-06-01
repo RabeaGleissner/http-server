@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class RoutesTest {
 
-    Routes routes;
+    private Routes routes;
 
     @Before
     public void setup() {
