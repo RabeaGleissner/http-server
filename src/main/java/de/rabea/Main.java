@@ -14,9 +14,11 @@ public class Main {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            HttpServer httpServer = new HttpServer(new Network(serverSocket.accept()), directory);
-            httpServer.start();
+            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket);
+            multiHttpServer.run();
+
         } catch (IOException e) {
+            System.out.println("Cannot connect to port: " + port);
             e.printStackTrace();
         }
     }

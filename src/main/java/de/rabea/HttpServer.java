@@ -2,17 +2,17 @@ package de.rabea;
 
 public class HttpServer {
 
-    private Network network;
-    private String directory;
+    private Connection connection;
 
-    public HttpServer(Network network, String directory) {
-        this.network = network;
-        this.directory = directory;
+    public HttpServer(Connection connection) {
+        this.connection = connection;
     }
 
     public void start() {
-        String message = network.read();
-        Response response = new Response(message);
-        network.write(response.generate());
+        String request = connection.read();
+        System.out.println("request = " + request);
+        Response response = new Response(request);
+        connection.write(response.generate());
+        connection.close();
     }
 }

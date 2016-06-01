@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Network {
+public class Network implements Connection {
 
     private final Socket socket;
     private final BufferedReader clientInputReader;
@@ -29,6 +29,14 @@ public class Network {
 
     public void write(String message) {
         sender.println(message);
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private BufferedReader createReader() {

@@ -14,6 +14,9 @@ public class FakeSocket extends Socket {
     public FakeSocket(String message) {
         this.message = message;
     }
+    public FakeSocket() {
+        this.message = "";
+    }
 
     @Override
     public InputStream getInputStream() {
