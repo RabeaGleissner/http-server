@@ -4,6 +4,7 @@ public enum HttpVerb {
     GET,
     POST,
     PUT,
+    OPTIONS,
     HEAD;
 
     public static HttpVerb convert(String word) {
@@ -13,6 +14,8 @@ public enum HttpVerb {
             return POST;
         } else if (word.equals("PUT")) {
             return PUT;
+        } else if (word.equals("OPTIONS")) {
+            return OPTIONS;
         } else if (word.equals("HEAD")) {
             return HEAD;
         }
@@ -20,7 +23,11 @@ public enum HttpVerb {
     }
 
     public static boolean isExisting(HttpVerb verb) {
-        return verb == GET || verb == POST || verb == PUT || verb == HEAD;
+        return verb == GET ||
+               verb == POST ||
+               verb == PUT ||
+               verb == HEAD ||
+               verb == OPTIONS;
     }
 }
 
