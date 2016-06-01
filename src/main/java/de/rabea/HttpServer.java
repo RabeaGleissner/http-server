@@ -9,9 +9,11 @@ public class HttpServer {
     }
 
     public void start() {
-        String request = connection.read();
-        System.out.println("request = " + request);
-        Response response = new Response(request);
+        String incoming = connection.read();
+        System.out.println("request = " + incoming);
+        RequestHandler requestHandler = new RequestHandler(incoming);
+        Response response = new Response(requestHandler.httpVerb(),
+                requestHandler.route());
         connection.write(response.generate());
         connection.close();
     }

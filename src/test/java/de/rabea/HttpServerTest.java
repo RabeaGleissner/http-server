@@ -13,7 +13,5 @@ public class HttpServerTest {
         httpServer.start();
 
         assertEquals("HTTP/1.0 200 OK", fakeNetwork.returnedResponse);
-
     }
-
 }
