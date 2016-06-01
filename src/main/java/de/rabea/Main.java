@@ -1,18 +1,25 @@
 package de.rabea;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.HashMap;
+
 public class Main {
     public static void main(String[] args) {
-        String port;
-        String directory;
-
-        if (args.length == 4) {
-            port = args[1];
-            directory = args[3];
-        } else {
-            port = "5000";
-            directory = "PUBLIC_DIR";
-        }
+        HashMap<String, String> arguments = new Arguments(args).parse();
+        String directory = arguments.get("directory");
+        int port = Integer.parseInt(arguments.get("port"));
 
         System.out.println("Port: " + port + "\nDirectory: " + directory);
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(port);
+            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket);
+            multiHttpServer.run();
+
+        } catch (IOException e) {
+            System.out.println("Cannot connect to port: " + port);
+            e.printStackTrace();
+        }
     }
 }
