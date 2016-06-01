@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -15,9 +15,10 @@ public class Routes {
         return new LinkedList<String>(Arrays.asList(
                 "/",
                 "/form",
-                "/tea",
                 "/method_options",
-                "/method_options2"
+                "/method_options2",
+                "/redirect",
+                "/tea"
         ));
     }
 

@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.response;
 
 public class OptionsResponse {
 

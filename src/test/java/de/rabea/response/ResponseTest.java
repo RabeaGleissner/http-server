@@ -1,5 +1,6 @@
-package de.rabea;
+package de.rabea.response;
 
+import de.rabea.response.Response;
 import org.junit.Test;
 
 import static de.rabea.HttpVerb.*;

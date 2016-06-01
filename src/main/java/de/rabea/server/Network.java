@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

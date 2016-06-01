@@ -1,5 +1,6 @@
-package de.rabea;
+package de.rabea.response;
 
+import de.rabea.response.OptionsResponse;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

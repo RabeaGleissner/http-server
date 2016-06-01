@@ -1,4 +1,7 @@
-package de.rabea;
+package de.rabea.response;
+
+import de.rabea.HttpVerb;
+import de.rabea.server.Routes;
 
 import static de.rabea.HttpVerb.*;
 

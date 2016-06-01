@@ -1,4 +1,7 @@
-package de.rabea;
+package de.rabea.server;
+
+import de.rabea.RequestHandler;
+import de.rabea.response.Response;
 
 public class HttpServer {
 
