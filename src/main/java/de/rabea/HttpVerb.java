@@ -18,5 +18,9 @@ public enum HttpVerb {
         }
         return null;
     }
+
+    public static boolean isExisting(HttpVerb verb) {
+        return verb == GET || verb == POST || verb == PUT || verb == HEAD;
+    }
 }
 
