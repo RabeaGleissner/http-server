@@ -1,20 +1,29 @@
 package de.rabea;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+
 public class Main {
     public static void main(String[] args) {
-        String port;
+        int port;
         String directory;
 
         if (args.length == 4) {
-            port = args[1];
+            port = Integer.parseInt(args[1]);
             directory = args[3];
         } else {
-            port = "5000";
+            port = 5000;
             directory = "PUBLIC_DIR";
         }
 
         System.out.println("Port: " + port + "\nDirectory: " + directory);
-        HttpServer httpServer = new HttpServer();
-        httpServer.start(Integer.parseInt(port), directory);
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(port);
+            HttpServer httpServer = new HttpServer(new Network(serverSocket.accept()), directory);
+            httpServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
