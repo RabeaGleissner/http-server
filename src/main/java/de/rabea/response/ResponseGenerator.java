@@ -5,7 +5,7 @@ import de.rabea.server.Routes;
 
 import static de.rabea.HttpVerb.*;
 
-public class Response {
+public class ResponseGenerator {
 
     private final String route;
     private final Routes routes;
@@ -16,7 +16,7 @@ public class Response {
     private final String teapotResponse = protocol + "418 I'm a teapot\n\nI'm a teapot";
     private final String newLine = "\n";
 
-    public Response(HttpVerb verb, String route) {
+    public ResponseGenerator(HttpVerb verb, String route) {
         this.verb = verb;
         this.route = route;
         this.routes = new Routes();
@@ -26,12 +26,11 @@ public class Response {
         if (route.equals("/redirect")) {
             return protocol + "302 Found\nLocation: http://localhost:5000/";
         }
-
-        if (routes.coffeeRoute(route)) {
+        if (routes.isTeaRoute(route)) {
             return teapotResponse;
         }
         if (verb == OPTIONS) {
-           return (okResponse + newLine + new OptionsResponse(route).generate());
+           return (okResponse + newLine + new Options(route).create());
         }
         if (routes.isExisting(route)) {
             return okResponse;

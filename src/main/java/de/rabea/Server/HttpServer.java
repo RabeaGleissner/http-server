@@ -1,7 +1,7 @@
 package de.rabea.server;
 
 import de.rabea.RequestHandler;
-import de.rabea.response.Response;
+import de.rabea.response.ResponseGenerator;
 
 public class HttpServer {
 
@@ -15,9 +15,9 @@ public class HttpServer {
         String incoming = connection.read();
         System.out.println("request = " + incoming);
         RequestHandler requestHandler = new RequestHandler(incoming);
-        Response response = new Response(requestHandler.httpVerb(),
+        ResponseGenerator responseGenerator = new ResponseGenerator(requestHandler.httpVerb(),
                 requestHandler.route());
-        connection.write(response.generate());
+        connection.write(responseGenerator.generate());
         connection.close();
     }
 }

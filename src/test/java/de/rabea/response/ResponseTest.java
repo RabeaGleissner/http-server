@@ -11,32 +11,31 @@ public class ResponseTest {
 
     @Test
     public void returns200OKForGetRequest() {
-        Response response = new Response(GET, "/");
-        assertEquals(protocol + "200 OK", response.generate());
+        ResponseGenerator responseGenerator = new ResponseGenerator(GET, "/");
+        assertEquals(protocol + "200 OK", responseGenerator.generate());
     }
 
     @Test
     public void returns404ForRequestToNonExistentRoute() {
-        Response response = new Response(GET, "/foobar");
-        assertEquals(protocol + "404 Not Found", response.generate());
+        ResponseGenerator responseGenerator = new ResponseGenerator(GET, "/foobar");
+        assertEquals(protocol + "404 Not Found", responseGenerator.generate());
     }
 
     @Test
     public void returns202AndOptionsForMethodOptionsRoute() {
-        Response response = new Response(OPTIONS, "/method_options");
-        assertEquals(protocol + "200 OK\nAllow: GET,HEAD,POST,OPTIONS,PUT", response.generate());
+        ResponseGenerator responseGenerator = new ResponseGenerator(OPTIONS, "/method_options");
+        assertEquals(protocol + "200 OK\nAllow: GET,HEAD,POST,OPTIONS,PUT", responseGenerator.generate());
     }
 
     @Test
     public void returns418AndTeapotForRequestToCoffeeRoute() {
-        Response response = new Response(GET, "/coffee");
-        assertEquals(protocol + "418 I'm a teapot\n\nI'm a teapot", response.generate());
-
+        ResponseGenerator responseGenerator = new ResponseGenerator(GET, "/coffee");
+        assertEquals(protocol + "418 I'm a teapot\n\nI'm a teapot", responseGenerator.generate());
     }
 
     @Test
     public void returns302ForRedirect() {
-        Response response = new Response(GET, "/redirect");
-        assertEquals(protocol + "302 Found\nLocation: http://localhost:5000/", response.generate());
+        ResponseGenerator responseGenerator = new ResponseGenerator(GET, "/redirect");
+        assertEquals(protocol + "302 Found\nLocation: http://localhost:5000/", responseGenerator.generate());
     }
 }

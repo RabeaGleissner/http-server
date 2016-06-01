@@ -26,7 +26,11 @@ public class Routes {
         return allRoutes.contains(route);
     }
 
-    public boolean coffeeRoute(String route) {
+    public boolean isTeaRoute(String route) {
         return route.equals("/coffee");
+    }
+
+    public boolean isRedirect(String route) {
+        return route.equals("/redirect");
     }
 }

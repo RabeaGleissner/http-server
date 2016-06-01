@@ -23,4 +23,9 @@ public class RoutesTest {
     public void returnsFalseIfRouteDoesNotExist() {
         assertFalse(routes.isExisting("/foobar"));
     }
+
+    @Test
+    public void returnsTrueIfItIsRedirect() {
+        assertTrue(routes.isRedirect("/redirect"));
+    }
 }
