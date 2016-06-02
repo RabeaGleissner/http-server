@@ -18,7 +18,7 @@ public class ResponseFactoryTest {
     @Test
     public void returnsTeapotResponse() {
         ResponseFactory factory= new ResponseFactory(GET, "/coffee");
-        assertTrue(factory.create() instanceof Teapot);
+        assertTrue(factory.create() instanceof FourEighteen);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class ResponseFactoryTest {
     @Test
     public void returnsStandardOKResponseForExistingRoute() {
         ResponseFactory factory = new ResponseFactory(GET, "/");
-        assertTrue(factory.create() instanceof StandardGet);
+        assertTrue(factory.create() instanceof TwoHundred);
     }
 
     @Test

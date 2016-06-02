@@ -23,7 +23,7 @@ public class ResponseFactory {
         }
 
         if (routes.isTeaRoute(route)) {
-            return new Teapot();
+            return new FourEighteen();
         }
 
         if (verb == OPTIONS) {
@@ -31,7 +31,7 @@ public class ResponseFactory {
         }
 
         if (routes.isExisting(route)) {
-            return new StandardGet();
+            return new TwoHundred();
         } else {
             return new NotFound();
         }

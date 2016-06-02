@@ -8,7 +8,7 @@ public class StandardGetTest {
 
     @Test
     public void returns200OKForGetRequest() {
-        StandardGet standardGet = new StandardGet();
-        assertEquals("HTTP/1.1 200 OK", standardGet.create());
+        TwoHundred twoHundred = new TwoHundred();
+        assertEquals("HTTP/1.1 200 OK", twoHundred.create());
     }
 }

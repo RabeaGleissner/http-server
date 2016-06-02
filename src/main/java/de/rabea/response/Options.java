@@ -10,9 +10,9 @@ public class Options implements HttpResponse {
 
     public String create() {
         if (route.equals("/method_options")) {
-            return "Allow: GET,HEAD,POST,OPTIONS,PUT";
+            return "HTTP/1.1 200 OK\nAllow: GET,HEAD,POST,OPTIONS,PUT";
         } else if (route.equals("/method_options2")) {
-            return "Allow: GET,OPTIONS";
+            return "HTTP/1.1 200 OK\nAllow: GET,OPTIONS";
         }
         return null;
     }

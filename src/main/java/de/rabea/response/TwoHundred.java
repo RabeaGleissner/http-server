@@ -1,6 +1,6 @@
 package de.rabea.response;
 
-public class StandardGet implements HttpResponse {
+public class TwoHundred implements HttpResponse {
 
     public String create() {
         return "HTTP/1.1 200 OK";

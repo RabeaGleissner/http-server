@@ -9,13 +9,13 @@ public class OptionsTest {
     @Test
     public void returnsOptionsForMethodOptionsRoute() {
         Options response = new Options("/method_options");
-        assertEquals("Allow: GET,HEAD,POST,OPTIONS,PUT", response.create());
+        assertEquals("HTTP/1.1 200 OK\nAllow: GET,HEAD,POST,OPTIONS,PUT", response.create());
     }
 
     @Test
     public void returnsOptionsForMethodOptions2Route() {
         Options response = new Options("/method_options2");
-        assertEquals("Allow: GET,OPTIONS", response.create());
+        assertEquals("HTTP/1.1 200 OK\nAllow: GET,OPTIONS", response.create());
     }
 
     @Test
