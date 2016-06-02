@@ -1,12 +1,15 @@
 package de.rabea;
 
+import de.rabea.server.Arguments;
+import de.rabea.server.MultiHttpServer;
+
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        HashMap<String, String> arguments = new Arguments(args).parse();
+        Map<String, String> arguments = new Arguments(args).parse();
         String directory = arguments.get("directory");
         int port = Integer.parseInt(arguments.get("port"));
 

@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -16,11 +16,21 @@ public class Routes {
                 "/",
                 "/form",
                 "/method_options",
-                "/method_options2"
+                "/method_options2",
+                "/redirect",
+                "/tea"
         ));
     }
 
     public boolean isExisting(String route) {
         return allRoutes.contains(route);
+    }
+
+    public boolean isTeaRoute(String route) {
+        return route.equals("/coffee");
+    }
+
+    public boolean isRedirect(String route) {
+        return route.equals("/redirect");
     }
 }

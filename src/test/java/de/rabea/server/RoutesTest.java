@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,5 +22,10 @@ public class RoutesTest {
     @Test
     public void returnsFalseIfRouteDoesNotExist() {
         assertFalse(routes.isExisting("/foobar"));
+    }
+
+    @Test
+    public void returnsTrueIfItIsRedirect() {
+        assertTrue(routes.isRedirect("/redirect"));
     }
 }

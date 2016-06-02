@@ -1,6 +1,7 @@
-package de.rabea;
+package de.rabea.server;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Arguments {
 
@@ -10,7 +11,7 @@ public class Arguments {
         this.arguments = arguments;
     }
 
-    public HashMap<String, String> parse() {
+    public Map<String, String> parse() {
         HashMap<String, String> parsedArguments = new HashMap<String, String>();
         if (arguments.length == 0) {
             defaultArguments(parsedArguments);

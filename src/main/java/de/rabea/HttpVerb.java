@@ -8,26 +8,12 @@ public enum HttpVerb {
     HEAD;
 
     public static HttpVerb convert(String word) {
-        if (word.equals("GET")) {
-            return GET;
-        } else if (word.equals("POST")) {
-            return POST;
-        } else if (word.equals("PUT")) {
-            return PUT;
-        } else if (word.equals("OPTIONS")) {
-            return OPTIONS;
-        } else if (word.equals("HEAD")) {
-            return HEAD;
+        HttpVerb[] verbs = HttpVerb.class.getEnumConstants();
+        for (HttpVerb verb : verbs) {
+            if (word.equals(verb.toString())) {
+                return verb;
+            }
         }
         return null;
     }
-
-    public static boolean isExisting(HttpVerb verb) {
-        return verb == GET ||
-               verb == POST ||
-               verb == PUT ||
-               verb == HEAD ||
-               verb == OPTIONS;
-    }
 }
-
