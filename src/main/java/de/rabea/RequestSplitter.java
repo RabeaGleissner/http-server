@@ -17,7 +17,18 @@ public class RequestSplitter {
     }
 
     public String route() {
-        return request.get(1);
+        String url = request.get(1);
+        String route = removeParameters(url);
+        return route;
+    }
+
+    private String removeParameters(String url) {
+        int index = url.indexOf("?");
+        if (index != -1) {
+            return url.substring(0, index);
+        } else {
+            return url;
+        }
     }
 
     public String body() {
