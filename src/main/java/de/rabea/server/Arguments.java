@@ -12,42 +12,48 @@ public class Arguments {
     }
 
     public Map<String, String> parse() {
-        HashMap<String, String> parsedArguments = new HashMap<String, String>();
+        Map<String, String> parsedArguments = new HashMap<>();
         if (arguments.length == 0) {
-            defaultArguments(parsedArguments);
+           parsedArguments = defaultArguments();
         }
 
         if (arguments.length == 2) {
-            addFirst(parsedArguments);
-            addDefaultSecond(parsedArguments);
+            Map<String, String> firstArguments = addFirst();
+            parsedArguments = addDefaultSecond(firstArguments);
         }
 
         if (arguments.length == 4) {
-            addFirst(parsedArguments);
-            addSecond(parsedArguments);
+            Map<String, String> firstArguments = addFirst();
+            parsedArguments = addSecond(firstArguments);
         }
         return parsedArguments;
     }
 
-    private void defaultArguments(HashMap<String, String> parsedArguments) {
+    private Map<String, String> defaultArguments() {
+        HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "5000");
         parsedArguments.put("directory", "PUBLIC_DIR");
+        return parsedArguments;
     }
 
-    private void addDefaultSecond(HashMap<String, String> parsedArguments) {
-        if (parsedArguments.containsKey("port")) {
-            parsedArguments.put("directory", "PUBLIC_DIR");
-        } else if (parsedArguments.containsKey("directory")) {
-            parsedArguments.put("port", "5000");
+    private Map<String, String> addDefaultSecond(Map<String, String> firstArguments) {
+        if (firstArguments.containsKey("port")) {
+            firstArguments.put("directory", "PUBLIC_DIR");
+        } else if (firstArguments.containsKey("directory")) {
+            firstArguments.put("port", "5000");
         }
+        return firstArguments;
     }
 
-    private void addFirst(HashMap<String, String> parsedArguments) {
+    private Map<String, String> addFirst() {
+        HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put(fullWord(arguments[0]), arguments[1]);
+        return parsedArguments;
     }
 
-    private void addSecond(HashMap<String, String> parsedArguments) {
+    private Map<String, String> addSecond(Map<String, String> parsedArguments) {
         parsedArguments.put(fullWord(arguments[2]), arguments[3]);
+        return parsedArguments;
     }
 
     private String fullWord(String argument) {
