@@ -11,7 +11,7 @@ public class ResponseFactory {
     private final String route;
     private final Routes routes;
 
-    public ResponseFactory(HttpVerb verb, String route) {
+    public ResponseFactory(HttpVerb verb, String route, String requestBody) {
         this.verb = verb;
         this.route = route;
         this.routes = new Routes();

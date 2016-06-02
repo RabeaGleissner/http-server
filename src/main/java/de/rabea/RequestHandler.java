@@ -1,22 +1,36 @@
 package de.rabea;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 public class RequestHandler {
 
-    private final String[] request;
+    private final List<String> request;
 
     public RequestHandler(String incoming) {
         this.request = split(incoming);
     }
 
     public HttpVerb httpVerb() {
-        return HttpVerb.convert(request[0]);
+        return HttpVerb.convert(request.get(0));
     }
 
     public String route() {
-        return request[1];
+        return request.get(1);
     }
 
-    private String[] split(String incoming) {
-        return incoming.split(" ");
+    public String body() {
+        return request.get(request.size() -1);
+    }
+
+    private List<String> split(String incoming) {
+        String[] lines = incoming.split("\n");
+        List<String> words = new LinkedList<>() ;
+        for (String line : lines) {
+            String[] splitLine =  line.split(" ");
+            Collections.addAll(words, splitLine);
+        }
+        return words;
     }
 }

@@ -9,6 +9,6 @@ public class HttpServerThread extends Thread {
     }
 
     public void start() {
-        new HttpServer(network).start();
+        new HttpServer(network, new ContentHolder()).start();
     }
 }
