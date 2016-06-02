@@ -8,10 +8,41 @@ import static org.junit.Assert.assertTrue;
 public class NetworkTest {
 
     @Test
-    public void readsInputFromClient() {
-        FakeSocket fakeSocket = new FakeSocket("hello");
+    public void readsOneLineInputForGETRequest() {
+        String request = "GET/form HTTP/1.1\n";
+        FakeSocket fakeSocket = new FakeSocket(request);
         Network network = new Network(fakeSocket);
-        assertEquals("hello", network.read());
+        assertEquals("GET/form HTTP/1.1\n", network.read());
+    }
+
+    @Test
+    public void readsBodyOfPostRequest() {
+        String request = "POST /form HTTP/1.1\n" +
+                "Content-Length: 11\n" +
+                "Host: localhost:5000\n" +
+                "Connection: Keep-Alive\n" +
+                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
+                "Accept-Encoding: gzip,deflate\n" +
+                "\n" +
+                "data=fatcat";
+        FakeSocket fakeSocket = new FakeSocket(request);
+        Network network = new Network(fakeSocket);
+        String[] parsedRequestLines = network.read().split("\n");
+        String lastLine = parsedRequestLines[parsedRequestLines.length -1];
+        assertEquals("data=fatcat", lastLine);
+    }
+
+    @Test
+    public void readsPutRequestWithoutBody() {
+        String request = "PUT /method_options HTTP/1.1\n" +
+                "Content-Length: 0\n" +
+                "Host: localhost:5000\n" +
+                "Connection: Keep-Alive\n" +
+                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
+                "Accept-Encoding: gzip,deflate\n";
+        FakeSocket fakeSocket = new FakeSocket(request);
+        Network network = new Network(fakeSocket);
+        assertEquals(request, network.read());
     }
 
     @Test

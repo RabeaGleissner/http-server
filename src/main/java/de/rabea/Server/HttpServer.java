@@ -14,7 +14,6 @@ public class HttpServer {
 
     public void start() {
         String incoming = connection.read();
-        System.out.println("request = " + incoming);
         RequestHandler requestHandler = new RequestHandler(incoming);
         ResponseGenerator responseGenerator = new ResponseGenerator(
                 new ResponseFactory(requestHandler.httpVerb(), requestHandler.route()).create());

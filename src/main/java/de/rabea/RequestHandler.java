@@ -17,6 +17,6 @@ public class RequestHandler {
     }
 
     private String[] split(String incoming) {
-        return incoming.split(" ", -1);
+        return incoming.split(" ");
     }
 }

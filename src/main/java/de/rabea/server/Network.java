@@ -19,12 +19,41 @@ public class Network implements Connection {
     }
 
     public String read() {
+        InputParser parser = new InputParser();
+        String requestBuilder = "";
+        String line;
         try {
-            return clientInputReader.readLine();
+            while ((line = clientInputReader.readLine()) != null) {
+                requestBuilder += (line + "\n");
+
+                if (parser.isOneLiner(line)) {
+                    break;
+                }
+                if (isEmptyLine(line)) {
+                    requestBuilder += readBody(parser, requestBuilder);
+                    break;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return requestBuilder;
+    }
+
+    private boolean isEmptyLine(String line) {
+        return line.equals("");
+    }
+
+    private String readBody(InputParser parser, String requestBuilder) throws IOException {
+        String charAccumulator = "";
+        int character;
+        int length = parser.contentLength(requestBuilder);
+
+        for (int i = 0; i < length; i++) {
+            character = clientInputReader.read();
+            charAccumulator = charAccumulator + ((char) character);
+        }
+        return charAccumulator;
     }
 
     public void write(String message) {
@@ -34,6 +63,7 @@ public class Network implements Connection {
     public void close() {
         try {
             socket.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
