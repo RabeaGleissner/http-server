@@ -12,11 +12,12 @@ public class Routes {
     }
 
     private List<String> allRoutes() {
-        return new LinkedList<String>(Arrays.asList(
+        return new LinkedList<>(Arrays.asList(
                 "/",
                 "/form",
                 "/method_options",
                 "/method_options2",
+                "/parameters",
                 "/redirect",
                 "/tea"
         ));

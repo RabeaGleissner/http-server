@@ -8,7 +8,7 @@ public class HttpServerTest {
 
     @Test
     public void returns200ForAGetRequest() {
-        FakeNetwork fakeNetwork = new FakeNetwork("GET / HTTP/1.1\n");
+        FakeNetwork fakeNetwork = new FakeNetwork("GET / HTTP/1.1");
         HttpServer httpServer = new HttpServer(fakeNetwork, new ContentHolder());
         httpServer.start();
 

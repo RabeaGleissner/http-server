@@ -20,7 +20,7 @@ public class RequestSplitterTest {
     }
 
     @Test
-    public void returnsBody() {
+    public void returnsBodyForPostRequest() {
        RequestSplitter requestSplitter = new RequestSplitter("POST /form HTTP/1.1\n" +
                 "Content-Length: 11\n" +
                 "Host: localhost:5000\n" +
@@ -37,6 +37,13 @@ public class RequestSplitterTest {
         String params = "?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F&variable_2=stuff";
         RequestSplitter requestSplitter = new RequestSplitter("GET /parameters" + params + " HTTP/1.1" );
         assertEquals("/parameters", requestSplitter.route());
-//        assertEquals("variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?", requestSplitter.urlParams());
+        assertEquals("variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?\nvariable_2 = stuff", requestSplitter.urlParams());
+    }
+
+    @Test
+    public void returnsBodyForUrlParameters() {
+        String params = "?variable_1=Operators%20all%22%3F&variable_2=stuff";
+        RequestSplitter requestSplitter = new RequestSplitter("GET /parameters" + params + " HTTP/1.1" );
+        assertEquals("variable_1 = Operators all\"?\nvariable_2 = stuff", requestSplitter.body());
     }
 }

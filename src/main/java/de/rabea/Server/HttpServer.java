@@ -34,7 +34,7 @@ public class HttpServer {
     }
 
     private void updateContentStorage(String incoming, RequestSplitter requestSplitter) {
-        if (new InputParser().hasBody(incoming)) {
+        if (requestSplitter.body() != "") {
             contentHolder.save(requestSplitter.route(), requestSplitter.body());
         }
 
