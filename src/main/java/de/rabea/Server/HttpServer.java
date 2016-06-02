@@ -1,5 +1,6 @@
 package de.rabea.server;
 
+import de.rabea.HttpVerb;
 import de.rabea.RequestHandler;
 import de.rabea.response.ResponseFactory;
 import de.rabea.response.ResponseGenerator;
@@ -19,7 +20,7 @@ public class HttpServer {
         RequestHandler requestHandler = new RequestHandler(incoming);
         String route = requestHandler.route();
 
-        keepHoldOfRequestBody(incoming, requestHandler, route);
+        updateContentStorage(incoming, requestHandler, route);
 
         ResponseGenerator responseGenerator = new ResponseGenerator(
                 new ResponseFactory(requestHandler.httpVerb(),
@@ -30,9 +31,13 @@ public class HttpServer {
         connection.close();
     }
 
-    private void keepHoldOfRequestBody(String incoming, RequestHandler requestHandler, String route) {
+    private void updateContentStorage(String incoming, RequestHandler requestHandler, String route) {
         if (new InputParser().hasBody(incoming)) {
             contentHolder.save(route, requestHandler.body());
+        }
+
+        if (requestHandler.httpVerb() == HttpVerb.DELETE) {
+            contentHolder.deleteFor(route);
         }
     }
 }

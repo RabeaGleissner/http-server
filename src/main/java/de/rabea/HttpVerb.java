@@ -5,7 +5,8 @@ public enum HttpVerb {
     POST,
     PUT,
     OPTIONS,
-    HEAD;
+    HEAD,
+    DELETE;
 
     public static HttpVerb convert(String word) {
         HttpVerb[] verbs = HttpVerb.class.getEnumConstants();
