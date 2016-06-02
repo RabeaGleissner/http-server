@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import org.junit.Test;
 
@@ -12,8 +12,6 @@ public class HttpServerTest {
         HttpServer httpServer = new HttpServer(fakeNetwork);
         httpServer.start();
 
-        assertEquals("HTTP/1.0 200 OK", fakeNetwork.returnedResponse);
-
+        assertEquals("HTTP/1.1 200 OK", fakeNetwork.returnedResponse);
     }
-
 }

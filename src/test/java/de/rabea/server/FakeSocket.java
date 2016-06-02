@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

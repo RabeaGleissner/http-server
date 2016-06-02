@@ -1,16 +1,17 @@
-package de.rabea;
+package de.rabea.server;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Arguments {
 
-    private String[] arguments;
+    private final String[] arguments;
 
     public Arguments(String[] arguments) {
         this.arguments = arguments;
     }
 
-    public HashMap<String, String> parse() {
+    public Map<String, String> parse() {
         HashMap<String, String> parsedArguments = new HashMap<String, String>();
         if (arguments.length == 0) {
             defaultArguments(parsedArguments);

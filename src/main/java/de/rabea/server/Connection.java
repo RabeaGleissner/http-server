@@ -1,4 +1,4 @@
-package de.rabea;
+package de.rabea.server;
 
 public interface Connection {
     String read();

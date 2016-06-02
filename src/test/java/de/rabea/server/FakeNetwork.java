@@ -1,10 +1,9 @@
-package de.rabea;
+package de.rabea.server;
 
 public class FakeNetwork implements Connection {
 
     private final String message;
     public String returnedResponse;
-    public boolean connectionClosed = false;
 
     public FakeNetwork(String message) {
         this.message = message;
@@ -19,6 +18,5 @@ public class FakeNetwork implements Connection {
     }
 
     public void close() {
-        connectionClosed = true;
     }
 }
