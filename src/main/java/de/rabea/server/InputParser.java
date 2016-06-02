@@ -25,6 +25,10 @@ public class InputParser {
         return 0;
     }
 
+    public boolean hasBody(String request) {
+        return contentLength(request) > 0;
+    }
+
 
     private boolean requestWithoutBody(String requestedVerb) {
        return requestedVerb.equals(GET.toString()) ||

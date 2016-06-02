@@ -39,5 +39,4 @@ public class ResponseFactoryTest {
         ResponseFactory factory = new ResponseFactory(GET, "/foobar", requestBody);
         assertTrue(factory.create() instanceof NotFound);
     }
-
 }

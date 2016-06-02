@@ -1,6 +1,7 @@
 package de.rabea;
 
 import de.rabea.server.Arguments;
+import de.rabea.server.ContentHolder;
 import de.rabea.server.MultiHttpServer;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class Main {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket);
+            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentHolder());
             multiHttpServer.run();
 
         } catch (IOException e) {

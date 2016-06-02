@@ -9,11 +9,13 @@ public class ResponseFactory {
 
     private final HttpVerb verb;
     private final String route;
+    private String requestBody;
     private final Routes routes;
 
     public ResponseFactory(HttpVerb verb, String route, String requestBody) {
         this.verb = verb;
         this.route = route;
+        this.requestBody = requestBody;
         this.routes = new Routes();
     }
 
@@ -31,7 +33,7 @@ public class ResponseFactory {
         }
 
         if (routes.isExisting(route)) {
-            return new TwoHundred();
+            return new TwoHundred(requestBody);
         } else {
             return new NotFound();
         }

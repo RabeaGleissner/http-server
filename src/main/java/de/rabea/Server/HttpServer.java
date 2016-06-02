@@ -17,11 +17,22 @@ public class HttpServer {
     public void start() {
         String incoming = connection.read();
         RequestHandler requestHandler = new RequestHandler(incoming);
+        String route = requestHandler.route();
+
+        keepHoldOfRequestBody(incoming, requestHandler, route);
+
         ResponseGenerator responseGenerator = new ResponseGenerator(
                 new ResponseFactory(requestHandler.httpVerb(),
-                        requestHandler.route(),
-                        contentHolder.getContentFor(requestHandler.route())).create());
+                        route,
+                        contentHolder.getContentFor(route)).create());
+
         connection.write(responseGenerator.generate());
         connection.close();
+    }
+
+    private void keepHoldOfRequestBody(String incoming, RequestHandler requestHandler, String route) {
+        if (new InputParser().hasBody(incoming)) {
+            contentHolder.save(route, requestHandler.body());
+        }
     }
 }
