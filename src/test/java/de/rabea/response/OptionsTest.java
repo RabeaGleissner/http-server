@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class OptionsResponseGeneratorTest {
+public class OptionsTest {
 
     @Test
     public void returnsOptionsForMethodOptionsRoute() {

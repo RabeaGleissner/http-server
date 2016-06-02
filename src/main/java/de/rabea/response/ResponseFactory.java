@@ -3,7 +3,7 @@ package de.rabea.response;
 import de.rabea.HttpVerb;
 import de.rabea.server.Routes;
 
-import static de.rabea.HttpVerb.*;
+import static de.rabea.HttpVerb.OPTIONS;
 
 public class ResponseFactory {
 
@@ -20,11 +20,17 @@ public class ResponseFactory {
     public HttpResponse create() {
         if (routes.isRedirect(route)) {
             return new Redirect();
-        } else if (routes.isTeaRoute(route)) {
+        }
+
+        if (routes.isTeaRoute(route)) {
             return new Teapot();
-        } else if (verb == OPTIONS) {
+        }
+
+        if (verb == OPTIONS) {
             return new Options(route);
-        } else if (routes.isExisting(route)) {
+        }
+
+        if (routes.isExisting(route)) {
             return new StandardGet();
         } else {
             return new NotFound();
