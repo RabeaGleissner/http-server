@@ -5,23 +5,23 @@ import org.junit.Test;
 import static de.rabea.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
 
-public class RequestHandlerTest {
+public class RequestSplitterTest {
 
     @Test
     public void returnsHttpVerb() {
-        RequestHandler requestHandler = new RequestHandler("GET / HTTP/1.1");
-        assertEquals(GET, requestHandler.httpVerb());
+        RequestSplitter requestSplitter = new RequestSplitter("GET / HTTP/1.1");
+        assertEquals(GET, requestSplitter.httpVerb());
     }
 
     @Test
     public void returnsRoute() {
-        RequestHandler requestHandler = new RequestHandler("GET /form HTTP/1.1");
-        assertEquals("/form", requestHandler.route());
+        RequestSplitter requestSplitter = new RequestSplitter("GET /form HTTP/1.1");
+        assertEquals("/form", requestSplitter.route());
     }
 
     @Test
     public void returnsBody() {
-       RequestHandler requestHandler = new RequestHandler("POST /form HTTP/1.1\n" +
+       RequestSplitter requestSplitter = new RequestSplitter("POST /form HTTP/1.1\n" +
                 "Content-Length: 11\n" +
                 "Host: localhost:5000\n" +
                 "Connection: Keep-Alive\n" +
@@ -29,6 +29,6 @@ public class RequestHandlerTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat");
-        assertEquals("data=fatcat", requestHandler.body());
+        assertEquals("data=fatcat", requestSplitter.body());
     }
 }

@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RequestHandler {
+public class RequestSplitter {
 
     private final List<String> request;
 
-    public RequestHandler(String incoming) {
+    public RequestSplitter(String incoming) {
         this.request = split(incoming);
     }
 

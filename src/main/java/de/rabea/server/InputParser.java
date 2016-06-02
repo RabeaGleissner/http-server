@@ -15,25 +15,29 @@ public class InputParser {
 
     public int contentLength(String request) {
         String newRequest = request.trim();
-        String[] ary = newRequest.split("\n");
-        for (String line : ary) {
-           String[] wordAry = line.split(" ");
-            if (wordAry[0].equals("Content-Length:")) {
-                return Integer.parseInt(wordAry[1]);
-            }
+        String[] lines = newRequest.split("\n");
+        for (String line : lines) {
+            Integer words = returnLength(line);
+            if (words != null) return words;
         }
         return 0;
+    }
+
+    private Integer returnLength(String line) {
+        String[] words = line.split(" ");
+        if (words[0].equals("Content-Length:")) {
+            return Integer.parseInt(words[1]);
+        }
+        return null;
     }
 
     public boolean hasBody(String request) {
         return contentLength(request) > 0;
     }
 
-
     private boolean requestWithoutBody(String requestedVerb) {
        return requestedVerb.equals(GET.toString()) ||
                requestedVerb.equals(HEAD.toString()) ||
                requestedVerb.equals(OPTIONS.toString());
     }
-
 }
