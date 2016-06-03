@@ -5,11 +5,11 @@ public enum HttpVerb {
     POST,
     PUT,
     OPTIONS,
-    HEAD;
+    HEAD,
+    DELETE;
 
     public static HttpVerb convert(String word) {
-        HttpVerb[] verbs = HttpVerb.class.getEnumConstants();
-        for (HttpVerb verb : verbs) {
+        for (HttpVerb verb : HttpVerb.values()) {
             if (word.equals(verb.toString())) {
                 return verb;
             }

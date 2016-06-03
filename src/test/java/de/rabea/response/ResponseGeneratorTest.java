@@ -9,7 +9,7 @@ public class ResponseGeneratorTest {
 
     @Test
     public void returns200OKForGetRequest() {
-        ResponseGenerator responseGenerator = new ResponseGenerator(new TwoHundred());
+        ResponseGenerator responseGenerator = new ResponseGenerator(new TwoHundred(""));
         assertEquals(protocol + "200 OK", responseGenerator.generate());
     }
 }
