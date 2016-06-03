@@ -13,10 +13,10 @@ public class MultiHttpServer {
         this.contentStorage = contentStorage;
     }
 
-    public void run() {
+    public void run(String directory) {
         while (listening) {
             try {
-                new HttpServerThread(new Network(serverSocket.accept()), contentStorage).start();
+                new HttpServerThread(new Network(serverSocket.accept()), contentStorage).start(directory);
             } catch (IOException e) {
                 e.printStackTrace();
             }

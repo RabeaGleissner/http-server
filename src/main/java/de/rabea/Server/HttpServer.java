@@ -14,16 +14,18 @@ public class HttpServer {
         this.contentStorage = contentStorage;
     }
 
-    public void start() {
+    public void start(String directory) {
         String incoming = connection.read();
-        Request request = new Request(incoming, contentStorage);
+        Request request = new Request(incoming, contentStorage, directory);
+
         String route = request.route();
 
         ResponseGenerator responseGenerator = new ResponseGenerator(
                 new ResponseFactory(
                         request.httpVerb(),
                         route,
-                        contentStorage.getContentFor(route))
+                        contentStorage.getContentFor(route),
+                        directory)
                         .create());
         connection.write(responseGenerator.generate());
         connection.close();

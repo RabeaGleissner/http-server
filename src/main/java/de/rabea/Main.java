@@ -19,7 +19,7 @@ public class Main {
         try {
             serverSocket = new ServerSocket(port);
             MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentStorage());
-            multiHttpServer.run();
+            multiHttpServer.run(directory);
 
         } catch (IOException e) {
             System.out.println("Cannot connect to port: " + port);

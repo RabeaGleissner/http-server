@@ -10,7 +10,7 @@ public class HttpServerThread extends Thread {
         this.contentStorage = contentStorage;
     }
 
-    public void start() {
-        new HttpServer(network, contentStorage).start();
+    public void start(String directory) {
+        new HttpServer(network, contentStorage).start(directory);
     }
 }

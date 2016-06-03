@@ -2,6 +2,7 @@ package de.rabea.request;
 
 import de.rabea.server.ContentStorage;
 import de.rabea.server.HttpVerb;
+import de.rabea.server.Resource;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -13,10 +14,12 @@ public class Request {
     private final UrlParser urlParser;
     private String incoming;
     private ContentStorage contentStorage;
+    private String directory;
 
-    public Request(String incoming, ContentStorage contentStorage) {
+    public Request(String incoming, ContentStorage contentStorage, String directory) {
         this.incoming = incoming;
         this.contentStorage = contentStorage;
+        this.directory = directory;
         this.wordList = split(incoming);
         this.urlParser = new UrlParser(url());
         updateContentStorage();
@@ -55,6 +58,12 @@ public class Request {
 
         if (httpVerb() == HttpVerb.DELETE) {
             contentStorage.deleteFor(route());
+        }
+
+        Resource resource = new Resource();
+        if (resource.isInPublicDir(resource.file(route()), directory)) {
+            String fileContent = new FileParser(directory + route()).read();
+            contentStorage.save(route(), fileContent);
         }
     }
 
