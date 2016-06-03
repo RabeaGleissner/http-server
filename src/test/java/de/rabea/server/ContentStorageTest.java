@@ -5,13 +5,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ContentHolderTest {
+public class ContentStorageTest {
     private final String formUrl = "/form";
-    private ContentHolder holder;
+    private ContentStorage holder;
 
     @Before
     public void setup() {
-        this.holder = new ContentHolder();
+        this.holder = new ContentStorage();
     }
 
     @Test

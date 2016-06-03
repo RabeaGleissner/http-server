@@ -3,14 +3,14 @@ package de.rabea.server;
 public class HttpServerThread extends Thread {
 
     private final Network network;
-    private ContentHolder contentHolder;
+    private ContentStorage contentStorage;
 
-    public HttpServerThread(Network network, ContentHolder contentHolder) {
+    public HttpServerThread(Network network, ContentStorage contentStorage) {
         this.network = network;
-        this.contentHolder = contentHolder;
+        this.contentStorage = contentStorage;
     }
 
     public void start() {
-        new HttpServer(network, contentHolder).start();
+        new HttpServer(network, contentStorage).start();
     }
 }

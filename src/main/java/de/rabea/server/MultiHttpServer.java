@@ -6,17 +6,17 @@ import java.net.ServerSocket;
 public class MultiHttpServer {
     private final boolean listening = true;
     private final ServerSocket serverSocket;
-    private ContentHolder contentHolder;
+    private ContentStorage contentStorage;
 
-    public MultiHttpServer(ServerSocket serverSocket, ContentHolder contentHolder) {
+    public MultiHttpServer(ServerSocket serverSocket, ContentStorage contentStorage) {
         this.serverSocket = serverSocket;
-        this.contentHolder = contentHolder;
+        this.contentStorage = contentStorage;
     }
 
     public void run() {
         while (listening) {
             try {
-                new HttpServerThread(new Network(serverSocket.accept()), contentHolder).start();
+                new HttpServerThread(new Network(serverSocket.accept()), contentStorage).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

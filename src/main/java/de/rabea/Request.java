@@ -1,5 +1,6 @@
 package de.rabea;
 
+import de.rabea.server.ContentStorage;
 import de.rabea.server.InputParser;
 
 import java.io.UnsupportedEncodingException;
@@ -8,14 +9,17 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RequestSplitter {
+public class Request {
 
     private final List<String> request;
     private String incoming;
+    private ContentStorage contentStorage;
 
-    public RequestSplitter(String incoming) {
+    public Request(String incoming, ContentStorage contentStorage) {
         this.incoming = incoming;
+        this.contentStorage = contentStorage;
         this.request = split(incoming);
+        updateContentStorage();
     }
 
     public HttpVerb httpVerb() {
@@ -40,7 +44,7 @@ public class RequestSplitter {
     public String body() {
         if (new InputParser().hasBody(incoming)) {
             return request.get(request.size() -1);
-        } else if (parameterString() != "") {
+        } else if (!parameterString().equals("")) {
             return urlParams();
         } else {
             return "";
@@ -49,23 +53,31 @@ public class RequestSplitter {
 
     public String urlParams() {
         String params = parameterString();
-        String decoded = "";
+        String decoded;
         try {
             decoded = URLDecoder.decode(getFirstVariable(params), "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            throw new AssertionError("UTF-8 not supported");
         }
         return decoded + "\n" + getSecondVariable(params);
     }
 
+    private void updateContentStorage() {
+        if (!body().equals("")) {
+            contentStorage.save(route(), body());
+        }
+
+        if (httpVerb() == HttpVerb.DELETE) {
+            contentStorage.deleteFor(route());
+        }
+    }
+
     private String getSecondVariable(String parameters) {
-        String onlySecond = parameters.substring(parameters.indexOf("&") + 1).replace("=", " = ");
-        return onlySecond;
+        return parameters.substring(parameters.indexOf("&") + 1).replace("=", " = ");
     }
 
     private String getFirstVariable(String parameters) {
-        String onlyFirst = parameters.substring(1, parameters.indexOf("&")).replace("=", " = ");
-        return onlyFirst;
+        return parameters.substring(1, parameters.indexOf("&")).replace("=", " = ");
     }
 
     private List<String> split(String incoming) {
