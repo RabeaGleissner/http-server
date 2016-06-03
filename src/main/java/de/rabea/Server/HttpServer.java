@@ -1,6 +1,6 @@
 package de.rabea.server;
 
-import de.rabea.Request;
+import de.rabea.request.Request;
 import de.rabea.response.ResponseFactory;
 import de.rabea.response.ResponseGenerator;
 
@@ -25,7 +25,6 @@ public class HttpServer {
                         route,
                         contentStorage.getContentFor(route))
                         .create());
-
         connection.write(responseGenerator.generate());
         connection.close();
     }

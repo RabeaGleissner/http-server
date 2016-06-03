@@ -1,5 +1,6 @@
-package de.rabea.server;
+package de.rabea.request;
 
+import de.rabea.request.InputParser;
 import org.junit.Before;
 import org.junit.Test;
 
