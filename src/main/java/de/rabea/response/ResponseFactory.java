@@ -1,9 +1,9 @@
 package de.rabea.response;
 
-import de.rabea.HttpVerb;
+import de.rabea.server.HttpVerb;
 import de.rabea.server.Routes;
 
-import static de.rabea.HttpVerb.OPTIONS;
+import static de.rabea.server.HttpVerb.OPTIONS;
 
 public class ResponseFactory {
 

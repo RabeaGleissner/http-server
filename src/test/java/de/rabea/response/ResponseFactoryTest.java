@@ -2,8 +2,8 @@ package de.rabea.response;
 
 import org.junit.Test;
 
-import static de.rabea.HttpVerb.GET;
-import static de.rabea.HttpVerb.OPTIONS;
+import static de.rabea.server.HttpVerb.GET;
+import static de.rabea.server.HttpVerb.OPTIONS;
 import static org.junit.Assert.assertTrue;
 
 public class ResponseFactoryTest {

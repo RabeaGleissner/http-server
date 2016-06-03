@@ -1,7 +1,6 @@
 package de.rabea.server;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Routes {
@@ -12,14 +11,15 @@ public class Routes {
     }
 
     private List<String> allRoutes() {
-        return new LinkedList<String>(Arrays.asList(
+        return Arrays.asList(
                 "/",
                 "/form",
                 "/method_options",
                 "/method_options2",
+                "/parameters",
                 "/redirect",
                 "/tea"
-        ));
+        );
     }
 
     public boolean isExisting(String route) {

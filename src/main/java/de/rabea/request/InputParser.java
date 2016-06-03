@@ -1,6 +1,6 @@
-package de.rabea.server;
+package de.rabea.request;
 
-import static de.rabea.HttpVerb.*;
+import static de.rabea.server.HttpVerb.*;
 
 public class InputParser {
 

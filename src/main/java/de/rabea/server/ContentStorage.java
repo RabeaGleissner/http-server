@@ -3,10 +3,10 @@ package de.rabea.server;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ContentHolder {
+public class ContentStorage {
     private Map<String, String> storage;
 
-    public ContentHolder() {
+    public ContentStorage() {
         this.storage = new HashMap<>();
     }
 

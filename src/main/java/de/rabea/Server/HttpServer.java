@@ -1,45 +1,31 @@
 package de.rabea.server;
 
-import de.rabea.HttpVerb;
-import de.rabea.RequestSplitter;
+import de.rabea.request.Request;
 import de.rabea.response.ResponseFactory;
 import de.rabea.response.ResponseGenerator;
 
 public class HttpServer {
 
     private final Connection connection;
-    private ContentHolder contentHolder;
+    private ContentStorage contentStorage;
 
-    public HttpServer(Connection connection, ContentHolder contentHolder) {
+    public HttpServer(Connection connection, ContentStorage contentStorage) {
         this.connection = connection;
-        this.contentHolder = contentHolder;
+        this.contentStorage = contentStorage;
     }
 
     public void start() {
         String incoming = connection.read();
-        RequestSplitter requestSplitter = new RequestSplitter(incoming);
-        String route = requestSplitter.route();
-
-        updateContentStorage(incoming, requestSplitter);
+        Request request = new Request(incoming, contentStorage);
+        String route = request.route();
 
         ResponseGenerator responseGenerator = new ResponseGenerator(
                 new ResponseFactory(
-                        requestSplitter.httpVerb(),
+                        request.httpVerb(),
                         route,
-                        contentHolder.getContentFor(route))
+                        contentStorage.getContentFor(route))
                         .create());
-
         connection.write(responseGenerator.generate());
         connection.close();
-    }
-
-    private void updateContentStorage(String incoming, RequestSplitter requestSplitter) {
-        if (new InputParser().hasBody(incoming)) {
-            contentHolder.save(requestSplitter.route(), requestSplitter.body());
-        }
-
-        if (requestSplitter.httpVerb() == HttpVerb.DELETE) {
-            contentHolder.deleteFor(requestSplitter.route());
-        }
     }
 }

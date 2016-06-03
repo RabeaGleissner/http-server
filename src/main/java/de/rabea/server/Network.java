@@ -1,5 +1,7 @@
 package de.rabea.server;
 
+import de.rabea.request.InputParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
