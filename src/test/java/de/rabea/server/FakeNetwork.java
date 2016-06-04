@@ -15,7 +15,7 @@ public class FakeNetwork implements Connection {
        return message;
     }
 
-    public void writeHeader(String response, byte[] body) {
+    public void write(String response, byte[] body) {
         returnedResponse = response + asString(body);
     }
 

@@ -49,7 +49,7 @@ public class NetworkTest {
     public void sendsHeaderToClient() {
         FakeSocket fakeSocket = new FakeSocket();
         Network network = new Network(fakeSocket);
-        network.writeHeader("hello!", new byte[0]);
+        network.write("hello!", new byte[0]);
         assertEquals("hello!", fakeSocket.messageSent());
     }
 
@@ -58,8 +58,8 @@ public class NetworkTest {
         FakeSocket fakeSocket = new FakeSocket();
         Network network = new Network(fakeSocket);
         String message = "hello!";
-        network.writeBody(message.getBytes());
-        assertEquals("hello!", fakeSocket.messageSent());
+        network.write(message, "body".getBytes());
+        assertEquals("hello!body", fakeSocket.messageSent());
     }
 
     @Test

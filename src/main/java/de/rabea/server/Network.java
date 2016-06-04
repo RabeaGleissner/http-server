@@ -51,7 +51,7 @@ public class Network implements Connection {
         return charAccumulator;
     }
 
-    public void writeHeader(String header, byte[] body) {
+    public void write(String header, byte[] body) {
         byte[] headerBytes = header.getBytes();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -64,18 +64,9 @@ public class Network implements Connection {
         }
     }
 
-    public void writeBody(byte[] body) {
-        try {
-            sender.write(body);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void close() {
         try {
             socket.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +84,6 @@ public class Network implements Connection {
     private OutputStream createSender() {
         try {
             return new DataOutputStream(socket.getOutputStream());
-//            return new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }

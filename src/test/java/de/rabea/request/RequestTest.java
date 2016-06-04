@@ -64,17 +64,17 @@ public class RequestTest {
         assertEquals(partialContent, asString(contentStorage.getContentFor("/file.txt")));
     }
 
-//    @Test
-//    public void savesPartialContentWhenOnlyRangeEndIsGiven() {
-//        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=-6", contentStorage, currentDirectory);
-//        // 6 from end
-//        assertEquals("Some", contentStorage.getContentFor("/file.txt"));
-//    }
-//
-//    @Test
-//    public void savesPartialContentWithOnlyRangeStartGiven() {
-//        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=4-", contentStorage, currentDirectory);
-//        // 4 to end
-//        assertEquals("Some", contentStorage.getContentFor("/file.txt"));
-//    }
+    @Test
+    public void savesPartialContentWhenOnlyRangeEndIsGiven() {
+        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=-6", contentStorage, currentDirectory);
+        // 6 from end
+        assertEquals("ontent", asString(contentStorage.getContentFor("/file.txt")));
+    }
+
+    @Test
+    public void savesPartialContentWithOnlyRangeStartGiven() {
+        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=4-", contentStorage, currentDirectory);
+        // 4 to end
+        assertEquals(" content", asString(contentStorage.getContentFor("/file.txt")));
+    }
 }

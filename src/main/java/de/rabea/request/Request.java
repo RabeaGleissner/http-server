@@ -90,14 +90,36 @@ public class Request {
         return wordList.indexOf("Range:") != -1;
     }
 
-    private int[] range() {
-        int rangeIndex = wordList.indexOf("Range:");
-        String range = wordList.get(rangeIndex + 1);
-        List<String> rangeLetters = Arrays.asList(range.split(""));
-        int index = rangeLetters.indexOf("=");
-        int start = Integer.parseInt(rangeLetters.get(index + 1));
-        int end = Integer.parseInt(rangeLetters.get(index + 3));
+    private ReadInstructions range() {
+        String range = wordList.get(wordList.indexOf("Range:") + 1);
+        String startAndEnd = range.substring(range.indexOf("=") + 1);
 
-        return new int[]{start, end + 1};
+        boolean partial = true;
+        int start = -1, end = -1;
+        boolean reverse = false;
+
+        if (startAndEndByte(startAndEnd)) {
+            //1-4
+            reverse = false;
+            start = Integer.parseInt(startAndEnd.substring(0,1));
+            end = Integer.parseInt(startAndEnd.substring(2)) + 1;
+        } else if (reverseStart(startAndEnd)) {
+            //-6
+            reverse = true;
+            start = Integer.parseInt(startAndEnd.substring(1));
+        } else {
+            //4-
+            reverse = false;
+            start = Integer.parseInt(startAndEnd.substring(0,1));
+        }
+        return new ReadInstructions(start, end, reverse, partial);
+    }
+
+    private boolean reverseStart(String startEnd) {
+        return startEnd.substring(0,1).equals("-");
+    }
+
+    private boolean startAndEndByte(String startEnd) {
+        return startEnd.length() == 3;
     }
 }
