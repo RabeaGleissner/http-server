@@ -2,11 +2,12 @@ package de.rabea.request;
 
 import org.junit.Test;
 
-import static de.rabea.Helper.asString;
+import static de.rabea.TestHelper.asString;
+import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
 public class FileParserTest {
-    private final String file = new Directory().forResource() + "/file.txt";
+    private final String file = directory() + "/file.txt";
 
     @Test
     public void readFileContents() {

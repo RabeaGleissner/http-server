@@ -1,9 +1,9 @@
 package de.rabea.server;
 
-import de.rabea.request.Directory;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +15,7 @@ public class ResourceTest {
     @Before
     public void setup() {
         resource = new Resource();
-        directory = new Directory().forResource();
+        directory = directory();
     }
 
     @Test

@@ -1,10 +1,12 @@
 package de.rabea.request;
 
+import de.rabea.TestHelper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.Helper.asString;
+import static de.rabea.TestHelper.asString;
+import static de.rabea.TestHelper.directory;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
 
@@ -16,7 +18,7 @@ public class RequestTest {
     @Before
     public void setup() {
         this.contentStorage = new ContentStorage();
-        this.currentDirectory = new Directory().forResource();
+        this.currentDirectory = directory();
     }
 
     @Test

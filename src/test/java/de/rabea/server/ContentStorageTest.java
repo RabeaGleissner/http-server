@@ -3,7 +3,7 @@ package de.rabea.server;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.Helper.asString;
+import static de.rabea.TestHelper.asString;
 import static org.junit.Assert.assertEquals;
 
 public class ContentStorageTest {

@@ -1,10 +1,13 @@
 package de.rabea.request;
 
+import de.rabea.TestHelper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.Helper.asString;
+import static de.rabea.TestHelper.*;
+import static de.rabea.TestHelper.asString;
+import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
 public class UrlParserTest {
@@ -15,7 +18,7 @@ public class UrlParserTest {
     @Before
     public void setup() {
         this.contentStorage = new ContentStorage();
-        this.directory = new Directory().forResource();
+        this.directory = directory();
     }
 
     @Test

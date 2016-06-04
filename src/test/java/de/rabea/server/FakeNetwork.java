@@ -1,6 +1,6 @@
 package de.rabea.server;
 
-import static de.rabea.Helper.asString;
+import static de.rabea.TestHelper.asString;
 
 public class FakeNetwork implements Connection {
 

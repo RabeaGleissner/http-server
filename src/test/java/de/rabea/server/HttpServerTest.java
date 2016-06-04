@@ -1,6 +1,6 @@
 package de.rabea.server;
 
-import de.rabea.request.Directory;
+import de.rabea.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class HttpServerTest {
 
     @Before
     public void setup() {
-        directory = new Directory().forResource();
+        directory = TestHelper.directory();
     }
 
     @Test

@@ -1,10 +1,10 @@
 package de.rabea.response;
 
-import de.rabea.request.Directory;
 import de.rabea.request.RequestStub;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.*;
 import static de.rabea.server.HttpVerb.GET;
 import static de.rabea.server.HttpVerb.OPTIONS;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +16,7 @@ public class ResponseFactoryTest {
 
     @Before
     public void setup() {
-        this.directory = new Directory().forResource();
+        this.directory = directory();
         this.getRequest = new RequestStub(GET);
     }
 
