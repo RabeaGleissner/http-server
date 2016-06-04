@@ -55,12 +55,16 @@ public class Request {
         return urlParser.parameters();
     }
 
+    public boolean isPartial() {
+        return wordList.indexOf("Range:") != -1;
+    }
+
     private void updateContentStorage() {
-        if (!Arrays.equals(body(), new byte[0])) {
+        if (hasBody()) {
             contentStorage.save(route(), body());
         }
 
-        if (httpVerb() == HttpVerb.DELETE) {
+        if (deleteRequest()) {
             contentStorage.deleteFor(route());
         }
 
@@ -76,6 +80,14 @@ public class Request {
         }
     }
 
+    private boolean deleteRequest() {
+        return httpVerb() == HttpVerb.DELETE;
+    }
+
+    private boolean hasBody() {
+        return !Arrays.equals(body(), new byte[0]);
+    }
+
     private List<String> split() {
         String[] lines = incoming.split("\n");
         List<String> words = new LinkedList<>() ;
@@ -86,13 +98,8 @@ public class Request {
         return words;
     }
 
-    public boolean isPartial() {
-        return wordList.indexOf("Range:") != -1;
-    }
-
     private String range() {
         String range = wordList.get(wordList.indexOf("Range:") + 1);
-        String startAndEnd = range.substring(range.indexOf("=") + 1);
-        return startAndEnd;
+        return range.substring(range.indexOf("=") + 1);
     }
 }
