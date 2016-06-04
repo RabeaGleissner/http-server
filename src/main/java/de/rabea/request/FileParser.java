@@ -17,10 +17,10 @@ public class FileParser {
         this.partial = false;
     }
 
-    public FileParser(String filePath, int start, int end) {
+    public FileParser(String filePath, int[] range) {
         this(filePath);
-        this.start = start;
-        this.end = end;
+        this.start = range[0];
+        this.end = range[1];
         this.partial = true;
     }
 

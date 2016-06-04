@@ -10,7 +10,7 @@ public class TwoHundred implements HttpResponse {
 
     public String create() {
         String response = "HTTP/1.1 200 OK";
-        if (responseBody != "") {
+        if (!responseBody.equals("")) {
             response += ("\n\n" + responseBody);
         }
         return response;

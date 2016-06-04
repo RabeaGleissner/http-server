@@ -27,10 +27,6 @@ public class Network implements Connection {
         try {
             while ((line = clientInputReader.readLine()) != null) {
                 requestBuilder += (line + "\n");
-
-                if (parser.isOneLiner(line)) {
-                    break;
-                }
                 if (isEmptyLine(line)) {
                     requestBuilder += readBody(parser, requestBuilder);
                     break;

@@ -15,7 +15,8 @@ public class FileParserTest {
 
     @Test
     public void readsPartialContentIfRangeIsGiven() {
-        FileParser fileParser = new FileParser(file, 0, 4);
+        int[] range = {0,4};
+        FileParser fileParser = new FileParser(file, range);
         assertEquals("Some", fileParser.read());
     }
 }
