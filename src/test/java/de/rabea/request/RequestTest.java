@@ -60,21 +60,6 @@ public class RequestTest {
     @Test
     public void savesPartialFileContentInContentStorage() {
         new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
-        String partialContent = "Some ";
-        assertEquals(partialContent, asString(contentStorage.getContentFor("/file.txt")));
-    }
-
-    @Test
-    public void savesPartialContentWhenOnlyRangeEndIsGiven() {
-        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=-6", contentStorage, currentDirectory);
-        // 6 from end
-        assertEquals("ontent", asString(contentStorage.getContentFor("/file.txt")));
-    }
-
-    @Test
-    public void savesPartialContentWithOnlyRangeStartGiven() {
-        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=4-", contentStorage, currentDirectory);
-        // 4 to end
-        assertEquals(" content", asString(contentStorage.getContentFor("/file.txt")));
+        assertEquals("Some ", asString(contentStorage.getContentFor("/file.txt")));
     }
 }

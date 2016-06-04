@@ -9,9 +9,7 @@ import static java.util.Arrays.copyOfRange;
 public class FileParser {
 
     private final String filePath;
-    private boolean reverse;
-    private int start;
-    private int end;
+    private String range;
     private boolean partial;
 
     public FileParser(String filePath) {
@@ -19,35 +17,61 @@ public class FileParser {
         this.partial = false;
     }
 
-    public FileParser(String filePath, int[] range) {
+    public FileParser(String filePath, String range) {
         this(filePath);
-        this.start = range[0];
-        this.end = range[1];
+        this.range = range;
         this.partial = true;
-    }
-
-    public FileParser(String filePath, ReadInstructions instructions) {
-        this(filePath);
-        this.start = instructions.start();
-        this.end = instructions.end();
-        this.partial = instructions.partial();
-        this.reverse = instructions.reverse();
     }
 
     public byte[] read() {
         try {
             byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
-            if (partial && (start != -1 && end != -1)) {
-                fileContent = copyOfRange(fileContent, start, end);
-            } else if (partial && reverse) {
-                fileContent = copyOfRange(fileContent, fileContent.length - start, fileContent.length);
-            } else if (partial && end == -1) {
-                fileContent = copyOfRange(fileContent, start, fileContent.length);
+            if (partial) {
+                fileContent = readPartialFile(fileContent);
             }
             return fileContent;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private byte[] readPartialFile(byte[] fileContent) {
+        String firstChar = range.substring(0,1);
+        String secondChar = range.substring(1,2);
+        String thirdChar = range.substring(2);
+
+        if (startAndEndGiven(range)) {
+            fileContent = copyOfRange(fileContent,
+                    toInteger(firstChar),
+                    toInteger(thirdChar) + 1);
+        } else if (reverseStart(range)) {
+            fileContent = copyOfRange(fileContent,
+                    fileContent.length - toInteger(secondChar),
+                    fileContent.length);
+
+        } else if (onlyStartGiven(secondChar)) {
+            fileContent = copyOfRange(fileContent,
+                    toInteger(firstChar),
+                    fileContent.length);
+        }
+
+        return fileContent;
+    }
+
+    private boolean onlyStartGiven(String secondChar) {
+        return secondChar.equals("-") && range.length() == 2;
+    }
+
+    private boolean reverseStart(String startEnd) {
+        return startEnd.substring(0,1).equals("-");
+    }
+
+    private boolean startAndEndGiven(String startEnd) {
+        return startEnd.length() == 3;
+    }
+
+    private int toInteger(String number) {
+        return Integer.parseInt(number);
     }
 }

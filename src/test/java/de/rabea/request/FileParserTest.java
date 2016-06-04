@@ -16,9 +16,19 @@ public class FileParserTest {
 
     @Test
     public void readsPartialContentIfRangeIsGiven() {
-        int[] range = {0,4};
-        FileParser fileParser = new FileParser(file, range);
-        assertEquals("Some", asString(fileParser.read()));
+        FileParser fileParser = new FileParser(file, "0-4");
+        assertEquals("Some ", asString(fileParser.read()));
     }
 
+    @Test
+    public void readsPartialContentWithOnlyRangeEndGiven() {
+        FileParser fileParser = new FileParser(file, "-6");
+        assertEquals("ontent", asString(fileParser.read()));
+    }
+
+    @Test
+    public void readsPartialContentWithOnlyRangeStartGiven() {
+        FileParser fileParser = new FileParser(file, "4-");
+        assertEquals(" content", asString(fileParser.read()));
+    }
 }
