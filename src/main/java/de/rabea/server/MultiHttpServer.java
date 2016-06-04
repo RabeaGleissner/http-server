@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 public class MultiHttpServer {
     private final boolean listening = true;
     private final ServerSocket serverSocket;
-    private ContentStorage contentStorage;
+    private final ContentStorage contentStorage;
 
     public MultiHttpServer(ServerSocket serverSocket, ContentStorage contentStorage) {
         this.serverSocket = serverSocket;

@@ -6,7 +6,6 @@ public class TwoHundred implements HttpResponse {
     }
 
     public String create() {
-        String response = "HTTP/1.1 200 OK\n\n";
-        return response;
+        return "HTTP/1.1 200 OK\n\n";
     }
 }

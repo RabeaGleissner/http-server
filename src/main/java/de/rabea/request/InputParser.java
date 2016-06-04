@@ -8,7 +8,7 @@ public class InputParser {
         return requestWithoutBody(strip(line).split(" ")[0]);
     }
 
-    public String strip(String line) {
+    private String strip(String line) {
         String noLineBreaks = line.replaceAll(System.getProperty("line.separator"), "");
         return noLineBreaks.trim();
     }

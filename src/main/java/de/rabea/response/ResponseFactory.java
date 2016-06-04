@@ -11,7 +11,7 @@ public class ResponseFactory {
     private final HttpVerb verb;
     private final String route;
     private final boolean partialContent;
-    private String directory;
+    private final String directory;
     private final Resource resource;
 
     public ResponseFactory(Request request, String route, String directory) {

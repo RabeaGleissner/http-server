@@ -1,13 +1,9 @@
 package de.rabea.server;
 
 import de.rabea.request.InputParser;
-import sun.jvm.hotspot.runtime.Bytes;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Network implements Connection {
 

@@ -7,7 +7,7 @@ import de.rabea.response.ResponseGenerator;
 public class HttpServer {
 
     private final Connection connection;
-    private ContentStorage contentStorage;
+    private final ContentStorage contentStorage;
 
     public HttpServer(Connection connection, ContentStorage contentStorage) {
         this.connection = connection;

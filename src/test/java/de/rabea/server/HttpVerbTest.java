@@ -1,6 +1,5 @@
 package de.rabea.server;
 
-import de.rabea.server.HttpVerb;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

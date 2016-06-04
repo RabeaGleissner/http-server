@@ -10,10 +10,9 @@ import static de.rabea.server.HttpVerb.OPTIONS;
 import static org.junit.Assert.assertTrue;
 
 public class ResponseFactoryTest {
-    private final String requestBody = "";
 
-    String directory;
-    RequestStub getRequest;
+    private String directory;
+    private RequestStub getRequest;
 
     @Before
     public void setup() {
@@ -46,7 +45,7 @@ public class ResponseFactoryTest {
     }
 
     @Test
-    public void returnsNotFoundResponseForNonExistantRoute() {
+    public void returnsNotFoundResponseForNonExistentRoute() {
         ResponseFactory factory = new ResponseFactory(getRequest, "/foobar", directory);
         assertTrue(factory.create() instanceof NotFound);
     }

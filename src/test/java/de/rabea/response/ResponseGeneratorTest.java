@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ResponseGeneratorTest {
-    private String protocol = "HTTP/1.1 ";
+    private final String protocol = "HTTP/1.1 ";
 
     @Test
     public void returns200OKForGetRequest() {

@@ -6,7 +6,7 @@ import static de.rabea.Helper.asString;
 import static org.junit.Assert.assertEquals;
 
 public class FileParserTest {
-    private String file = new Directory().forResource() + "/file.txt";
+    private final String file = new Directory().forResource() + "/file.txt";
 
     @Test
     public void readFileContents() {

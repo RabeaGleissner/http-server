@@ -56,7 +56,7 @@ public class Request {
     }
 
     private void updateContentStorage() {
-        if (!body().equals(new byte[0])) {
+        if (!Arrays.equals(body(), new byte[0])) {
             contentStorage.save(route(), body());
         }
 
@@ -97,8 +97,7 @@ public class Request {
         int index = rangeLetters.indexOf("=");
         int start = Integer.parseInt(rangeLetters.get(index + 1));
         int end = Integer.parseInt(rangeLetters.get(index + 3));
-        int[] returnRange = {start, end + 1};
 
-        return returnRange;
+        return new int[]{start, end + 1};
     }
 }

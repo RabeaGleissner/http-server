@@ -1,19 +1,17 @@
 package de.rabea.request;
 
-import de.rabea.Helper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.Helper.*;
+import static de.rabea.Helper.asString;
 import static de.rabea.server.HttpVerb.GET;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class RequestTest {
 
     private ContentStorage contentStorage;
-    String currentDirectory;
+    private String currentDirectory;
 
     @Before
     public void setup() {
@@ -61,8 +59,7 @@ public class RequestTest {
 
     @Test
     public void savesPartialFileContentInContentStorage() {
-        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
-        int[] range = {0,4};
+        new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
         String partialContent = "Some ";
         assertEquals(partialContent, asString(contentStorage.getContentFor("/file.txt")));
     }

@@ -8,7 +8,7 @@ import static java.util.Arrays.copyOfRange;
 
 public class FileParser {
 
-    private String filePath;
+    private final String filePath;
     private int start;
     private int end;
     private boolean partial;

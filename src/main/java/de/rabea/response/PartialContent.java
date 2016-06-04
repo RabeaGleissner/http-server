@@ -7,7 +7,6 @@ public class PartialContent implements HttpResponse {
 
     @Override
     public String create() {
-        String response = "HTTP/1.1 206 Partial Content\n\n";
-        return response;
+        return "HTTP/1.1 206 Partial Content\n\n";
     }
 }

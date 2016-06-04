@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContentStorage {
-    private Map<String, byte[]> storage;
+    private final Map<String, byte[]> storage;
 
     public ContentStorage() {
         this.storage = new HashMap<>();

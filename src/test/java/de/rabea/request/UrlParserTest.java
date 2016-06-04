@@ -1,6 +1,5 @@
 package de.rabea.request;
 
-import de.rabea.Helper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
