@@ -2,17 +2,14 @@ package de.rabea.server;
 
 import de.rabea.request.InputParser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class Network implements Connection {
 
     private final Socket socket;
     private final BufferedReader clientInputReader;
-    private final PrintWriter sender;
+    private final OutputStream sender;
 
     public Network(Socket socket) {
         this.socket = socket;
@@ -54,8 +51,21 @@ public class Network implements Connection {
         return charAccumulator;
     }
 
-    public void write(String message) {
-        sender.println(message);
+    public void writeHeader(String message) {
+        byte[] mess = message.getBytes();
+        try {
+            sender.write(mess);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeBody(byte[] body) {
+        try {
+            sender.write(body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close() {
@@ -76,9 +86,10 @@ public class Network implements Connection {
         return null;
     }
 
-    private PrintWriter createSender() {
+    private OutputStream createSender() {
         try {
-            return new PrintWriter(socket.getOutputStream(), true);
+            return new DataOutputStream(socket.getOutputStream());
+//            return new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,8 +13,13 @@ public class FakeNetwork implements Connection {
        return message;
     }
 
-    public void write(String response) {
+    public void writeHeader(String response) {
         returnedResponse = response;
+    }
+
+    @Override
+    public void writeBody(byte[] body) {
+
     }
 
     public void close() {

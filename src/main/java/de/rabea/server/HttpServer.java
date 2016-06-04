@@ -28,7 +28,7 @@ public class HttpServer {
                         contentStorage.getContentFor(route),
                         directory)
                         .create());
-        connection.write(responseGenerator.generate());
+        connection.writeHeader(responseGenerator.generate());
         System.out.println(responseGenerator.generate());
         connection.close();
     }

@@ -2,6 +2,7 @@ package de.rabea.server;
 
 public interface Connection {
     String read();
-    void write(String response);
+    void writeHeader(String response);
+    void writeBody(byte[] body);
     void close();
 }
