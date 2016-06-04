@@ -3,7 +3,8 @@ package de.rabea.request;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+
+import static java.util.Arrays.copyOfRange;
 
 public class FileParser {
 
@@ -24,17 +25,13 @@ public class FileParser {
         this.partial = true;
     }
 
-    public String read() {
-        String content;
+    public byte[] read() {
         try {
-            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
+            byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
             if (partial) {
-                byte[] partial = Arrays.copyOfRange(bytes, start, end);
-                content = new String(partial);
-            } else {
-                content = new String(bytes);
+                fileContent = copyOfRange(fileContent, start, end);
             }
-            return content;
+            return fileContent;
         } catch (IOException e) {
             e.printStackTrace();
         }

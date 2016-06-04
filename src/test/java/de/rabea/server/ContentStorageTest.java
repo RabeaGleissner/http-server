@@ -3,6 +3,7 @@ package de.rabea.server;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.Helper.asString;
 import static org.junit.Assert.assertEquals;
 
 public class ContentStorageTest {
@@ -16,14 +17,14 @@ public class ContentStorageTest {
 
     @Test
     public void savesAndReturnsContent() {
-        holder.save(formUrl, "some body content");
-        assertEquals("some body content", holder.getContentFor(formUrl));
+        holder.save(formUrl, "some body content".getBytes());
+        assertEquals("some body content", asString(holder.getContentFor(formUrl)));
     }
 
     @Test
     public void deletesContent() {
-        holder.save(formUrl, "some body content");
+        holder.save(formUrl, "some body content".getBytes());
         holder.deleteFor(formUrl);
-        assertEquals("", holder.getContentFor(formUrl));
+        assertEquals("", asString(holder.getContentFor(formUrl)));
     }
 }

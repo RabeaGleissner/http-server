@@ -1,5 +1,9 @@
 package de.rabea.server;
 
+import de.rabea.Helper;
+
+import static de.rabea.Helper.asString;
+
 public class FakeNetwork implements Connection {
 
     private final String message;
@@ -13,8 +17,8 @@ public class FakeNetwork implements Connection {
        return message;
     }
 
-    public void writeHeader(String response) {
-        returnedResponse = response;
+    public void writeHeader(String response, byte[] body) {
+        returnedResponse = response + asString(body);
     }
 
     @Override

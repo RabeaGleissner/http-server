@@ -1,9 +1,11 @@
 package de.rabea.request;
 
+import de.rabea.Helper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.Helper.asString;
 import static org.junit.Assert.assertEquals;
 
 public class UrlParserTest {
@@ -29,6 +31,6 @@ public class UrlParserTest {
     public void returnsBodyForUrlParameters() {
         String params = "?variable_1=Operators%20all%22%3F&variable_2=stuff";
         Request request = new Request("GET /parameters" + params + " HTTP/1.1", contentStorage, directory);
-        assertEquals("variable_1 = Operators all\"?\nvariable_2 = stuff", request.body());
+        assertEquals("variable_1 = Operators all\"?\nvariable_2 = stuff", asString(request.body()));
     }
 }

@@ -1,9 +1,13 @@
 package de.rabea.server;
 
 import de.rabea.request.InputParser;
+import sun.jvm.hotspot.runtime.Bytes;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Network implements Connection {
 
@@ -51,10 +55,14 @@ public class Network implements Connection {
         return charAccumulator;
     }
 
-    public void writeHeader(String message) {
-        byte[] mess = message.getBytes();
+    public void writeHeader(String header, byte[] body) {
+        byte[] headerBytes = header.getBytes();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            sender.write(mess);
+            out.write(headerBytes);
+            out.write(body);
+            byte[] combined = out.toByteArray();
+            sender.write(combined);
         } catch (IOException e) {
             e.printStackTrace();
         }

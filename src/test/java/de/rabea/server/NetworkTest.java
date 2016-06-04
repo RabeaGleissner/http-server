@@ -49,7 +49,7 @@ public class NetworkTest {
     public void sendsHeaderToClient() {
         FakeSocket fakeSocket = new FakeSocket();
         Network network = new Network(fakeSocket);
-        network.writeHeader("hello!");
+        network.writeHeader("hello!", new byte[0]);
         assertEquals("hello!", fakeSocket.messageSent());
     }
 

@@ -20,7 +20,7 @@ public class HttpServerTest {
         HttpServer httpServer = new HttpServer(fakeNetwork, new ContentStorage());
         httpServer.start(directory);
 
-        assertEquals("HTTP/1.1 200 OK", fakeNetwork.returnedResponse);
+        assertEquals("HTTP/1.1 200 OK\n\n", fakeNetwork.returnedResponse);
     }
 
     @Test

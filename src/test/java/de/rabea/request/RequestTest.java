@@ -1,9 +1,11 @@
 package de.rabea.request;
 
+import de.rabea.Helper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.Helper.*;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -41,20 +43,20 @@ public class RequestTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat", contentStorage, currentDirectory);
-        assertEquals("data=fatcat", request.body());
+        assertEquals("data=fatcat", asString(request.body()));
     }
 
     @Test
     public void savesRequestParamsInContentStorage() {
         new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("code = 123\nvar = hey", contentStorage.getContentFor("/form"));
+        assertEquals("code = 123\nvar = hey", asString(contentStorage.getContentFor("/form")));
     }
 
     @Test
     public void deletesStoredContent() {
         new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
         new Request("DELETE /form HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("", contentStorage.getContentFor("/form"));
+        assertEquals("", asString(contentStorage.getContentFor("/form")));
     }
 
     @Test
@@ -62,7 +64,7 @@ public class RequestTest {
         Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
         int[] range = {0,4};
         String partialContent = "Some ";
-        assertEquals(partialContent, contentStorage.getContentFor("/file.txt"));
+        assertEquals(partialContent, asString(contentStorage.getContentFor("/file.txt")));
     }
 
 //    @Test

@@ -23,38 +23,38 @@ public class ResponseFactoryTest {
 
     @Test
     public void returnsRedirectResponseForRedirect() {
-        ResponseFactory factory = new ResponseFactory(getRequest, "/redirect", requestBody, directory);
+        ResponseFactory factory = new ResponseFactory(getRequest, "/redirect", directory);
         assertTrue(factory.create() instanceof Redirect);
     }
 
     @Test
     public void returnsTeapotResponse() {
-        ResponseFactory factory= new ResponseFactory(getRequest, "/coffee", requestBody, directory);
+        ResponseFactory factory= new ResponseFactory(getRequest, "/coffee", directory);
         assertTrue(factory.create() instanceof FourEighteen);
     }
 
     @Test
     public void returnsOptionsResponseIfVerbIsOptions() {
-        ResponseFactory factory = new ResponseFactory(new RequestStub(OPTIONS), "/", requestBody, directory);
+        ResponseFactory factory = new ResponseFactory(new RequestStub(OPTIONS), "/", directory);
         assertTrue(factory.create() instanceof Options);
     }
 
     @Test
     public void returnsStandardOKResponseForExistingRoute() {
-        ResponseFactory factory = new ResponseFactory(getRequest, "/", requestBody, directory);
+        ResponseFactory factory = new ResponseFactory(getRequest, "/", directory);
         assertTrue(factory.create() instanceof TwoHundred);
     }
 
     @Test
     public void returnsNotFoundResponseForNonExistantRoute() {
-        ResponseFactory factory = new ResponseFactory(getRequest, "/foobar", requestBody, directory);
+        ResponseFactory factory = new ResponseFactory(getRequest, "/foobar", directory);
         assertTrue(factory.create() instanceof NotFound);
     }
 
     @Test
     public void returnsPartialContentResponse() {
         boolean partial = true;
-        ResponseFactory factory = new ResponseFactory(new RequestStub(GET, partial), "/", requestBody, directory);
+        ResponseFactory factory = new ResponseFactory(new RequestStub(GET, partial), "/", directory);
         assertTrue(factory.create() instanceof PartialContent);
     }
 }

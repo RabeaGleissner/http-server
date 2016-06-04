@@ -2,17 +2,11 @@ package de.rabea.response;
 
 public class TwoHundred implements HttpResponse {
 
-    private String responseBody;
-
-    public TwoHundred(String responseBody) {
-        this.responseBody = responseBody;
+    public TwoHundred() {
     }
 
     public String create() {
-        String response = "HTTP/1.1 200 OK";
-        if (!responseBody.equals("")) {
-            response += ("\n\n" + responseBody);
-        }
+        String response = "HTTP/1.1 200 OK\n\n";
         return response;
     }
 }

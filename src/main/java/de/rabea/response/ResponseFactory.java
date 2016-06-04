@@ -11,14 +11,12 @@ public class ResponseFactory {
     private final HttpVerb verb;
     private final String route;
     private final boolean partialContent;
-    private String responseBody;
     private String directory;
     private final Resource resource;
 
-    public ResponseFactory(Request request, String route, String responseBody, String directory) {
+    public ResponseFactory(Request request, String route, String directory) {
         this.verb = request.httpVerb();
         this.route = route;
-        this.responseBody = responseBody;
         this.directory = directory;
         this.partialContent = request.isPartial();
         this.resource = new Resource();
@@ -38,11 +36,11 @@ public class ResponseFactory {
         }
 
         if (partialContent) {
-           return new PartialContent(responseBody);
+           return new PartialContent();
         }
 
         if (resource.isExisting(route, directory)) {
-            return new TwoHundred(responseBody);
+            return new TwoHundred();
         } else {
             return new NotFound();
         }

@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContentStorage {
-    private Map<String, String> storage;
+    private Map<String, byte[]> storage;
 
     public ContentStorage() {
         this.storage = new HashMap<>();
     }
 
-    public void save(String url, String body) {
+    public void save(String url, byte[] body) {
         storage.put(url, body);
     }
 
-    public String getContentFor(String url) {
-        String content = storage.get(url);
+    public byte[] getContentFor(String url) {
+        byte[] content = storage.get(url);
         if (content != null) {
             return content;
         } else {
-            return "";
+            return new byte[0];
         }
     }
 

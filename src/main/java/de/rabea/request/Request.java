@@ -41,13 +41,13 @@ public class Request {
         return urlParser.route();
     }
 
-    public String body() {
+    public byte[] body() {
         if (new InputParser().hasBody(incoming)) {
-            return wordList.get(wordList.size() -1);
+            return wordList.get(wordList.size() -1).getBytes();
         } else if (urlParser.hasParams()) {
-            return urlParams();
+            return urlParams().getBytes();
         } else {
-            return "";
+            return new byte[0];
         }
     }
 
@@ -56,7 +56,7 @@ public class Request {
     }
 
     private void updateContentStorage() {
-        if (!body().equals("")) {
+        if (!body().equals(new byte[0])) {
             contentStorage.save(route(), body());
         }
 
@@ -66,7 +66,7 @@ public class Request {
 
         Resource resource = new Resource();
         if (resource.isInPublicDir(resource.file(route()), directory)) {
-            String fileContent;
+            byte[] fileContent;
             if (isPartial()) {
                 fileContent = new FileParser(directory + route(), range()).read();
             } else {
