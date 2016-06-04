@@ -16,18 +16,20 @@ public class HttpServer {
 
     public void start(String directory) {
         String incoming = connection.read();
+        System.out.println("incoming = " + incoming);
         Request request = new Request(incoming, contentStorage, directory);
 
         String route = request.route();
 
         ResponseGenerator responseGenerator = new ResponseGenerator(
                 new ResponseFactory(
-                        request.httpVerb(),
+                        request,
                         route,
                         contentStorage.getContentFor(route),
                         directory)
                         .create());
         connection.write(responseGenerator.generate());
+        System.out.println(responseGenerator.generate());
         connection.close();
     }
 }

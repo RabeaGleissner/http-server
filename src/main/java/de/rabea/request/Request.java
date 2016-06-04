@@ -4,14 +4,15 @@ import de.rabea.server.ContentStorage;
 import de.rabea.server.HttpVerb;
 import de.rabea.server.Resource;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Request {
 
-    private final List<String> wordList;
-    private final UrlParser urlParser;
+    private List<String> wordList;
+    private UrlParser urlParser;
     private String incoming;
     private ContentStorage contentStorage;
     private String directory;
@@ -20,9 +21,12 @@ public class Request {
         this.incoming = incoming;
         this.contentStorage = contentStorage;
         this.directory = directory;
-        this.wordList = split(incoming);
+        this.wordList = split();
         this.urlParser = new UrlParser(url());
         updateContentStorage();
+    }
+
+    public Request() {
     }
 
     public HttpVerb httpVerb() {
@@ -62,12 +66,17 @@ public class Request {
 
         Resource resource = new Resource();
         if (resource.isInPublicDir(resource.file(route()), directory)) {
-            String fileContent = new FileParser(directory + route()).read();
+            String fileContent;
+            if (isPartial()) {
+                fileContent = new FileParser(directory + route(), range()).read();
+            } else {
+                fileContent = new FileParser(directory + route()).read();
+            }
             contentStorage.save(route(), fileContent);
         }
     }
 
-    private List<String> split(String incoming) {
+    private List<String> split() {
         String[] lines = incoming.split("\n");
         List<String> words = new LinkedList<>() ;
         for (String line : lines) {
@@ -75,5 +84,21 @@ public class Request {
             Collections.addAll(words, splitLine);
         }
         return words;
+    }
+
+    public boolean isPartial() {
+        return wordList.indexOf("Range:") != -1;
+    }
+
+    private int[] range() {
+        int rangeIndex = wordList.indexOf("Range:");
+        String range = wordList.get(rangeIndex + 1);
+        List<String> rangeLetters = Arrays.asList(range.split(""));
+        int index = rangeLetters.indexOf("=");
+        int start = Integer.parseInt(rangeLetters.get(index + 1));
+        int end = Integer.parseInt(rangeLetters.get(index + 3));
+        int[] returnRange = {start, end + 1};
+
+        return returnRange;
     }
 }

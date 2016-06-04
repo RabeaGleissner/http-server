@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static de.rabea.server.HttpVerb.GET;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class RequestTest {
@@ -43,16 +44,23 @@ public class RequestTest {
         assertEquals("data=fatcat", request.body());
     }
 
-//    @Test
-//    public void savesRequestParamsInContentStorage() {
-//        new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
-//        assertEquals("code = 123\nvar = hey", contentStorage.getContentFor("/form"));
-//    }
+    @Test
+    public void savesRequestParamsInContentStorage() {
+        new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
+        assertEquals("code = 123\nvar = hey", contentStorage.getContentFor("/form"));
+    }
 
     @Test
     public void deletesStoredContent() {
         new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
         new Request("DELETE /form HTTP/1.1", contentStorage, currentDirectory);
         assertEquals("", contentStorage.getContentFor("/form"));
+    }
+
+    @Test
+    public void savesPartialFileContentInContentStorage() {
+        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
+        int[] range = {0,4};
+        assertEquals("Some ", contentStorage.getContentFor("/file.txt"));
     }
 }
