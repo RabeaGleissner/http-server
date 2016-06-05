@@ -35,6 +35,11 @@ public class ResourceTest {
 
     @Test
     public void isInPublicDirectory() {
-        assertTrue(resource.isInPublicDir("file.txt", directory));
+        assertTrue(resource.isInDirectory("file.txt", directory));
+    }
+
+    @Test
+    public void publicDirectoryIsEmpty() {
+        assertFalse(resource.directoryHasContent("PUBLIC_DIR"));
     }
 }

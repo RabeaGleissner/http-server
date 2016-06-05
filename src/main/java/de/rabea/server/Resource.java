@@ -1,5 +1,6 @@
 package de.rabea.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -27,7 +28,7 @@ public class Resource {
     }
 
     public boolean isExisting(String route, String directory) {
-        return allRoutes.contains(route) || isInPublicDir(file(route), directory);
+        return allRoutes.contains(route) || isInDirectory(file(route), directory);
     }
 
     public boolean isTeaRoute(String route) {
@@ -42,10 +43,19 @@ public class Resource {
         return route.equals("/redirect");
     }
 
-    public boolean isInPublicDir(String resource, String file) {
+    public boolean isInDirectory(String file, String directory) {
+        return directoryContents(directory).contains(directory + file);
+    }
+
+    public boolean directoryHasContent(String directory) {
+        File parentDirectory = new File(directory);
+        return parentDirectory.isDirectory() && parentDirectory.list().length > 0;
+    }
+
+    private List<String> directoryContents(String directory) {
         List<String> files = new LinkedList<>();
         try {
-            Files.walk(Paths.get(file)).forEach(filePath -> {
+            Files.walk(Paths.get(directory)).forEach(filePath -> {
                 if (Files.isRegularFile(filePath)) {
                     files.add(String.valueOf(filePath));
                 }
@@ -53,6 +63,6 @@ public class Resource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return files.contains(file + resource);
+        return files;
     }
 }
