@@ -6,10 +6,55 @@ import java.net.URLDecoder;
 public class UrlParser {
 
     private final String url;
+    private String parameterString;
 
     public UrlParser(String url) {
         this.url = url;
+        this.parameterString = parameterString();
     }
+
+    public String parameters() {
+        if (hasParams()) {
+            String second;
+            if (hasMoreThanOne()) {
+               second = secondParameter();
+            } else {
+                second = "";
+            }
+            try {
+                return URLDecoder.decode(concatenate(firstParameter()+ "\n" + second), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new AssertionError("UTF-8 not supported");
+            }
+        } else {
+            return "";
+        }
+    }
+
+    private String concatenate(String ... params) {
+        String concatenated = "";
+        for (String param : params) {
+            concatenated += param;
+        }
+        return concatenated;
+    }
+
+    private String firstParameter() {
+        if (hasMoreThanOne()) {
+            return parameterString.substring(1, parameterString.indexOf("&")).replace("=", " = ");
+        } else {
+            return parameterString.substring(1).replace("=", " = ");
+        }
+    }
+
+    private String secondParameter() {
+        return parameterString.substring(parameterString.indexOf("&") + 1).replace("=", " = ");
+    }
+
+    private boolean hasMoreThanOne() {
+        return parameterString().contains("&");
+    }
+
 
     public String parameterString() {
         int index = url.indexOf("?");
@@ -33,24 +78,6 @@ public class UrlParser {
         }
     }
 
-    public String parameters() {
-        String params = parameterString();
-        String decoded;
-        try {
-            decoded = URLDecoder.decode(getFirstVariable(params), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new AssertionError("UTF-8 not supported");
-        }
-        return decoded + "\n" + getSecondVariable(params);
-    }
-
-    private String getSecondVariable(String parameters) {
-        return parameters.substring(parameters.indexOf("&") + 1).replace("=", " = ");
-    }
-
-    private String getFirstVariable(String parameters) {
-        return parameters.substring(1, parameters.indexOf("&")).replace("=", " = ");
-    }
 
     public boolean hasParams() {
         return !parameterString().equals("");

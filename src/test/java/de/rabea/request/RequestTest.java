@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RequestTest {
 
@@ -36,5 +37,17 @@ public class RequestTest {
                 "\n" +
                 "data=fatcat");
         assertEquals("data=fatcat", request.body());
+    }
+
+    @Test
+    public void requestHasUrlParams() {
+        Request request = new Request("GET /form?code=hello HTTP/1.1");
+        assertTrue(request.hasUrlParams());
+    }
+
+    @Test
+    public void returnsRangeForReadingFileContent() {
+        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4");
+        assertEquals("0-4", request.range());
     }
 }

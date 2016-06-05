@@ -57,10 +57,6 @@ public class Request {
         return wordList.indexOf("Range:") != -1;
     }
 
-    public boolean deleteRequest() {
-        return httpVerb() == HttpVerb.DELETE;
-    }
-
     private List<String> split() {
         String[] lines = incoming.split("\n");
         List<String> words = new LinkedList<>() ;
