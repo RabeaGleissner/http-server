@@ -25,7 +25,7 @@ public class Request {
         return HttpVerb.convert(wordList.get(0));
     }
 
-    private String url() {
+    public String url() {
         return wordList.get(1);
     }
 
@@ -33,18 +33,24 @@ public class Request {
         return urlParser.route();
     }
 
-    public byte[] body() {
+    public String body2() {
         if (new InputParser().hasBody(incoming)) {
-            return wordList.get(wordList.size() -1).getBytes();
-        } else if (urlParser.hasParams()) {
-            return urlParams().getBytes();
+            return wordList.get(wordList.size() -1);
         } else {
-            return new byte[0];
+            return "";
         }
+    }
+
+    public boolean hasBody() {
+        return !body2().equals("");
     }
 
     public String urlParams() {
         return urlParser.parameters();
+    }
+
+    public boolean hasUrlParams() {
+        return urlParser.hasParams();
     }
 
     public boolean isPartial() {

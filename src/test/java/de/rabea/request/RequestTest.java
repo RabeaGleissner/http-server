@@ -15,7 +15,13 @@ public class RequestTest {
     }
 
     @Test
-    public void returnsRoute() {
+    public void returnsRouteForRoot() {
+        Request request = new Request("GET / HTTP/1.1");
+        assertEquals("/", request.route());
+    }
+
+    @Test
+    public void returnsRouteForFormRoute() {
         Request request = new Request("GET /form HTTP/1.1");
         assertEquals("/form", request.route());
     }
@@ -30,6 +36,6 @@ public class RequestTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat");
-        assertEquals("data=fatcat", asString(request.body()));
+        assertEquals("data=fatcat", request.body2());
     }
 }

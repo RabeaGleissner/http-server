@@ -1,6 +1,7 @@
 package de.rabea.server;
 
 import de.rabea.request.Request;
+import de.rabea.response.ResponseBody;
 import de.rabea.response.ResponseFactory;
 import de.rabea.response.ResponseHeader;
 
@@ -26,14 +27,14 @@ public class HttpServer {
                         request,
                         route,
                         directory).create());
-        System.out.println(new String(contentStorage.bodyFor(route)));
         connection.write(responseHeader.generate(), contentStorage.bodyFor(route));
         connection.close();
     }
 
     private Request handleIncoming(String directory, String incoming) {
         Request request = new Request(incoming);
-        contentStorage.update(request, directory);
+        byte[] responseBody = new ResponseBody(request, directory).create();
+        contentStorage.update(request.route(), responseBody, request.httpVerb());
         return request;
     }
 }

@@ -40,7 +40,10 @@ public class Resource {
     }
 
     public String file(String route) {
-        return route.substring(1);
+        if (route.length() > 1) {
+            return route.substring(1);
+        }
+        return "";
     }
 
     public boolean isRedirect(String route) {
