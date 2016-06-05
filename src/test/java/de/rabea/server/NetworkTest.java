@@ -46,11 +46,20 @@ public class NetworkTest {
     }
 
     @Test
-    public void sendsMessageToClient() {
+    public void sendsHeaderToClient() {
         FakeSocket fakeSocket = new FakeSocket();
         Network network = new Network(fakeSocket);
-        network.write("hello!");
-        assertEquals("hello!\n", fakeSocket.messageSent());
+        network.write("hello!", new byte[0]);
+        assertEquals("hello!", fakeSocket.messageSent());
+    }
+
+    @Test
+    public void sendsBodyToClient() {
+        FakeSocket fakeSocket = new FakeSocket();
+        Network network = new Network(fakeSocket);
+        String message = "hello!";
+        network.write(message, "body".getBytes());
+        assertEquals("hello!body", fakeSocket.messageSent());
     }
 
     @Test

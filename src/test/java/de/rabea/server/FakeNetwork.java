@@ -1,5 +1,7 @@
 package de.rabea.server;
 
+import static de.rabea.TestHelper.asString;
+
 public class FakeNetwork implements Connection {
 
     private final String message;
@@ -13,8 +15,8 @@ public class FakeNetwork implements Connection {
        return message;
     }
 
-    public void write(String response) {
-        returnedResponse = response;
+    public void write(String response, byte[] body) {
+        returnedResponse = response + asString(body);
     }
 
     public void close() {

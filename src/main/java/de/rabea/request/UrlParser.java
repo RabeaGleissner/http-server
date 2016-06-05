@@ -5,7 +5,7 @@ import java.net.URLDecoder;
 
 public class UrlParser {
 
-    private String url;
+    private final String url;
 
     public UrlParser(String url) {
         this.url = url;

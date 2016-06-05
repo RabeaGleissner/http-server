@@ -2,17 +2,14 @@ package de.rabea.server;
 
 import de.rabea.request.InputParser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class Network implements Connection {
 
     private final Socket socket;
     private final BufferedReader clientInputReader;
-    private final PrintWriter sender;
+    private final OutputStream sender;
 
     public Network(Socket socket) {
         this.socket = socket;
@@ -27,10 +24,6 @@ public class Network implements Connection {
         try {
             while ((line = clientInputReader.readLine()) != null) {
                 requestBuilder += (line + "\n");
-
-                if (parser.isOneLiner(line)) {
-                    break;
-                }
                 if (isEmptyLine(line)) {
                     requestBuilder += readBody(parser, requestBuilder);
                     break;
@@ -58,14 +51,22 @@ public class Network implements Connection {
         return charAccumulator;
     }
 
-    public void write(String message) {
-        sender.println(message);
+    public void write(String header, byte[] body) {
+        byte[] headerBytes = header.getBytes();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            out.write(headerBytes);
+            out.write(body);
+            byte[] combined = out.toByteArray();
+            sender.write(combined);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close() {
         try {
             socket.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,9 +81,9 @@ public class Network implements Connection {
         return null;
     }
 
-    private PrintWriter createSender() {
+    private OutputStream createSender() {
         try {
-            return new PrintWriter(socket.getOutputStream(), true);
+            return new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,30 +2,30 @@ package de.rabea.server;
 
 import de.rabea.request.Request;
 import de.rabea.response.ResponseFactory;
-import de.rabea.response.ResponseGenerator;
+import de.rabea.response.ResponseHeader;
 
 public class HttpServer {
 
     private final Connection connection;
-    private ContentStorage contentStorage;
+    private final ContentStorage contentStorage;
 
     public HttpServer(Connection connection, ContentStorage contentStorage) {
         this.connection = connection;
         this.contentStorage = contentStorage;
     }
 
-    public void start() {
+    public void start(String directory) {
         String incoming = connection.read();
-        Request request = new Request(incoming, contentStorage);
+        Request request = new Request(incoming, contentStorage, directory);
+
         String route = request.route();
 
-        ResponseGenerator responseGenerator = new ResponseGenerator(
+        ResponseHeader responseHeader = new ResponseHeader(
                 new ResponseFactory(
-                        request.httpVerb(),
+                        request,
                         route,
-                        contentStorage.getContentFor(route))
-                        .create());
-        connection.write(responseGenerator.generate());
+                        directory).create());
+        connection.write(responseHeader.generate(), contentStorage.bodyFor(route));
         connection.close();
     }
 }

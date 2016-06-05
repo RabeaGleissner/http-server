@@ -11,6 +11,10 @@ public class Arguments {
         this.arguments = arguments;
     }
 
+    public String directory() {
+       return parse().get("directory");
+    }
+
     public Map<String, String> parse() {
         Map<String, String> parsedArguments = new HashMap<>();
         if (arguments.length == 0) {

@@ -2,24 +2,31 @@ package de.rabea.request;
 
 import de.rabea.server.ContentStorage;
 import de.rabea.server.HttpVerb;
+import de.rabea.server.Resource;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Request {
 
-    private final List<String> wordList;
-    private final UrlParser urlParser;
+    private List<String> wordList;
+    private UrlParser urlParser;
     private String incoming;
     private ContentStorage contentStorage;
+    private String directory;
 
-    public Request(String incoming, ContentStorage contentStorage) {
+    public Request(String incoming, ContentStorage contentStorage, String directory) {
         this.incoming = incoming;
         this.contentStorage = contentStorage;
-        this.wordList = split(incoming);
+        this.directory = directory;
+        this.wordList = split();
         this.urlParser = new UrlParser(url());
         updateContentStorage();
+    }
+
+    public Request() {
     }
 
     public HttpVerb httpVerb() {
@@ -34,13 +41,13 @@ public class Request {
         return urlParser.route();
     }
 
-    public String body() {
+    public byte[] body() {
         if (new InputParser().hasBody(incoming)) {
-            return wordList.get(wordList.size() -1);
+            return wordList.get(wordList.size() -1).getBytes();
         } else if (urlParser.hasParams()) {
-            return urlParams();
+            return urlParams().getBytes();
         } else {
-            return "";
+            return new byte[0];
         }
     }
 
@@ -48,17 +55,40 @@ public class Request {
         return urlParser.parameters();
     }
 
+    public boolean isPartial() {
+        return wordList.indexOf("Range:") != -1;
+    }
+
     private void updateContentStorage() {
-        if (!body().equals("")) {
+        if (hasBody()) {
             contentStorage.save(route(), body());
         }
 
-        if (httpVerb() == HttpVerb.DELETE) {
+        if (deleteRequest()) {
             contentStorage.deleteFor(route());
+        }
+
+        Resource resource = new Resource();
+        if (resource.isInPublicDir(resource.file(route()), directory)) {
+            byte[] fileContent;
+            if (isPartial()) {
+                fileContent = new FileParser(directory + route(), range()).read();
+            } else {
+                fileContent = new FileParser(directory + route()).read();
+            }
+            contentStorage.save(route(), fileContent);
         }
     }
 
-    private List<String> split(String incoming) {
+    private boolean deleteRequest() {
+        return httpVerb() == HttpVerb.DELETE;
+    }
+
+    private boolean hasBody() {
+        return !Arrays.equals(body(), new byte[0]);
+    }
+
+    private List<String> split() {
         String[] lines = incoming.split("\n");
         List<String> words = new LinkedList<>() ;
         for (String line : lines) {
@@ -66,5 +96,10 @@ public class Request {
             Collections.addAll(words, splitLine);
         }
         return words;
+    }
+
+    private String range() {
+        String range = wordList.get(wordList.indexOf("Range:") + 1);
+        return range.substring(range.indexOf("=") + 1);
     }
 }

@@ -1,7 +1,8 @@
 package de.rabea.response;
 
+import de.rabea.request.Request;
 import de.rabea.server.HttpVerb;
-import de.rabea.server.Routes;
+import de.rabea.server.Resource;
 
 import static de.rabea.server.HttpVerb.OPTIONS;
 
@@ -9,22 +10,24 @@ public class ResponseFactory {
 
     private final HttpVerb verb;
     private final String route;
-    private String requestBody;
-    private final Routes routes;
+    private final boolean partialContent;
+    private final String directory;
+    private final Resource resource;
 
-    public ResponseFactory(HttpVerb verb, String route, String requestBody) {
-        this.verb = verb;
+    public ResponseFactory(Request request, String route, String directory) {
+        this.verb = request.httpVerb();
         this.route = route;
-        this.requestBody = requestBody;
-        this.routes = new Routes();
+        this.directory = directory;
+        this.partialContent = request.isPartial();
+        this.resource = new Resource();
     }
 
     public HttpResponse create() {
-        if (routes.isRedirect(route)) {
+        if (resource.isRedirect(route)) {
             return new Redirect();
         }
 
-        if (routes.isTeaRoute(route)) {
+        if (resource.isTeaRoute(route)) {
             return new FourEighteen();
         }
 
@@ -32,8 +35,12 @@ public class ResponseFactory {
             return new Options(route);
         }
 
-        if (routes.isExisting(route)) {
-            return new TwoHundred(requestBody);
+        if (partialContent) {
+           return new PartialContent();
+        }
+
+        if (resource.isExisting(route, directory)) {
+            return new TwoHundred();
         } else {
             return new NotFound();
         }
