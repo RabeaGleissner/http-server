@@ -14,9 +14,9 @@ public class ResponseFactory {
     private final String directory;
     private final Resource resource;
 
-    public ResponseFactory(Request request, String route, String directory) {
+    public ResponseFactory(Request request, String directory) {
         this.verb = request.httpVerb();
-        this.route = route;
+        this.route = request.route();
         this.directory = directory;
         this.partialContent = request.isPartial();
         this.resource = new Resource();

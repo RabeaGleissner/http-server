@@ -33,7 +33,7 @@ public class Request {
         return urlParser.route();
     }
 
-    public String body2() {
+    public String body() {
         if (new InputParser().hasBody(incoming)) {
             return wordList.get(wordList.size() -1);
         } else {
@@ -42,7 +42,7 @@ public class Request {
     }
 
     public boolean hasBody() {
-        return !body2().equals("");
+        return !body().equals("");
     }
 
     public String urlParams() {

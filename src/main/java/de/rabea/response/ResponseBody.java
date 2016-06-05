@@ -4,8 +4,6 @@ import de.rabea.request.FileParser;
 import de.rabea.request.Request;
 import de.rabea.server.Resource;
 
-import java.util.List;
-
 public class ResponseBody {
 
     private String receivedMessage;
@@ -22,7 +20,7 @@ public class ResponseBody {
 
     public String receivedMessage(Request request) {
         if (!request.hasBody()) {
-            return request.body2();
+            return request.body();
         }
         if (!request.hasUrlParams()) {
             return request.urlParams();
@@ -36,33 +34,47 @@ public class ResponseBody {
         }
 
         if (directoryHasContent()) {
-            String url = request.url();
-            List<String> list = resource.directoryContents(directory);
+            byte[] fileContent = readFileContent();
+            if (fileContent != null) return fileContent;
 
-            if (resource.directoryContents(directory).contains(directory + resource.file(request.route()))) {
-                byte[] fileContent;
-                if (request.isPartial()) {
-                    fileContent = new FileParser(directory + request.route(), request.range()).read();
-                } else {
-                    fileContent = new FileParser(directory + request.route()).read();
-                }
-                return fileContent;
-            }
-
-            if (showDirectoryContents()) {
-                String urlsToFiles = "";
-                for (String file : resource.directoryContents(directory)) {
-                    urlsToFiles += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
-                }
-                return urlsToFiles.getBytes();
-            }
-
+            byte[] urlsToFiles = listLinksToFiles();
+            if (urlsToFiles != null) return urlsToFiles;
         }
         return new byte[0];
     }
 
+    private byte[] listLinksToFiles() {
+        if (showDirectoryContents()) {
+            String links = "";
+            for (String file : resource.directoryContents(directory)) {
+                links += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
+            }
+            return links.getBytes();
+        }
+        return null;
+    }
+
+    private byte[] readFileContent() {
+        if (folderContainsRequestedFile()) {
+            if (request.isPartial()) {
+                return new FileParser(directory + request.route(), request.range()).read();
+            } else {
+                return new FileParser(directory + request.route()).read();
+            }
+        }
+        return null;
+    }
+
+    private boolean folderContainsRequestedFile() {
+        return resource.directoryContents(directory).contains(requestedFile());
+    }
+
+    private String requestedFile() {
+        return directory + resource.file(request.route());
+    }
+
     private boolean directoryHasContent() {
-        return resource.isDirectory(directory);
+        return resource.directoryHasContent(directory);
     }
 
     private String fileName(String file) {
@@ -71,6 +83,10 @@ public class ResponseBody {
     }
 
     private boolean showDirectoryContents() {
-        return resource.requestRoot(request.route()) && resource.directoryHasContent(directory);
+        return requestedRootRoute() && directoryHasContent();
+    }
+
+    private boolean requestedRootRoute() {
+        return resource.requestRoot(request.route());
     }
 }

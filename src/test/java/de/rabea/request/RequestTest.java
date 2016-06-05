@@ -2,7 +2,6 @@ package de.rabea.request;
 
 import org.junit.Test;
 
-import static de.rabea.TestHelper.asString;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
 
@@ -36,6 +35,6 @@ public class RequestTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat");
-        assertEquals("data=fatcat", request.body2());
+        assertEquals("data=fatcat", request.body());
     }
 }

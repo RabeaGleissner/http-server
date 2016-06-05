@@ -20,14 +20,12 @@ public class HttpServer {
         System.out.println("incoming = " + incoming);
         Request request = handleIncoming(directory, incoming);
 
-        String route = request.route();
-
         ResponseHeader responseHeader = new ResponseHeader(
                 new ResponseFactory(
                         request,
-                        route,
                         directory).create());
-        connection.write(responseHeader.generate(), contentStorage.bodyFor(route));
+        connection.write(responseHeader.generate(),
+                contentStorage.bodyFor(request.route()));
         connection.close();
     }
 

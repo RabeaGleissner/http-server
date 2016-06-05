@@ -1,13 +1,6 @@
 package de.rabea.request;
 
-import static de.rabea.server.HttpVerb.*;
-
 public class InputParser {
-
-    private String strip(String line) {
-        String noLineBreaks = line.replaceAll(System.getProperty("line.separator"), "");
-        return noLineBreaks.trim();
-    }
 
     public int contentLength(String request) {
         String[] lines = request.trim().split("\n");
@@ -28,11 +21,5 @@ public class InputParser {
 
     public boolean hasBody(String request) {
         return contentLength(request) > 0;
-    }
-
-    private boolean requestWithoutBody(String requestedVerb) {
-       return requestedVerb.equals(GET.toString()) ||
-               requestedVerb.equals(HEAD.toString()) ||
-               requestedVerb.equals(OPTIONS.toString());
     }
 }

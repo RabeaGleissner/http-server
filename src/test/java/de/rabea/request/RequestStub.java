@@ -1,25 +1,33 @@
 package de.rabea.request;
 
-import de.rabea.server.ContentStorage;
 import de.rabea.server.HttpVerb;
 
 public class RequestStub extends Request {
 
+    private String url;
     private HttpVerb verb;
     private boolean partial;
 
-    public RequestStub(String incoming, ContentStorage contentStorage, String directory) {
-        super(incoming);
-    }
-
-    public RequestStub(HttpVerb verb) {
+    public RequestStub(HttpVerb verb, String url) {
+        this.url = url;
         this.verb = verb;
         this.partial = false;
     }
 
-    public RequestStub(HttpVerb verb, boolean partial) {
+    public RequestStub(HttpVerb verb, String url, boolean partial) {
         this.verb = verb;
         this.partial = partial;
+        this.url = url;
+    }
+
+    @Override
+    public String route() {
+        return url;
+    }
+
+    @Override
+    public String url() {
+       return url;
     }
 
     @Override
