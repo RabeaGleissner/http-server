@@ -4,10 +4,6 @@ import static de.rabea.server.HttpVerb.*;
 
 public class InputParser {
 
-//    public boolean isOneLiner(String line) {
-//        return requestWithoutBody(strip(line).split(" ")[0]);
-//    }
-
     private String strip(String line) {
         String noLineBreaks = line.replaceAll(System.getProperty("line.separator"), "");
         return noLineBreaks.trim();

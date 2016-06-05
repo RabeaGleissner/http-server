@@ -1,10 +1,7 @@
 package de.rabea.request;
 
-import de.rabea.server.ContentStorage;
 import de.rabea.server.HttpVerb;
-import de.rabea.server.Resource;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,16 +11,11 @@ public class Request {
     private List<String> wordList;
     private UrlParser urlParser;
     private String incoming;
-    private ContentStorage contentStorage;
-    private String directory;
 
-    public Request(String incoming, ContentStorage contentStorage, String directory) {
+    public Request(String incoming) {
         this.incoming = incoming;
-        this.contentStorage = contentStorage;
-        this.directory = directory;
         this.wordList = split();
         this.urlParser = new UrlParser(url());
-        updateContentStorage();
     }
 
     public Request() {
@@ -59,46 +51,8 @@ public class Request {
         return wordList.indexOf("Range:") != -1;
     }
 
-    private void updateContentStorage() {
-        if (hasBody()) {
-            contentStorage.save(route(), body());
-        }
-
-        if (deleteRequest()) {
-            contentStorage.deleteFor(route());
-        }
-
-        Resource resource = new Resource();
-        if (resource.isInDirectory(resource.file(route()), directory)) {
-            byte[] fileContent;
-            if (isPartial()) {
-                fileContent = new FileParser(directory + route(), range()).read();
-            } else {
-                fileContent = new FileParser(directory + route()).read();
-            }
-            contentStorage.save(route(), fileContent);
-        }
-
-        if (resource.requestRoot(route()) && resource.directoryHasContent(directory)) {
-           String files = "";
-            for (String file : resource.directoryContents(directory)) {
-                files += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
-            }
-            contentStorage.save(route(), files.getBytes());
-        }
-    }
-
-    private String fileName(String file) {
-        String[] folders = file.split("/");
-        return folders[folders.length - 1];
-    }
-
-    private boolean deleteRequest() {
+    public boolean deleteRequest() {
         return httpVerb() == HttpVerb.DELETE;
-    }
-
-    private boolean hasBody() {
-        return !Arrays.equals(body(), new byte[0]);
     }
 
     private List<String> split() {
@@ -111,7 +65,7 @@ public class Request {
         return words;
     }
 
-    private String range() {
+    public String range() {
         String range = wordList.get(wordList.indexOf("Range:") + 1);
         return range.substring(range.indexOf("=") + 1);
     }

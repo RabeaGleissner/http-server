@@ -29,7 +29,6 @@ public class Resource {
 
     public boolean requestRoot(String route) {
         return route.equals("/");
-
     }
 
     public boolean isExisting(String route, String directory) {
@@ -57,16 +56,23 @@ public class Resource {
         return parentDirectory.isDirectory() && parentDirectory.list().length > 0;
     }
 
+    public boolean isDirectory(String directory) {
+        File file = new File(directory);
+        return file.isDirectory();
+    }
+
     public List<String> directoryContents(String directory) {
         List<String> files = new LinkedList<>();
-        try {
-            Files.walk(Paths.get(directory)).forEach(filePath -> {
-                if (Files.isRegularFile(filePath)) {
-                    files.add(String.valueOf(filePath));
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (isDirectory(directory)) {
+            try {
+                Files.walk(Paths.get(directory)).forEach(filePath -> {
+                    if (Files.isRegularFile(filePath)) {
+                        files.add(String.valueOf(filePath));
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return files;
     }

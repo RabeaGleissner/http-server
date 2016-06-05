@@ -13,11 +13,6 @@ public class InputParserTest {
          parser = new InputParser();
     }
 
-//    @Test
-//    public void knowsItIsGETRequest() {
-//        assertTrue(parser.isOneLiner("\n GET / HTTP/1.1\n"));
-//    }
-
     @Test
     public void findsContentLength() {
         assertEquals(11, parser.contentLength("POST /form HTTP/1.1\n" +

@@ -9,7 +9,7 @@ public class RequestStub extends Request {
     private boolean partial;
 
     public RequestStub(String incoming, ContentStorage contentStorage, String directory) {
-        super(incoming, contentStorage, directory);
+        super(incoming);
     }
 
     public RequestStub(HttpVerb verb) {
