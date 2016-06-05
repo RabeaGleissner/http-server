@@ -27,6 +27,11 @@ public class Resource {
         );
     }
 
+    public boolean requestRoot(String route) {
+        return route.equals("/");
+
+    }
+
     public boolean isExisting(String route, String directory) {
         return allRoutes.contains(route) || isInDirectory(file(route), directory);
     }
@@ -52,7 +57,7 @@ public class Resource {
         return parentDirectory.isDirectory() && parentDirectory.list().length > 0;
     }
 
-    private List<String> directoryContents(String directory) {
+    public List<String> directoryContents(String directory) {
         List<String> files = new LinkedList<>();
         try {
             Files.walk(Paths.get(directory)).forEach(filePath -> {

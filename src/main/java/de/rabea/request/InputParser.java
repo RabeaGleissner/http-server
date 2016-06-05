@@ -4,9 +4,9 @@ import static de.rabea.server.HttpVerb.*;
 
 public class InputParser {
 
-    public boolean isOneLiner(String line) {
-        return requestWithoutBody(strip(line).split(" ")[0]);
-    }
+//    public boolean isOneLiner(String line) {
+//        return requestWithoutBody(strip(line).split(" ")[0]);
+//    }
 
     private String strip(String line) {
         String noLineBreaks = line.replaceAll(System.getProperty("line.separator"), "");
@@ -14,11 +14,10 @@ public class InputParser {
     }
 
     public int contentLength(String request) {
-        String newRequest = request.trim();
-        String[] lines = newRequest.split("\n");
+        String[] lines = request.trim().split("\n");
         for (String line : lines) {
-            Integer words = returnLength(line);
-            if (words != null) return words;
+            Integer length = returnLength(line);
+            if (length != null) return length;
         }
         return 0;
     }

@@ -69,7 +69,7 @@ public class Request {
         }
 
         Resource resource = new Resource();
-        if (resource.isInPublicDir(resource.file(route()), directory)) {
+        if (resource.isInDirectory(resource.file(route()), directory)) {
             byte[] fileContent;
             if (isPartial()) {
                 fileContent = new FileParser(directory + route(), range()).read();
@@ -78,6 +78,19 @@ public class Request {
             }
             contentStorage.save(route(), fileContent);
         }
+
+        if (resource.requestRoot(route()) && resource.directoryHasContent(directory)) {
+           String files = "";
+            for (String file : resource.directoryContents(directory)) {
+                files += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
+            }
+            contentStorage.save(route(), files.getBytes());
+        }
+    }
+
+    private String fileName(String file) {
+        String[] folders = file.split("/");
+        return folders[folders.length - 1];
     }
 
     private boolean deleteRequest() {

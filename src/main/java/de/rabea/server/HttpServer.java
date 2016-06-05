@@ -16,6 +16,7 @@ public class HttpServer {
 
     public void start(String directory) {
         String incoming = connection.read();
+        System.out.println("incoming = " + incoming);
         Request request = new Request(incoming, contentStorage, directory);
 
         String route = request.route();
@@ -25,6 +26,7 @@ public class HttpServer {
                         request,
                         route,
                         directory).create());
+        System.out.println(new String(contentStorage.bodyFor(route)));
         connection.write(responseHeader.generate(), contentStorage.bodyFor(route));
         connection.close();
     }

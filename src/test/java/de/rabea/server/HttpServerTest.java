@@ -15,12 +15,24 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returns200ForAGetRequest() {
+    public void returns200ForAGetRequestToEmptyDirectory() {
         FakeNetwork fakeNetwork = new FakeNetwork("GET / HTTP/1.1");
         HttpServer httpServer = new HttpServer(fakeNetwork, new ContentStorage());
-        httpServer.start(directory);
+        httpServer.start("PUBLIC_DIR");
 
         assertEquals("HTTP/1.1 200 OK\n\n", fakeNetwork.returnedResponse);
+    }
+
+    @Test
+    public void returns200AndDirectoryContentsForGetRequest() {
+        FakeNetwork fakeNetwork = new FakeNetwork("GET / HTTP/1.1");
+        HttpServer httpServer = new HttpServer(fakeNetwork, new ContentStorage());
+        String file = "file.txt";
+        httpServer.start(directory);
+
+        assertEquals("HTTP/1.1 200 OK\n\n" +
+                "<a href=/" + file + ">" +
+                 file + "</a>", fakeNetwork.returnedResponse);
     }
 
     @Test
