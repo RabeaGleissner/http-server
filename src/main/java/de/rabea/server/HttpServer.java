@@ -2,7 +2,7 @@ package de.rabea.server;
 
 import de.rabea.request.Request;
 import de.rabea.response.ResponseFactory;
-import de.rabea.response.ResponseGenerator;
+import de.rabea.response.ResponseHeader;
 
 public class HttpServer {
 
@@ -16,18 +16,16 @@ public class HttpServer {
 
     public void start(String directory) {
         String incoming = connection.read();
-        System.out.println("incoming = " + incoming);
         Request request = new Request(incoming, contentStorage, directory);
 
         String route = request.route();
 
-        ResponseGenerator responseGenerator = new ResponseGenerator(
+        ResponseHeader responseHeader = new ResponseHeader(
                 new ResponseFactory(
                         request,
                         route,
                         directory).create());
-        connection.write(responseGenerator.generate(), contentStorage.getContentFor(route));
-        System.out.println(responseGenerator.generate());
+        connection.write(responseHeader.generate(), contentStorage.bodyFor(route));
         connection.close();
     }
 }

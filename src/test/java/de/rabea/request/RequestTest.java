@@ -1,6 +1,5 @@
 package de.rabea.request;
 
-import de.rabea.TestHelper;
 import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,19 +48,19 @@ public class RequestTest {
     @Test
     public void savesRequestParamsInContentStorage() {
         new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("code = 123\nvar = hey", asString(contentStorage.getContentFor("/form")));
+        assertEquals("code = 123\nvar = hey", asString(contentStorage.bodyFor("/form")));
     }
 
     @Test
     public void deletesStoredContent() {
         new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
         new Request("DELETE /form HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("", asString(contentStorage.getContentFor("/form")));
+        assertEquals("", asString(contentStorage.bodyFor("/form")));
     }
 
     @Test
     public void savesPartialFileContentInContentStorage() {
         new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
-        assertEquals("Some ", asString(contentStorage.getContentFor("/file.txt")));
+        assertEquals("Some ", asString(contentStorage.bodyFor("/file.txt")));
     }
 }

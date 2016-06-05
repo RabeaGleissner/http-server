@@ -18,13 +18,13 @@ public class ContentStorageTest {
     @Test
     public void savesAndReturnsContent() {
         holder.save(formUrl, "some body content".getBytes());
-        assertEquals("some body content", asString(holder.getContentFor(formUrl)));
+        assertEquals("some body content", asString(holder.bodyFor(formUrl)));
     }
 
     @Test
     public void deletesContent() {
         holder.save(formUrl, "some body content".getBytes());
         holder.deleteFor(formUrl);
-        assertEquals("", asString(holder.getContentFor(formUrl)));
+        assertEquals("", asString(holder.bodyFor(formUrl)));
     }
 }

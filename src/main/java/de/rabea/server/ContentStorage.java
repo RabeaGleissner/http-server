@@ -14,7 +14,7 @@ public class ContentStorage {
         storage.put(url, body);
     }
 
-    public byte[] getContentFor(String url) {
+    public byte[] bodyFor(String url) {
         byte[] content = storage.get(url);
         if (content != null) {
             return content;

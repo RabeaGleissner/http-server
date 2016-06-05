@@ -1,10 +1,10 @@
 package de.rabea.response;
 
-public class ResponseGenerator {
+public class ResponseHeader {
 
     private final HttpResponse httpResponse;
 
-    public ResponseGenerator(HttpResponse httpResponse) {
+    public ResponseHeader(HttpResponse httpResponse) {
         this.httpResponse = httpResponse;
     }
 
