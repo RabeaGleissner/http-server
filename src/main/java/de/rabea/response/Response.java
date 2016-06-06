@@ -20,10 +20,7 @@ public class Response {
     }
 
     public String header() {
-        ResponseHeader responseHeader = new ResponseHeader(
-                new ResponseFactory(
-                        request,
-                        directory).create());
-        return responseHeader.generate();
+        ResponseHead responseHead = new ResponseHead(request, directory);
+        return responseHead.generate();
     }
 }
