@@ -11,7 +11,7 @@ import static de.rabea.server.HttpVerb.*;
 public class Route {
 
     private final List<String> allResourcesOLD;
-    private final Map<Resource, List<HttpVerb>> existingRoutes;
+    private final Map<String, List<HttpVerb>> existingRoutes;
 
     public Route() {
         allResourcesOLD = allResources();

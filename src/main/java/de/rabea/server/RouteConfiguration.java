@@ -6,11 +6,11 @@ import static de.rabea.server.HttpVerb.*;
 
 public class RouteConfiguration {
 
-    public Map<Resource, List<HttpVerb>> existingRoutes() {
-        Map<Resource, List<HttpVerb>> existingRoutes = new HashMap<>();
+    public Map<String, List<HttpVerb>> existingRoutes() {
+        Map<String, List<HttpVerb>> existingRoutes = new HashMap<>();
         for (Resource resource : Resource.values()) {
             List<HttpVerb> legalActions = associateActions(resource);
-            existingRoutes.put(resource, legalActions);
+            existingRoutes.put(resource.url(), legalActions);
         }
         return existingRoutes;
     }

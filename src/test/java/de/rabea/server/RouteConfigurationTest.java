@@ -15,9 +15,9 @@ public class RouteConfigurationTest {
     @Test
     public void returnsAvailableActionsForMethodsRoute() {
         RouteConfiguration configuration = new RouteConfiguration();
-        Map<Resource, List<HttpVerb>> existingRoutes = configuration.existingRoutes();
+        Map<String, List<HttpVerb>> existingRoutes = configuration.existingRoutes();
         List<HttpVerb> verbs = new LinkedList<>();
         verbs.addAll(Arrays.asList(GET, HEAD, POST, OPTIONS, PUT));
-        assertEquals(verbs, existingRoutes.get(Resource.METHOD));
+        assertEquals(verbs, existingRoutes.get("/method_options"));
     }
 }
