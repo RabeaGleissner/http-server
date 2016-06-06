@@ -2,15 +2,15 @@ package de.rabea.server;
 
 public class HttpServerThread extends Thread {
 
-    private final Network network;
+    private final Connection connection;
     private final ContentStorage contentStorage;
 
-    public HttpServerThread(Network network, ContentStorage contentStorage) {
-        this.network = network;
+    public HttpServerThread(Connection connection, ContentStorage contentStorage) {
+        this.connection = connection;
         this.contentStorage = contentStorage;
     }
 
     public void start(String directory) {
-        new HttpServer(network, contentStorage).start(directory);
+        new HttpServer(connection, contentStorage).start(directory);
     }
 }

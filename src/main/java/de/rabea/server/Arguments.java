@@ -35,8 +35,8 @@ public class Arguments {
 
     private Map<String, String> defaultArguments() {
         HashMap<String, String> parsedArguments = new HashMap<>();
-        parsedArguments.put("port", "5000");
-        parsedArguments.put("directory", "PUBLIC_DIR");
+        parsedArguments = addDefaultPort(parsedArguments);
+        parsedArguments = addDefaultDirectory(parsedArguments);
         return parsedArguments;
     }
 
@@ -66,5 +66,15 @@ public class Arguments {
         } else {
             return "directory";
         }
+    }
+
+    private HashMap<String, String> addDefaultPort(HashMap<String, String> parsedArguments) {
+        parsedArguments.put("port", "5000");
+        return parsedArguments;
+    }
+
+    private HashMap<String, String> addDefaultDirectory(HashMap<String, String> parsedArguments) {
+        parsedArguments.put("directory", "PUBLIC_DIR");
+        return parsedArguments;
     }
 }

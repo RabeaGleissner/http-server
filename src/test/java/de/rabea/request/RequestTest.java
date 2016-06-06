@@ -50,4 +50,10 @@ public class RequestTest {
         Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4");
         assertEquals("0-4", request.range());
     }
+
+    @Test
+    public void returnsUrlParams() {
+        Request request = new Request("GET /form?code=hello HTTP/1.1");
+        assertEquals("code = hello\n", request.urlParams());
+    }
 }

@@ -12,20 +12,20 @@ public class ResponseBody {
     Resource resource;
 
     public ResponseBody(Request request, String directory) {
-        this.directory = directory;
-        this.receivedMessage = receivedMessage(request);
-        this.resource = new Resource();
         this.request = request;
+        this.directory = directory;
+        this.receivedMessage = receivedMessage();
+        this.resource = new Resource();
     }
 
-    public String receivedMessage(Request request) {
-        if (!request.hasBody()) {
+    public String receivedMessage() {
+        if (request.hasBody()) {
             return request.body();
-        }
-        if (!request.hasUrlParams()) {
+        } else if (request.hasUrlParams()) {
             return request.urlParams();
+        } else {
+            return "";
         }
-        return "";
     }
 
     public byte[] create() {

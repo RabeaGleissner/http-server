@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class UrlParserTest {
@@ -27,7 +28,8 @@ public class UrlParserTest {
     @Test
     public void returnsTwoDecodedUrlParameters() {
         UrlParser parser = new UrlParser("/parameters" + params);
-        String decodedParameters = "variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?\nvariable_2 = stuff";
+        String decodedParameters = "variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $," +
+                " [, ]: \"is that all\"?\nvariable_2 = stuff";
         assertEquals(decodedParameters, parser.parameters());
     }
 
@@ -41,5 +43,11 @@ public class UrlParserTest {
     public void returnsEmptyStringIfUrlHasNoParams() {
         UrlParser parser = new UrlParser("/no-params");
         assertEquals("", parser.parameters());
+    }
+
+    @Test
+    public void returnsUrlWithoutParameters() {
+        UrlParser parser = new UrlParser("/params?some=parameters");
+        assertEquals("/params", parser.route());
     }
 }
