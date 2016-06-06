@@ -1,5 +1,7 @@
 package de.rabea.response;
 
+import de.rabea.server.Route;
+
 public class Options implements HttpResponse {
 
     private final String route;
@@ -9,11 +11,6 @@ public class Options implements HttpResponse {
     }
 
     public String create() {
-        if (route.equals("/method_options")) {
-            return "HTTP/1.1 200 OK\nAllow: GET,HEAD,POST,OPTIONS,PUT";
-        } else if (route.equals("/method_options2")) {
-            return "HTTP/1.1 200 OK\nAllow: GET,OPTIONS";
-        }
-        return null;
+        return "HTTP/1.1 200 OK\nAllow: " + new Route().optionsFor(route);
     }
 }

@@ -6,10 +6,10 @@ import de.rabea.server.Route;
 
 public class ResponseBody {
 
-    private String receivedMessage;
-    private String directory;
-    private Request request;
-    Route route;
+    private final String receivedMessage;
+    private final String directory;
+    private final Request request;
+    private final Route route;
 
     public ResponseBody(Request request, String directory) {
         this.request = request;

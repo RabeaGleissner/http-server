@@ -9,7 +9,7 @@ public enum Resource {
     REDIRECT("/redirect"),
     TEA("/tea");
 
-    private String url;
+    private final String url;
 
     Resource(String url) {
         this.url = url;

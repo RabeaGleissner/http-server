@@ -4,30 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-
-import static de.rabea.server.HttpVerb.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Route {
 
-    private final List<String> allResourcesOLD;
     private final Map<String, List<HttpVerb>> existingRoutes;
 
     public Route() {
-        allResourcesOLD = allResources();
         existingRoutes = new RouteConfiguration().existingRoutes();
-    }
-
-    private List<String> allResources() {
-        return Arrays.asList(
-                "/",
-                "/form",
-                "/method_options",
-                "/method_options2",
-                "/parameters",
-                "/redirect",
-                "/tea"
-        );
     }
 
     public boolean requestRoot(String route) {
@@ -35,7 +21,16 @@ public class Route {
     }
 
     public boolean isExisting(String route, String directory) {
-        return allResourcesOLD.contains(route) || isInDirectory(file(route), directory);
+        return existingRoutes.containsKey(route) || isInDirectory(file(route), directory);
+    }
+
+    public String optionsFor(String resource) {
+        List<HttpVerb> actions = existingRoutes.get(resource);
+        String availableActions = "";
+        for (HttpVerb action : actions) {
+            availableActions += action.toString() + ",";
+        }
+        return availableActions.substring(0, availableActions.length() - 1);
     }
 
     public boolean isTeaRoute(String route) {
@@ -62,7 +57,7 @@ public class Route {
         return parentDirectory.isDirectory() && parentDirectory.list().length > 0;
     }
 
-    public boolean isDirectory(String directory) {
+    private boolean isDirectory(String directory) {
         File file = new File(directory);
         return file.isDirectory();
     }
@@ -82,4 +77,5 @@ public class Route {
         }
         return files;
     }
+
 }

@@ -4,9 +4,9 @@ import de.rabea.server.HttpVerb;
 
 public class RequestStub extends Request {
 
-    private String url;
-    private HttpVerb verb;
-    private boolean partial;
+    private final String url;
+    private final HttpVerb verb;
+    private final boolean partial;
 
     public RequestStub(HttpVerb verb, String url) {
         this.url = url;

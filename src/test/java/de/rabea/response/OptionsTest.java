@@ -17,10 +17,4 @@ public class OptionsTest {
         Options response = new Options("/method_options2");
         assertEquals("HTTP/1.1 200 OK\nAllow: GET,OPTIONS", response.create());
     }
-
-    @Test
-    public void returnsNullForUnknownRoute() {
-        Options response = new Options("/unknown_options");
-        assertEquals(null, response.create());
-    }
 }

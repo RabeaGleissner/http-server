@@ -6,7 +6,7 @@ import java.net.URLDecoder;
 public class UrlParser {
 
     private final String url;
-    private String parameterString;
+    private final String parameterString;
 
     public UrlParser(String url) {
         this.url = url;
@@ -56,7 +56,7 @@ public class UrlParser {
     }
 
 
-    public String parameterString() {
+    private String parameterString() {
         int index = url.indexOf("?");
         if (index != -1) {
             return url.substring(index);
