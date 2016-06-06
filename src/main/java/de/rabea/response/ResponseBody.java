@@ -2,20 +2,20 @@ package de.rabea.response;
 
 import de.rabea.request.FileParser;
 import de.rabea.request.Request;
-import de.rabea.server.Resource;
+import de.rabea.server.Route;
 
 public class ResponseBody {
 
     private String receivedMessage;
     private String directory;
     private Request request;
-    Resource resource;
+    Route route;
 
     public ResponseBody(Request request, String directory) {
         this.request = request;
         this.directory = directory;
         this.receivedMessage = receivedMessage();
-        this.resource = new Resource();
+        this.route = new Route();
     }
 
     public String receivedMessage() {
@@ -46,7 +46,7 @@ public class ResponseBody {
     private byte[] listLinksToFiles() {
         if (showDirectoryContents()) {
             String links = "";
-            for (String file : resource.directoryContents(directory)) {
+            for (String file : route.directoryContents(directory)) {
                 links += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
             }
             return links.getBytes();
@@ -66,15 +66,15 @@ public class ResponseBody {
     }
 
     private boolean folderContainsRequestedFile() {
-        return resource.directoryContents(directory).contains(requestedFile());
+        return route.directoryContents(directory).contains(requestedFile());
     }
 
     private String requestedFile() {
-        return directory + resource.file(request.route());
+        return directory + route.file(request.route());
     }
 
     private boolean directoryHasContent() {
-        return resource.directoryHasContent(directory);
+        return route.directoryHasContent(directory);
     }
 
     private String fileName(String file) {
@@ -87,6 +87,6 @@ public class ResponseBody {
     }
 
     private boolean requestedRootRoute() {
-        return resource.requestRoot(request.route());
+        return route.requestRoot(request.route());
     }
 }
