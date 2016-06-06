@@ -22,7 +22,7 @@ public class UrlParser {
                 second = "";
             }
             try {
-                return URLDecoder.decode(concatenate(firstParameter()+ "\n" + second), "UTF-8");
+                return URLDecoder.decode(firstParameter()+ "\n" + second, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new AssertionError("UTF-8 not supported");
             }
@@ -31,12 +31,12 @@ public class UrlParser {
         }
     }
 
-    private String concatenate(String ... params) {
-        String concatenated = "";
-        for (String param : params) {
-            concatenated += param;
-        }
-        return concatenated;
+    public String route() {
+        return removeParameters();
+    }
+
+    public boolean hasParams() {
+        return !parameterString().equals("");
     }
 
     private String firstParameter() {
@@ -55,7 +55,6 @@ public class UrlParser {
         return parameterString().contains("&");
     }
 
-
     private String parameterString() {
         int index = url.indexOf("?");
         if (index != -1) {
@@ -63,10 +62,6 @@ public class UrlParser {
         } else {
             return "";
         }
-    }
-
-    public String route() {
-        return removeParameters();
     }
 
     private String removeParameters() {
@@ -78,8 +73,4 @@ public class UrlParser {
         }
     }
 
-
-    public boolean hasParams() {
-        return !parameterString().equals("");
-    }
 }

@@ -41,24 +41,18 @@ public class Network implements Connection {
 
     private String readBody(InputParser parser, String requestBuilder) throws IOException {
         String charAccumulator = "";
-        int character;
         int length = parser.contentLength(requestBuilder);
 
         for (int i = 0; i < length; i++) {
-            character = clientInputReader.read();
-            charAccumulator = charAccumulator + ((char) character);
+            charAccumulator = charAccumulator + ((char) clientInputReader.read());
         }
         return charAccumulator;
     }
 
-    public void write(String header, byte[] body) {
-        byte[] headerBytes = header.getBytes();
+    public void write(String head, byte[] body) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            out.write(headerBytes);
-            out.write(body);
-            byte[] combined = out.toByteArray();
-            sender.write(combined);
+            sender.write(combinedHeadAndBody(head, body, out));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,6 +64,12 @@ public class Network implements Connection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private byte[] combinedHeadAndBody(String head, byte[] body, ByteArrayOutputStream out) throws IOException {
+        out.write(head.getBytes());
+        out.write(body);
+        return out.toByteArray();
     }
 
     private BufferedReader createReader() {

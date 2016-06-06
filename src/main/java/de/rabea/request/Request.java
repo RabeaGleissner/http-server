@@ -53,7 +53,7 @@ public class Request {
         return urlParser.hasParams();
     }
 
-    public boolean isPartial() {
+    public boolean requestsPartialContent() {
         return wordList.indexOf("Range:") != -1;
     }
 

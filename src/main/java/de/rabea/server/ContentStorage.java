@@ -12,11 +12,11 @@ public class ContentStorage {
     }
 
     public void update(String route, byte[] body, HttpVerb verb) {
-        if (!Arrays.equals(body, new byte[0])) {
+        if (responseBody(body)) {
             save(route, body);
         }
 
-        if (verb == HttpVerb.DELETE) {
+        if (deleteRequest(verb)) {
             deleteFor(route);
         }
     }
@@ -36,5 +36,13 @@ public class ContentStorage {
 
     public void deleteFor(String url) {
         storage.remove(url);
+    }
+
+    private boolean responseBody(byte[] body) {
+        return !Arrays.equals(body, new byte[0]);
+    }
+
+    private boolean deleteRequest(HttpVerb verb) {
+        return verb == HttpVerb.DELETE;
     }
 }

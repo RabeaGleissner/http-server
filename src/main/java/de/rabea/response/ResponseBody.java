@@ -18,16 +18,6 @@ public class ResponseBody {
         this.route = new Route();
     }
 
-    public String receivedMessage() {
-        if (request.hasBody()) {
-            return request.body();
-        } else if (request.hasUrlParams()) {
-            return request.urlParams();
-        } else {
-            return "";
-        }
-    }
-
     public byte[] create() {
         if (!receivedMessage.equals("")) {
             return receivedMessage.getBytes();
@@ -43,6 +33,16 @@ public class ResponseBody {
         return new byte[0];
     }
 
+    public String receivedMessage() {
+        if (request.hasBody()) {
+            return request.body();
+        } else if (request.hasUrlParams()) {
+            return request.urlParams();
+        } else {
+            return "";
+        }
+    }
+
     private byte[] listLinksToFiles() {
         if (showDirectoryContents()) {
             String links = "";
@@ -56,7 +56,7 @@ public class ResponseBody {
 
     private byte[] readFileContent() {
         if (folderContainsRequestedFile()) {
-            if (request.isPartial()) {
+            if (request.requestsPartialContent()) {
                 return new FileParser(directory + request.route(), request.range()).read();
             } else {
                 return new FileParser(directory + request.route()).read();

@@ -17,7 +17,7 @@ public class HttpServer {
     public void start(String directory) {
         Request request = handleIncoming(directory, connection.read());
         Response response = new Response(request, directory, contentStorage);
-        connection.write(response.header(), response.body());
+        connection.write(response.head(), response.body());
         connection.close();
     }
 

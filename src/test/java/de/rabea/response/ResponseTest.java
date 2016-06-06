@@ -23,7 +23,7 @@ public class ResponseTest {
     public void returnsResponseHeader() {
         Request request = new Request("GET / HTTP/1.1");
         Response response = new Response(request, "PUBLIC_DIR", new ContentStorage());
-        assertEquals("HTTP/1.1 200 OK\n\n", response.header());
+        assertEquals("HTTP/1.1 200 OK\n\n", response.head());
     }
 
     private class ContentStorageStub extends ContentStorage {

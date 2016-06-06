@@ -53,7 +53,7 @@ public class ResponseHead {
             return TEAPOT;
         }
 
-        if (request.isPartial()) {
+        if (request.requestsPartialContent()) {
             return PARTIAL;
         }
 

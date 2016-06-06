@@ -18,9 +18,6 @@ public class RouteConfiguration {
     private List<HttpVerb> associateActions(Resource resource) {
         List<HttpVerb> legalVerbs = new LinkedList<>();
         switch (resource) {
-            case ROOT:
-                legalVerbs.add(GET);
-                break;
             case FORM:
                 legalVerbs.addAll(Arrays.asList(GET, POST, PUT, DELETE));
                 break;
@@ -30,17 +27,9 @@ public class RouteConfiguration {
             case METHOD2:
                 legalVerbs.addAll(Arrays.asList(GET, OPTIONS));
                 break;
-            case PARAMS:
-                legalVerbs.add(GET);
-                break;
-            case REDIRECT:
-                legalVerbs.add(GET);
-                break;
-            case TEA:
+            default:
                 legalVerbs.add(GET);
         }
         return legalVerbs;
     }
-
-
 }

@@ -19,7 +19,7 @@ public class Response {
         return contentStorage.bodyFor(request.route());
     }
 
-    public String header() {
+    public String head() {
         ResponseHead responseHead = new ResponseHead(request, directory);
         return responseHead.generate();
     }
