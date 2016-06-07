@@ -25,22 +25,17 @@ public class RouteTest {
     }
 
     @Test
-    public void returnsFalseIfRouteDoesNotExist() {
-        assertFalse(route.isExisting("/foobar", directory));
-    }
-
-    @Test
     public void returnsTrueIfItIsRedirect() {
         assertTrue(route.isRedirect("/redirect"));
     }
 
     @Test
-    public void isInPublicDirectory() {
+    public void returnsTrueIfResourceIsInPublicDirectory() {
         assertTrue(route.isInDirectory("file.txt", directory));
     }
 
     @Test
-    public void publicDirectoryIsEmpty() {
+    public void returnsFalseIfPublicDirectoryIsEmpty() {
         assertFalse(route.directoryHasContent("PUBLIC_DIR"));
     }
 

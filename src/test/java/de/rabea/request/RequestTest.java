@@ -1,5 +1,6 @@
 package de.rabea.request;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static de.rabea.server.HttpVerb.GET;
@@ -8,22 +9,23 @@ import static org.junit.Assert.assertTrue;
 
 public class RequestTest {
 
+    private Request simpleGetRequest;
+    private Request requestWithParams;
+
+    @Before
+    public void setup() {
+        simpleGetRequest = new Request("GET / HTTP/1.1");
+        requestWithParams = new Request("GET /form?code=hello HTTP/1.1");
+    }
+
     @Test
     public void returnsHttpVerb() {
-        Request request = new Request("GET / HTTP/1.1");
-        assertEquals(GET, request.httpVerb());
+        assertEquals(GET, simpleGetRequest.httpVerb());
     }
 
     @Test
-    public void returnsRouteForRoot() {
-        Request request = new Request("GET / HTTP/1.1");
-        assertEquals("/", request.route());
-    }
-
-    @Test
-    public void returnsRouteForFormRoute() {
-        Request request = new Request("GET /form HTTP/1.1");
-        assertEquals("/form", request.route());
+    public void returnsRoute() {
+        assertEquals("/", simpleGetRequest.route());
     }
 
     @Test
@@ -40,20 +42,18 @@ public class RequestTest {
     }
 
     @Test
-    public void requestHasUrlParams() {
-        Request request = new Request("GET /form?code=hello HTTP/1.1");
-        assertTrue(request.hasUrlParams());
+    public void returnsTrueIfRequestHasUrlParams() {
+        assertTrue(requestWithParams.hasUrlParams());
+    }
+
+    @Test
+    public void returnsUrlParams() {
+        assertEquals("code = hello\n", requestWithParams.urlParams());
     }
 
     @Test
     public void returnsRangeForReadingFileContent() {
         Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4");
         assertEquals("0-4", request.range());
-    }
-
-    @Test
-    public void returnsUrlParams() {
-        Request request = new Request("GET /form?code=hello HTTP/1.1");
-        assertEquals("code = hello\n", request.urlParams());
     }
 }

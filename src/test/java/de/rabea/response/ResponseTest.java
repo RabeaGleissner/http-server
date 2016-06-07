@@ -12,17 +12,15 @@ public class ResponseTest {
 
     @Test
     public void returnsResponseBody() {
-        RequestDummy requestDummy = new RequestDummy();
-        ContentStorageStub contentStorage = new ContentStorageStub();
-
-        Response response = new Response(requestDummy, directory(), contentStorage);
+        Response response = new Response(new RequestDummy(), directory(),
+                new ContentStorageStub());
         assertEquals("some content", asString(response.body()));
     }
 
     @Test
     public void returnsResponseHeader() {
-        Request request = new Request("GET / HTTP/1.1");
-        Response response = new Response(request, "PUBLIC_DIR", new ContentStorage());
+        Response response = new Response(new Request("GET / HTTP/1.1"),
+                "PUBLIC_DIR", new ContentStorage());
         assertEquals("HTTP/1.1 200 OK\n\n", response.head());
     }
 
@@ -38,5 +36,4 @@ public class ResponseTest {
            return "";
         }
     }
-
 }

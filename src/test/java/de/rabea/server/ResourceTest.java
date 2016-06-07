@@ -6,8 +6,9 @@ import static de.rabea.server.Resource.FORM;
 import static org.junit.Assert.*;
 
 public class ResourceTest {
+
     @Test
-    public void returnsActualUrl() {
+    public void returnsActualUrlForGivenKeyword() {
         assertEquals("/form", FORM.url());
     }
 }

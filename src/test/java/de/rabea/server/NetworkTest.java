@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 public class NetworkTest {
 
     @Test
-    public void readsOneLineInputForGETRequest() {
+    public void readsOneLineOfInputForSimpleGETRequest() {
         String request = "GET/form HTTP/1.1\n";
         FakeSocket fakeSocket = new FakeSocket(request);
         Network network = new Network(fakeSocket);
@@ -25,8 +25,7 @@ public class NetworkTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat";
-        FakeSocket fakeSocket = new FakeSocket(request);
-        Network network = new Network(fakeSocket);
+        Network network = new Network(new FakeSocket(request));
         String[] parsedRequestLines = network.read().split("\n");
         String lastLine = parsedRequestLines[parsedRequestLines.length -1];
         assertEquals("data=fatcat", lastLine);
@@ -40,21 +39,12 @@ public class NetworkTest {
                 "Connection: Keep-Alive\n" +
                 "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
                 "Accept-Encoding: gzip,deflate\n";
-        FakeSocket fakeSocket = new FakeSocket(request);
-        Network network = new Network(fakeSocket);
+        Network network = new Network(new FakeSocket(request));
         assertEquals(request, network.read());
     }
 
     @Test
-    public void sendsHeaderToClient() {
-        FakeSocket fakeSocket = new FakeSocket();
-        Network network = new Network(fakeSocket);
-        network.write("hello!", new byte[0]);
-        assertEquals("hello!", fakeSocket.messageSent());
-    }
-
-    @Test
-    public void sendsBodyToClient() {
+    public void sendsHeaderAndBodyToClient() {
         FakeSocket fakeSocket = new FakeSocket();
         Network network = new Network(fakeSocket);
         String message = "hello!";
