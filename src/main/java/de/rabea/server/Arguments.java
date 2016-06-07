@@ -30,7 +30,25 @@ public class Arguments {
             Map<String, String> firstArguments = addFirst();
             parsedArguments = addSecond(firstArguments);
         }
+        parsedArguments = formatDirectory(parsedArguments);
         return parsedArguments;
+    }
+
+    private Map<String, String> formatDirectory(Map<String, String> parsedArguments) {
+        String directory = parsedArguments.get("directory");
+        if (!directory.equals("PUBLIC_DIR")) {
+           directory = trailingSlash(directory);
+            parsedArguments.put("directory", directory);
+        }
+        return parsedArguments;
+    }
+
+    private String trailingSlash(String directory) {
+        if ((directory.substring(directory.length() - 1).equals("/"))) {
+            return directory;
+        } else {
+            return directory + "/";
+        }
     }
 
     private Map<String, String> defaultArguments() {

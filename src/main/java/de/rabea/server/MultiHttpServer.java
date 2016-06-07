@@ -15,11 +15,15 @@ public class MultiHttpServer {
 
     public void run(String directory) {
         while (listening) {
-            try {
-                new HttpServerThread(new Network(serverSocket.accept()), contentStorage).start(directory);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            createNewServerThread(directory);
+        }
+    }
+
+    private void createNewServerThread(String directory) {
+        try {
+            new HttpServerThread(new Network(serverSocket.accept()), contentStorage).start(directory);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

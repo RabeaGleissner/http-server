@@ -70,7 +70,7 @@ public class Request {
 
     private List<String> split() {
         String[] lines = incoming.split("\n");
-        List<String> words = new LinkedList<>() ;
+        List<String> words = new LinkedList<>();
         for (String line : lines) {
             String[] splitLine =  line.split(" ");
             Collections.addAll(words, splitLine);

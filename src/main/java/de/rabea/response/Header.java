@@ -19,6 +19,7 @@ public class Header {
         if (request.isRedirect()) {
             return LOCATION;
         }
+
         if (request.isTeapot()) {
             return TEAPOT_HEADER;
         }
