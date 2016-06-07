@@ -34,7 +34,7 @@ public class Arguments {
     }
 
     private Map<String, String> defaultArguments() {
-        HashMap<String, String> parsedArguments = new HashMap<>();
+        Map<String, String> parsedArguments = new HashMap<>();
         parsedArguments = addDefaultPort(parsedArguments);
         parsedArguments = addDefaultDirectory(parsedArguments);
         return parsedArguments;
@@ -42,15 +42,15 @@ public class Arguments {
 
     private Map<String, String> addDefaultSecond(Map<String, String> firstArguments) {
         if (firstArguments.containsKey("port")) {
-            firstArguments.put("directory", "PUBLIC_DIR");
+            firstArguments = addDefaultDirectory(firstArguments);
         } else if (firstArguments.containsKey("directory")) {
-            firstArguments.put("port", "5000");
+            firstArguments = addDefaultPort(firstArguments);
         }
         return firstArguments;
     }
 
     private Map<String, String> addFirst() {
-        HashMap<String, String> parsedArguments = new HashMap<>();
+        Map<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put(fullWord(arguments[0]), arguments[1]);
         return parsedArguments;
     }
@@ -68,12 +68,12 @@ public class Arguments {
         }
     }
 
-    private HashMap<String, String> addDefaultPort(HashMap<String, String> parsedArguments) {
+    private Map<String, String> addDefaultPort(Map<String, String> parsedArguments) {
         parsedArguments.put("port", "5000");
         return parsedArguments;
     }
 
-    private HashMap<String, String> addDefaultDirectory(HashMap<String, String> parsedArguments) {
+    private Map<String, String> addDefaultDirectory(Map<String, String> parsedArguments) {
         parsedArguments.put("directory", "PUBLIC_DIR");
         return parsedArguments;
     }
