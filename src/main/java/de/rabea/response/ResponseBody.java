@@ -1,5 +1,6 @@
 package de.rabea.response;
 
+import de.rabea.request.Directory;
 import de.rabea.request.FileParser;
 import de.rabea.request.Request;
 import de.rabea.server.Router;
@@ -7,15 +8,17 @@ import de.rabea.server.Router;
 public class ResponseBody {
 
     private final String receivedMessage;
-    private final String directory;
+    private final String directoryPath;
     private final Request request;
     private final Router router;
+    private final Directory directory;
 
     public ResponseBody(Request request, String directory) {
         this.request = request;
-        this.directory = directory;
+        this.directoryPath = directory;
         this.receivedMessage = receivedMessage();
         this.router = new Router();
+        this.directory = new Directory(directoryPath);
     }
 
     public byte[] create() {
@@ -46,7 +49,7 @@ public class ResponseBody {
     private byte[] listLinksToFiles() {
         if (showDirectoryContents()) {
             String links = "";
-            for (String file : router.directoryContents(directory)) {
+            for (String file : directory.contents) {
                 links += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
             }
             return links.getBytes();
@@ -57,24 +60,24 @@ public class ResponseBody {
     private byte[] readFileContent() {
         if (folderContainsRequestedFile()) {
             if (request.requestsPartialContent()) {
-                return new FileParser(directory + request.route, request.range).read();
+                return new FileParser(directoryPath + request.route, request.range).read();
             } else {
-                return new FileParser(directory + request.route).read();
+                return new FileParser(directoryPath + request.route).read();
             }
         }
         return null;
     }
 
     private boolean folderContainsRequestedFile() {
-        return router.directoryContents(directory).contains(requestedFile());
+        return directory.contents.contains(requestedFile());
     }
 
     private String requestedFile() {
-        return directory + request.route;
+        return directoryPath + request.route;
     }
 
     private boolean directoryHasContent() {
-        return router.directoryHasContent(directory);
+        return directory.containsContent();
     }
 
     private String fileName(String file) {

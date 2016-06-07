@@ -1,10 +1,7 @@
 package de.rabea.server;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.LinkedList;
+import de.rabea.request.Directory;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +18,7 @@ public class Router {
     }
 
     public boolean isExisting(String route, String directory) {
-        return existingRoutes.containsKey(route) || isInDirectory(route, directory);
+        return existingRoutes.containsKey(route) || new Directory(directory).isInDirectory(route);
     }
 
     public String optionsFor(String resource) {
@@ -39,35 +36,5 @@ public class Router {
 
     public boolean isRedirect(String route) {
         return route.equals("/redirect");
-    }
-
-    public boolean isInDirectory(String file, String directory) {
-        return directoryContents(directory).contains(directory + file);
-    }
-
-    public boolean directoryHasContent(String directory) {
-        File parentDirectory = new File(directory);
-        return parentDirectory.isDirectory() && parentDirectory.list().length > 0;
-    }
-
-    private boolean isDirectory(String directory) {
-        File file = new File(directory);
-        return file.isDirectory();
-    }
-
-    public List<String> directoryContents(String directory) {
-        List<String> files = new LinkedList<>();
-        if (isDirectory(directory)) {
-            try {
-                Files.walk(Paths.get(directory)).forEach(filePath -> {
-                    if (Files.isRegularFile(filePath)) {
-                        files.add(String.valueOf(filePath));
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return files;
     }
 }
