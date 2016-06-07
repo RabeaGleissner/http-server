@@ -12,9 +12,9 @@ public class ArgumentsTest {
     public void returnsPortAndDirectoryWhenGiven() {
         HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "1234");
-        parsedArguments.put("directory", "DIR/");
+        parsedArguments.put("directory", "DIR");
 
-        Arguments arguments = new Arguments(new String[]{"-p", "1234", "-d", "DIR"});
+        Arguments arguments = new Arguments(new String[]{"-p", "1234", "-d", "DIR/"});
 
         assertEquals(parsedArguments, arguments.parse());
     }
@@ -22,7 +22,7 @@ public class ArgumentsTest {
     @Test
     public void returnsDirectory() {
         Arguments arguments = new Arguments(new String[]{"-p", "1234", "-d", "DIR"});
-        assertEquals("DIR/", arguments.directory());
+        assertEquals("DIR", arguments.directory());
     }
 
     @Test
@@ -40,9 +40,20 @@ public class ArgumentsTest {
     public void returnsDirectoryAndDefaultPortWhenOnlyDirectoryIsGiven() {
         HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "5000");
-        parsedArguments.put("directory", "DIR/");
+        parsedArguments.put("directory", "DIR");
 
         Arguments arguments = new Arguments(new String[]{"-d", "DIR"});
+
+        assertEquals(parsedArguments, arguments.parse());
+    }
+
+    @Test
+    public void removesDirectoryTrailingSlash() {
+        HashMap<String, String> parsedArguments = new HashMap<>();
+        parsedArguments.put("port", "5000");
+        parsedArguments.put("directory", "DIR");
+
+        Arguments arguments = new Arguments(new String[]{"-d", "DIR/"});
 
         assertEquals(parsedArguments, arguments.parse());
     }

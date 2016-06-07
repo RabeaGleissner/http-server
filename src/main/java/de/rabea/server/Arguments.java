@@ -36,18 +36,16 @@ public class Arguments {
 
     private Map<String, String> formatDirectory(Map<String, String> parsedArguments) {
         String directory = parsedArguments.get("directory");
-        if (!directory.equals("PUBLIC_DIR")) {
            directory = trailingSlash(directory);
             parsedArguments.put("directory", directory);
-        }
         return parsedArguments;
     }
 
     private String trailingSlash(String directory) {
         if ((directory.substring(directory.length() - 1).equals("/"))) {
-            return directory;
+            return directory.substring(0, directory.length() - 1);
         } else {
-            return directory + "/";
+            return directory;
         }
     }
 

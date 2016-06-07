@@ -31,7 +31,7 @@ public class RouteTest {
 
     @Test
     public void returnsTrueIfResourceIsInPublicDirectory() {
-        assertTrue(route.isInDirectory("file.txt", directory));
+        assertTrue(route.isInDirectory("/file.txt", directory));
     }
 
     @Test

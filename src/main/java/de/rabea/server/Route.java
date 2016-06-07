@@ -21,7 +21,7 @@ public class Route {
     }
 
     public boolean isExisting(String route, String directory) {
-        return existingRoutes.containsKey(route) || isInDirectory(file(route), directory);
+        return existingRoutes.containsKey(route) || isInDirectory(route, directory);
     }
 
     public String optionsFor(String resource) {
@@ -35,13 +35,6 @@ public class Route {
 
     public boolean isTeaRoute(String route) {
         return route.equals("/coffee");
-    }
-
-    public String file(String route) {
-        if (route.length() > 1) {
-            return route.substring(1);
-        }
-        return "";
     }
 
     public boolean isRedirect(String route) {

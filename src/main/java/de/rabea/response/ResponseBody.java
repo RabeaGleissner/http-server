@@ -70,7 +70,7 @@ public class ResponseBody {
     }
 
     private String requestedFile() {
-        return directory + route.file(request.route());
+        return directory + request.route();
     }
 
     private boolean directoryHasContent() {

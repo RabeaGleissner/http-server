@@ -9,6 +9,6 @@ public class TestHelper {
     }
 
     public static String directory() {
-        return System.getProperty("user.dir") + "/src/test/java/de/rabea/request/resource/";
+        return System.getProperty("user.dir") + "/src/test/java/de/rabea/request/resource";
     }
 }
