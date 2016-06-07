@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class FakeSocket extends Socket {
 
-    private String message;
+    private final String message;
     private ByteArrayInputStream inputStream;
     private ByteArrayOutputStream outputStream;
 

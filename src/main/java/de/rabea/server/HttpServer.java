@@ -1,8 +1,8 @@
 package de.rabea.server;
 
 import de.rabea.request.Request;
-import de.rabea.response.ResponseFactory;
-import de.rabea.response.ResponseHeader;
+import de.rabea.response.Response;
+import de.rabea.response.ResponseBody;
 
 public class HttpServer {
 
@@ -15,17 +15,19 @@ public class HttpServer {
     }
 
     public void start(String directory) {
-        String incoming = connection.read();
-        Request request = new Request(incoming, contentStorage, directory);
-
-        String route = request.route();
-
-        ResponseHeader responseHeader = new ResponseHeader(
-                new ResponseFactory(
-                        request,
-                        route,
-                        directory).create());
-        connection.write(responseHeader.generate(), contentStorage.bodyFor(route));
+        Request request = handleIncoming(directory, connection.read());
+        Response response = new Response(request, directory, contentStorage);
+        connection.write(response.head(), response.body());
         connection.close();
+    }
+
+    private Request handleIncoming(String directory, String incoming) {
+        Request request = new Request(incoming);
+        contentStorage.update(request.route(), responseBody(directory, request), request.httpVerb());
+        return request;
+    }
+
+    private byte[] responseBody(String directory, Request request) {
+        return new ResponseBody(request, directory).create();
     }
 }

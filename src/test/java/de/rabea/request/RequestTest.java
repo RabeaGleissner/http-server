@@ -1,35 +1,31 @@
 package de.rabea.request;
 
-import de.rabea.server.ContentStorage;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.TestHelper.asString;
-import static de.rabea.TestHelper.directory;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RequestTest {
 
-    private ContentStorage contentStorage;
-    private String currentDirectory;
+    private Request simpleGetRequest;
+    private Request requestWithParams;
 
     @Before
     public void setup() {
-        this.contentStorage = new ContentStorage();
-        this.currentDirectory = directory();
+        simpleGetRequest = new Request("GET / HTTP/1.1");
+        requestWithParams = new Request("GET /form?code=hello HTTP/1.1");
     }
 
     @Test
     public void returnsHttpVerb() {
-        Request request = new Request("GET / HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals(GET, request.httpVerb());
+        assertEquals(GET, simpleGetRequest.httpVerb());
     }
 
     @Test
     public void returnsRoute() {
-        Request request = new Request("GET /form HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("/form", request.route());
+        assertEquals("/", simpleGetRequest.route());
     }
 
     @Test
@@ -41,26 +37,23 @@ public class RequestTest {
                 "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
-                "data=fatcat", contentStorage, currentDirectory);
-        assertEquals("data=fatcat", asString(request.body()));
+                "data=fatcat");
+        assertEquals("data=fatcat", request.body());
     }
 
     @Test
-    public void savesRequestParamsInContentStorage() {
-        new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("code = 123\nvar = hey", asString(contentStorage.bodyFor("/form")));
+    public void returnsTrueIfRequestHasUrlParams() {
+        assertTrue(requestWithParams.hasUrlParams());
     }
 
     @Test
-    public void deletesStoredContent() {
-        new Request("GET /form?code=123&var=hey HTTP/1.1", contentStorage, currentDirectory);
-        new Request("DELETE /form HTTP/1.1", contentStorage, currentDirectory);
-        assertEquals("", asString(contentStorage.bodyFor("/form")));
+    public void returnsUrlParams() {
+        assertEquals("code = hello\n", requestWithParams.urlParams());
     }
 
     @Test
-    public void savesPartialFileContentInContentStorage() {
-        new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", contentStorage, currentDirectory);
-        assertEquals("Some ", asString(contentStorage.bodyFor("/file.txt")));
+    public void returnsRangeForReadingFileContent() {
+        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4");
+        assertEquals("0-4", request.range());
     }
 }

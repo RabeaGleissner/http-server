@@ -1,5 +1,6 @@
 package de.rabea.server;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +9,16 @@ public class ContentStorage {
 
     public ContentStorage() {
         this.storage = new HashMap<>();
+    }
+
+    public void update(String route, byte[] body, HttpVerb verb) {
+        if (responseBody(body)) {
+            save(route, body);
+        }
+
+        if (deleteRequest(verb)) {
+            deleteFor(route);
+        }
     }
 
     public void save(String url, byte[] body) {
@@ -25,5 +36,13 @@ public class ContentStorage {
 
     public void deleteFor(String url) {
         storage.remove(url);
+    }
+
+    private boolean responseBody(byte[] body) {
+        return !Arrays.equals(body, new byte[0]);
+    }
+
+    private boolean deleteRequest(HttpVerb verb) {
+        return verb == HttpVerb.DELETE;
     }
 }

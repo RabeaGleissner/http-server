@@ -10,45 +10,51 @@ public class ArgumentsTest {
 
     @Test
     public void returnsPortAndDirectoryWhenGiven() {
-        String[] commandLineArgs = {"-p", "1234", "-d", "DIR"};
-        HashMap<String, String> parsedArguments = new HashMap<String, String>();
+        HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "1234");
         parsedArguments.put("directory", "DIR");
 
-        Arguments arguments = new Arguments(commandLineArgs);
+        Arguments arguments = new Arguments(new String[]{"-p", "1234", "-d", "DIR"});
+
         assertEquals(parsedArguments, arguments.parse());
     }
 
     @Test
+    public void returnsDirectory() {
+        Arguments arguments = new Arguments(new String[]{"-p", "1234", "-d", "DIR"});
+        assertEquals("DIR", arguments.directory());
+    }
+
+    @Test
     public void returnsPortAndDefaultDirectoryWhenOnlyPortIsGiven() {
-        String[] commandLineArgs = {"-p", "1234"};
-        HashMap<String, String> parsedArguments = new HashMap<String, String>();
+        HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "1234");
         parsedArguments.put("directory", "PUBLIC_DIR");
 
-        Arguments arguments = new Arguments(commandLineArgs);
+        Arguments arguments = new Arguments(new String[]{"-p", "1234"});
+
         assertEquals(parsedArguments, arguments.parse());
     }
 
     @Test
     public void returnsDirectoryAndDefaultPortWhenOnlyDirectoryIsGiven() {
-        String[] commandLineArgs = {"-d", "DIR"};
-        HashMap<String, String> parsedArguments = new HashMap<String, String>();
+        HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "5000");
         parsedArguments.put("directory", "DIR");
 
-        Arguments arguments = new Arguments(commandLineArgs);
+        Arguments arguments = new Arguments(new String[]{"-d", "DIR"});
+
         assertEquals(parsedArguments, arguments.parse());
     }
 
     @Test
     public void returnsDefaultWhenNoArgumentsAreGiven() {
-        String[] noCommandLineArgs = {};
-        HashMap<String, String> parsedArguments = new HashMap<String, String>();
+        HashMap<String, String> parsedArguments = new HashMap<>();
         parsedArguments.put("port", "5000");
         parsedArguments.put("directory", "PUBLIC_DIR");
 
-        Arguments arguments = new Arguments(noCommandLineArgs);
+        Arguments arguments = new Arguments(new String[]{});
+
         assertEquals(parsedArguments, arguments.parse());
     }
 }

@@ -25,7 +25,7 @@ public class FileParser {
 
     public byte[] read() {
         try {
-            byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
+            byte[] fileContent = readCompleteFile();
             if (partial) {
                 fileContent = readPartialFile(fileContent);
             }
@@ -36,27 +36,32 @@ public class FileParser {
         return null;
     }
 
+    private byte[] readCompleteFile() throws IOException {
+        return Files.readAllBytes(Paths.get(filePath));
+    }
+
     private byte[] readPartialFile(byte[] fileContent) {
         String firstChar = range.substring(0,1);
         String secondChar = range.substring(1,2);
         String thirdChar = range.substring(2);
+        int from = 0;
+        int to = 0;
 
         if (startAndEndGiven(range)) {
-            fileContent = copyOfRange(fileContent,
-                    toInteger(firstChar),
-                    toInteger(thirdChar) + 1);
+            from = toInteger(firstChar);
+            to = toInteger(thirdChar) + 1;
         } else if (reverseStart(range)) {
-            fileContent = copyOfRange(fileContent,
-                    fileContent.length - toInteger(secondChar),
-                    fileContent.length);
-
+            from = fileContent.length - toInteger(secondChar);
+            to = fileContent.length;
         } else if (onlyStartGiven(secondChar)) {
-            fileContent = copyOfRange(fileContent,
-                    toInteger(firstChar),
-                    fileContent.length);
+            from = toInteger(firstChar);
+            to = fileContent.length;
         }
+        return readPartialContent(from, to, fileContent);
+    }
 
-        return fileContent;
+    private byte[] readPartialContent(int from, int to, byte[] fileContent) {
+        return copyOfRange(fileContent, from, to);
     }
 
     private boolean onlyStartGiven(String secondChar) {
