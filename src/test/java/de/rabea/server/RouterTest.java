@@ -8,39 +8,39 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class RouteTest {
+public class RouterTest {
 
-    private Route route;
+    private Router router;
     private String directory;
 
     @Before
     public void setup() {
-        route = new Route();
+        router = new Router();
         directory = directory();
     }
 
     @Test
     public void returnsTrueIfRouteExists() {
-        assertTrue(route.isExisting("/form", directory));
+        assertTrue(router.isExisting("/form", directory));
     }
 
     @Test
     public void returnsTrueIfItIsRedirect() {
-        assertTrue(route.isRedirect("/redirect"));
+        assertTrue(router.isRedirect("/redirect"));
     }
 
     @Test
     public void returnsTrueIfResourceIsInPublicDirectory() {
-        assertTrue(route.isInDirectory("/file.txt", directory));
+        assertTrue(router.isInDirectory("/file.txt", directory));
     }
 
     @Test
     public void returnsFalseIfPublicDirectoryIsEmpty() {
-        assertFalse(route.directoryHasContent("PUBLIC_DIR"));
+        assertFalse(router.directoryHasContent("PUBLIC_DIR"));
     }
 
     @Test
     public void returnsOptionsForRequestedRoute() {
-        assertEquals("GET,HEAD,POST,OPTIONS,PUT", route.optionsFor("/method_options"));
+        assertEquals("GET,HEAD,POST,OPTIONS,PUT", router.optionsFor("/method_options"));
     }
 }

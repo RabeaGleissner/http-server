@@ -20,12 +20,12 @@ public class RequestTest {
 
     @Test
     public void returnsHttpVerb() {
-        assertEquals(GET, simpleGetRequest.httpVerb());
+        assertEquals(GET, simpleGetRequest.httpVerb);
     }
 
     @Test
     public void returnsRoute() {
-        assertEquals("/", simpleGetRequest.route());
+        assertEquals("/", simpleGetRequest.route);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class RequestTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat");
-        assertEquals("data=fatcat", request.body());
+        assertEquals("data=fatcat", request.body);
     }
 
     @Test
@@ -48,12 +48,12 @@ public class RequestTest {
 
     @Test
     public void returnsUrlParams() {
-        assertEquals("code = hello\n", requestWithParams.urlParams());
+        assertEquals("code = hello\n", requestWithParams.urlParams);
     }
 
     @Test
     public void returnsRangeForReadingFileContent() {
         Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4");
-        assertEquals("0-4", request.range());
+        assertEquals("0-4", request.range);
     }
 }

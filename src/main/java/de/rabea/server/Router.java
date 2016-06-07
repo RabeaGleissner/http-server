@@ -8,11 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Route {
+public class Router {
 
     private final Map<String, List<HttpVerb>> existingRoutes;
 
-    public Route() {
+    public Router() {
         existingRoutes = new RouteConfiguration().existingRoutes();
     }
 

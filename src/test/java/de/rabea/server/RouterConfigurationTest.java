@@ -10,7 +10,7 @@ import java.util.Map;
 import static de.rabea.server.HttpVerb.*;
 import static org.junit.Assert.assertEquals;
 
-public class RouteConfigurationTest {
+public class RouterConfigurationTest {
 
     @Test
     public void returnsAvailableActionsForMethodsRoute() {

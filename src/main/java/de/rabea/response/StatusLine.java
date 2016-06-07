@@ -1,7 +1,7 @@
 package de.rabea.response;
 
 import de.rabea.request.Request;
-import de.rabea.server.Route;
+import de.rabea.server.Router;
 
 public class StatusLine {
 
@@ -31,7 +31,7 @@ public class StatusLine {
             return PARTIAL;
         }
 
-        if (new Route().isExisting(request.route(), directory)) {
+        if (new Router().isExisting(request.route, directory)) {
             return OK;
         } else {
             return NOT_FOUND;

@@ -3,12 +3,12 @@ package de.rabea.request;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-public class UrlParser {
+public class UriParser {
 
     private final String url;
     private final String parameterString;
 
-    public UrlParser(String url) {
+    public UriParser(String url) {
         this.url = url;
         this.parameterString = parameterString();
     }

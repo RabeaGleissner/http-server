@@ -1,7 +1,7 @@
 package de.rabea.response;
 
 import de.rabea.request.Request;
-import de.rabea.server.Route;
+import de.rabea.server.Router;
 
 import static de.rabea.server.HttpVerb.OPTIONS;
 
@@ -24,8 +24,8 @@ public class Header {
             return TEAPOT_HEADER;
         }
 
-        if (request.httpVerb() == OPTIONS) {
-            return "Allow: " + new Route().optionsFor(request.route()) + "\n";
+        if (request.httpVerb == OPTIONS) {
+            return "Allow: " + new Router().optionsFor(request.route) + "\n";
         } else {
             return "";
         }

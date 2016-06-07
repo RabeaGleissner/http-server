@@ -23,7 +23,7 @@ public class HttpServer {
 
     private Request handleIncoming(String directory, String incoming) {
         Request request = new Request(incoming);
-        contentStorage.update(request.route(), responseBody(directory, request), request.httpVerb());
+        contentStorage.update(request.route, responseBody(directory, request), request.httpVerb);
         return request;
     }
 

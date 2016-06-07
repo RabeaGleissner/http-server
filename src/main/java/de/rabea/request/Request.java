@@ -1,7 +1,7 @@
 package de.rabea.request;
 
 import de.rabea.server.HttpVerb;
-import de.rabea.server.Route;
+import de.rabea.server.Router;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -9,63 +9,80 @@ import java.util.List;
 
 public class Request {
 
-    private List<String> wordList;
-    private UrlParser urlParser;
+    public String body;
+    public String uri;
+    public HttpVerb httpVerb;
+    public String route;
+    public String range;
+    public String urlParams;
+    private List<String> components;
+    private UriParser uriParser;
     private String incoming;
-    private Route route;
+    private Router router;
 
     public Request(String incoming) {
         this.incoming = incoming;
-        this.route = new Route();
-        this.wordList = split();
-        this.urlParser = new UrlParser(url());
+        this.router = new Router();
+        this.components = split();
+        this.uriParser = new UriParser(uri());
+        this.httpVerb = httpVerb();
+        this.uri = uri();
+        this.body = body();
+        this.route = route();
+        this.range = range();
+        this.urlParams = urlParams();
     }
 
     public Request() {
     }
 
-    public HttpVerb httpVerb() {
-        return HttpVerb.convert(wordList.get(0));
+    public boolean hasBody() {
+        return !body.equals("");
     }
 
-    public String url() {
-        return wordList.get(1);
+    public boolean hasUrlParams() {
+        return uriParser.hasParams();
     }
 
-    public String route() {
-        return urlParser.route();
+    public boolean requestsPartialContent() {
+        return components.indexOf("Range:") != -1;
     }
 
-    public String body() {
+    public boolean isTeapot() {
+        return router.isTeaRoute(route);
+    }
+
+    public boolean isRedirect() {
+        return router.isRedirect(route);
+    }
+
+    private HttpVerb httpVerb() {
+        return HttpVerb.convert(components.get(0));
+    }
+
+    private String route() {
+        return uriParser.route();
+    }
+
+    private String body() {
         if (new InputParser().hasBody(incoming)) {
-            return wordList.get(wordList.size() -1);
+            return components.get(components.size() -1);
         } else {
             return "";
         }
     }
 
-    public boolean hasBody() {
-        return !body().equals("");
+    private String urlParams() {
+        return uriParser.parameters();
     }
 
-    public String urlParams() {
-        return urlParser.parameters();
+    private String range() {
+        String range = components.get(components.indexOf("Range:") + 1);
+        return range.substring(range.indexOf("=") + 1);
     }
 
-    public boolean hasUrlParams() {
-        return urlParser.hasParams();
-    }
-
-    public boolean requestsPartialContent() {
-        return wordList.indexOf("Range:") != -1;
-    }
-
-   public boolean isTeapot() {
-        return route.isTeaRoute(route());
-    }
-
-    public boolean isRedirect() {
-        return route.isRedirect(route());
+    private String uri() {
+        return components.get(1);
     }
 
     private List<String> split() {
@@ -76,10 +93,5 @@ public class Request {
             Collections.addAll(words, splitLine);
         }
         return words;
-    }
-
-    public String range() {
-        String range = wordList.get(wordList.indexOf("Range:") + 1);
-        return range.substring(range.indexOf("=") + 1);
     }
 }

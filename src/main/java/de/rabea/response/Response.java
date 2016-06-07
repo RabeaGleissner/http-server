@@ -16,7 +16,7 @@ public class Response {
     }
 
     public byte[] body() {
-        return contentStorage.bodyFor(request.route());
+        return contentStorage.bodyFor(request.route);
     }
 
     public String head() {

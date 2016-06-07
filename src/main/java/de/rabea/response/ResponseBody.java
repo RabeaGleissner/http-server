@@ -2,20 +2,20 @@ package de.rabea.response;
 
 import de.rabea.request.FileParser;
 import de.rabea.request.Request;
-import de.rabea.server.Route;
+import de.rabea.server.Router;
 
 public class ResponseBody {
 
     private final String receivedMessage;
     private final String directory;
     private final Request request;
-    private final Route route;
+    private final Router router;
 
     public ResponseBody(Request request, String directory) {
         this.request = request;
         this.directory = directory;
         this.receivedMessage = receivedMessage();
-        this.route = new Route();
+        this.router = new Router();
     }
 
     public byte[] create() {
@@ -35,9 +35,9 @@ public class ResponseBody {
 
     public String receivedMessage() {
         if (request.hasBody()) {
-            return request.body();
+            return request.body;
         } else if (request.hasUrlParams()) {
-            return request.urlParams();
+            return request.urlParams;
         } else {
             return "";
         }
@@ -46,7 +46,7 @@ public class ResponseBody {
     private byte[] listLinksToFiles() {
         if (showDirectoryContents()) {
             String links = "";
-            for (String file : route.directoryContents(directory)) {
+            for (String file : router.directoryContents(directory)) {
                 links += "<a href=/" + fileName(file) + ">" + fileName(file) + "</a>";
             }
             return links.getBytes();
@@ -57,24 +57,24 @@ public class ResponseBody {
     private byte[] readFileContent() {
         if (folderContainsRequestedFile()) {
             if (request.requestsPartialContent()) {
-                return new FileParser(directory + request.route(), request.range()).read();
+                return new FileParser(directory + request.route, request.range).read();
             } else {
-                return new FileParser(directory + request.route()).read();
+                return new FileParser(directory + request.route).read();
             }
         }
         return null;
     }
 
     private boolean folderContainsRequestedFile() {
-        return route.directoryContents(directory).contains(requestedFile());
+        return router.directoryContents(directory).contains(requestedFile());
     }
 
     private String requestedFile() {
-        return directory + request.route();
+        return directory + request.route;
     }
 
     private boolean directoryHasContent() {
-        return route.directoryHasContent(directory);
+        return router.directoryHasContent(directory);
     }
 
     private String fileName(String file) {
@@ -87,6 +87,6 @@ public class ResponseBody {
     }
 
     private boolean requestedRootRoute() {
-        return route.requestRoot(request.route());
+        return router.requestRoot(request.route);
     }
 }

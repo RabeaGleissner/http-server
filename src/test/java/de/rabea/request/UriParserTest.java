@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UrlParserTest {
+public class UriParserTest {
 
     private String params;
 
@@ -19,14 +19,14 @@ public class UrlParserTest {
 
     @Test
     public void returnsOneUrlParameter() {
-        UrlParser parser = new UrlParser("/parameter?say=hello");
+        UriParser parser = new UriParser("/parameter?say=hello");
         String parameter = "say = hello\n";
         assertEquals(parameter, parser.parameters());
     }
 
     @Test
     public void returnsTwoDecodedUrlParameters() {
-        UrlParser parser = new UrlParser("/parameters" + params);
+        UriParser parser = new UriParser("/parameters" + params);
         String decodedParameters = "variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $," +
                 " [, ]: \"is that all\"?\nvariable_2 = stuff";
         assertEquals(decodedParameters, parser.parameters());
@@ -34,19 +34,19 @@ public class UrlParserTest {
 
     @Test
     public void returnsTrueIfUrlParamsExist() {
-        UrlParser parser = new UrlParser("/parameters" + params);
+        UriParser parser = new UriParser("/parameters" + params);
         assertTrue(parser.hasParams());
     }
 
     @Test
     public void returnsEmptyStringIfUrlHasNoParams() {
-        UrlParser parser = new UrlParser("/no-params");
+        UriParser parser = new UriParser("/no-params");
         assertEquals("", parser.parameters());
     }
 
     @Test
     public void returnsUrlWithoutParameters() {
-        UrlParser parser = new UrlParser("/params?some=parameters");
+        UriParser parser = new UriParser("/params?some=parameters");
         assertEquals("/params", parser.route());
     }
 }
