@@ -8,23 +8,34 @@ public class RouteConfiguration {
 
     public Map<String, List<HttpVerb>> existingRoutes() {
         Map<String, List<HttpVerb>> existingRoutes = new HashMap<>();
-        for (Resource resource : Resource.values()) {
+        for (String resource : availableRoutes()) {
             List<HttpVerb> legalActions = associateActions(resource);
-            existingRoutes.put(resource.url(), legalActions);
+            existingRoutes.put(resource, legalActions);
         }
         return existingRoutes;
     }
 
-    private List<HttpVerb> associateActions(Resource resource) {
+    private String[] availableRoutes() {
+        return new String[]{
+                "/",
+                "/form",
+                "/method_options",
+                "/method_options2",
+                "/parameters", "/redirect",
+                "/tea"
+        };
+    }
+
+    private List<HttpVerb> associateActions(String resource) {
         List<HttpVerb> legalVerbs = new LinkedList<>();
         switch (resource) {
-            case FORM:
+            case "/form" :
                 legalVerbs.addAll(Arrays.asList(GET, POST, PUT, DELETE));
                 break;
-            case METHOD:
+            case "/method_options":
                 legalVerbs.addAll(Arrays.asList(GET, HEAD, POST, OPTIONS, PUT));
                 break;
-            case METHOD2:
+            case "/method_options2":
                 legalVerbs.addAll(Arrays.asList(GET, OPTIONS));
                 break;
             default:
