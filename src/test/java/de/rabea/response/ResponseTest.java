@@ -19,7 +19,7 @@ public class ResponseTest {
 
     @Test
     public void returnsResponseHeader() {
-        Response response = new Response(new Request("GET / HTTP/1.1"),
+        Response response = new Response(new Request("GET / HTTP/1.1" ),
                 "PUBLIC_DIR", new ContentStorage());
         assertEquals("HTTP/1.1 200 OK\n\n", response.head());
     }
