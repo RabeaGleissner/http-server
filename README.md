@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/RabeaGleissner/http-server.svg?branch=master)](https://travis-ci.org/RabeaGleissner/http-server)
 
-This server is following the specifications of 8th Light cob spec.
+This server is following the specifications of the [8th Light cob spec test suite](https://github.com/8thlight/cob_spec).
 
 ## Running instructions
 
@@ -19,12 +19,21 @@ You can also specify a port and a directory if you don't want to use the default
 You will get feedback in the console to see which port number and directory are used.
 
 
-## Running the tests
+## Running the unit tests
 
 You can run the unit tests with
 
 `mvn test`
 
-You can also run the [8th Light cob spec test suite](https://github.com/8thlight/cob_spec) against it. 
+## Running the cob spec test suite
 
-Instructions for running it are in the [repo's README](https://github.com/8thlight/cob_spec).
+Navigate into the folder `vendor/cob_spec`.
+
+Then type
+
+`mvn package`
+
+`java -jar fitnesse.jar -p 9090`
+
+The test suite will run on [http://localhost:9090/HttpTestSuite](http://localhost:9090/HttpTestSuite).
+
