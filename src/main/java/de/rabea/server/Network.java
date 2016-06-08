@@ -35,6 +35,19 @@ public class Network implements Connection {
         return requestBuilder;
     }
 
+    public void write(String head, byte[] body) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            sender.write(combinedHeadAndBody(head, body, out));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() throws IOException {
+        socket.close();
+    }
+
     private boolean isEmptyLine(String line) {
         return line.equals("");
     }
@@ -47,23 +60,6 @@ public class Network implements Connection {
             charAccumulator = charAccumulator + ((char) clientInputReader.read());
         }
         return charAccumulator;
-    }
-
-    public void write(String head, byte[] body) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            sender.write(combinedHeadAndBody(head, body, out));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private byte[] combinedHeadAndBody(String head, byte[] body, ByteArrayOutputStream out) throws IOException {

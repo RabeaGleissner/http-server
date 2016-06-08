@@ -5,6 +5,8 @@ import de.rabea.request.Request;
 import de.rabea.response.Response;
 import de.rabea.response.ResponseBody;
 
+import java.io.IOException;
+
 public class HttpServer {
 
     private final Connection connection;
@@ -19,7 +21,12 @@ public class HttpServer {
         Request request = handleIncoming(directory, connection.read());
         Response response = new Response(request, contentStorage);
         connection.write(response.head(), response.body());
-        connection.close();
+        try {
+            connection.close();
+        } catch (IOException e) {
+            System.out.println("Cannot close connection");
+            e.printStackTrace();
+        }
     }
 
     private Request handleIncoming(String directoryPath, String incoming) {

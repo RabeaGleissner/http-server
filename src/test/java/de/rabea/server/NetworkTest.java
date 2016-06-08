@@ -2,6 +2,9 @@ package de.rabea.server;
 
 import org.junit.Test;
 
+import java.io.*;
+import java.net.Socket;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -53,18 +56,44 @@ public class NetworkTest {
     }
 
     @Test
-    public void closesSocket() {
-        SocketStubSpy socketSpy = new SocketStubSpy();
+    public void closesSocket() throws IOException {
+        SocketSpy socketSpy = new SocketSpy();
         Network network = new Network(socketSpy);
         network.close();
         assertTrue(socketSpy.socketWasClosed);
     }
 
-    public class SocketStubSpy extends SocketStub {
+    public class SocketSpy extends SocketStub {
         public boolean socketWasClosed = false;
 
         public void close() {
             socketWasClosed = true;
+        }
+    }
+
+    @Test(expected = IOException.class)
+    public void socketThrowsIOExceptionWhenItCannotClose() throws IOException {
+        SocketWithException socket = new SocketWithException();
+        Network network = new Network(socket);
+        network.close();
+    }
+
+    public class SocketWithException extends Socket {
+
+        @Override
+        public void close() throws IOException {
+            throw new IOException();
+        }
+
+        @Override
+        public InputStream getInputStream() {
+            return new ByteArrayInputStream("".getBytes()) {
+            };
+        }
+
+        @Override
+        public OutputStream getOutputStream() {
+            return new ByteArrayOutputStream();
         }
     }
 }

@@ -4,6 +4,8 @@ import de.rabea.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 public class HttpServerTest {
@@ -15,7 +17,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returns200ForAGetRequestToEmptyDirectory() {
+    public void returns200ForAGetRequestToEmptyDirectory() throws IOException {
         NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage());
         httpServer.start("PUBLIC_DIR");
@@ -24,7 +26,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returns200AndDirectoryContentsForGetRequest() {
+    public void returns200AndDirectoryContentsForGetRequest() throws IOException {
         NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage());
         String file = "file.txt";
@@ -36,7 +38,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returnsFileContentInTheResponseBody() {
+    public void returnsFileContentInTheResponseBody() throws IOException {
         NetworkStub networkStub = new NetworkStub("GET /file.txt HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage());
         httpServer.start(directory);
@@ -45,7 +47,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returns405ForRequestWithIllegalMethod() {
+    public void returns405ForRequestWithIllegalMethod() throws IOException {
         NetworkStub networkStub = new NetworkStub("POST /file.txt HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage());
         httpServer.start(directory);
