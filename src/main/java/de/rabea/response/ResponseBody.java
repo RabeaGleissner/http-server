@@ -31,6 +31,10 @@ public class ResponseBody {
             byte[] urlsToFiles = listLinksToFiles();
             if (urlsToFiles != null) return urlsToFiles;
         }
+
+        if (router.routeNeedsAuthorisation(request.uri) && !request.authorisation.equals("")) {
+           return "GET /log HTTP/1.1\nPUT /these HTTP/1.1\nHEAD /requests HTTP/1.1".getBytes();
+        }
         return new byte[0];
     }
 

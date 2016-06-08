@@ -38,7 +38,7 @@ public class StatusLine {
             return NOT_ALLOWED;
         }
 
-        if (router.routeNeedsAuthorisation(request.uri)) {
+        if (router.routeNeedsAuthorisation(request.uri) && request.notAuthorised()) {
             return UNAUTHORIZED;
         }
 
@@ -46,7 +46,7 @@ public class StatusLine {
             return PARTIAL;
         }
 
-        if (request.knownUri()) {
+        if (request.knownUri() || request.isAuthorised()) {
             return OK;
         } else {
             return INTERNAL_SERVER_ERROR;

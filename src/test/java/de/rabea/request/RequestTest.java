@@ -60,7 +60,7 @@ public class RequestTest {
     }
 
     @Test
-    public void returnsAutorizationDetails() {
+    public void returnsAuthorisationDetails() {
         Request request = new Request("GET /logs HTTP/1.1\n" +
                 "Authorization: Basic YWRtaW46aHVudGVyMg==\n" +
                 "Host: localhost:5000\n" +
@@ -68,6 +68,11 @@ public class RequestTest {
                 "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
                 "Accept-Encoding: gzip,deflate\n", directory);
         assertEquals("Basic YWRtaW46aHVudGVyMg==", request.authorisation);
+    }
 
+    @Test
+    public void returnsEmptyStringIfRequestHasNoAuthorisation() {
+        Request request = new Request("GET /logs HTTP/1.1\n" , directory);
+        assertEquals("", request.authorisation);
     }
 }

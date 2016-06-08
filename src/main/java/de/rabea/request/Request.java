@@ -19,6 +19,7 @@ public class Request {
     private UriParser uriParser;
     private String incoming;
     private Router router;
+    private String AUTHORISATION_KEY = "Basic YWRtaW46aHVudGVyMg==";
 
     public Request(String incoming, Directory directory) {
         this.incoming = incoming;
@@ -108,7 +109,18 @@ public class Request {
     }
 
     private String authorisation() {
-        return components.get(components.indexOf("Authorization:") + 1) + " " + components.get(components.indexOf("Authorization:") + 2);
+        int index = components.indexOf("Authorization:");
+        if (index != -1) {
+            return components.get(index + 1) + " " + components.get(index + 2);
+        }
+        return "";
     }
 
+    public boolean notAuthorised() {
+        return authorisation.equals("");
+    }
+
+    public boolean isAuthorised() {
+        return authorisation.equals(AUTHORISATION_KEY);
+    }
 }
