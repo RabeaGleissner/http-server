@@ -3,9 +3,7 @@ package de.rabea.request;
 import de.rabea.server.HttpVerb;
 import de.rabea.server.Router;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Request {
 
@@ -16,6 +14,7 @@ public class Request {
     public String range;
     public String urlParams;
     public Directory directory;
+    public String authorisation;
     private List<String> components;
     private UriParser uriParser;
     private String incoming;
@@ -24,8 +23,8 @@ public class Request {
     public Request(String incoming, Directory directory) {
         this.incoming = incoming;
         this.directory = directory;
-        this.router = new Router(directory);
         this.components = split();
+        this.router = new Router(directory);
         this.uriParser = new UriParser(uri());
         this.httpVerb = httpVerb();
         this.uri = uri();
@@ -33,6 +32,7 @@ public class Request {
         this.route = route();
         this.range = range();
         this.urlParams = urlParams();
+        this.authorisation = authorisation();
     }
 
     public Request() {
@@ -40,6 +40,10 @@ public class Request {
 
     public boolean hasBody() {
         return !body.equals("");
+    }
+
+    public boolean knownUri() {
+        return router.isExisting(uri);
     }
 
     public boolean hasUrlParams() {
@@ -61,6 +65,7 @@ public class Request {
     private HttpVerb httpVerb() {
         return HttpVerb.convert(components.get(0));
     }
+
 
     private String route() {
         return uriParser.route();
@@ -88,7 +93,7 @@ public class Request {
     }
 
     private List<String> split() {
-        String[] lines = incoming.split("\n");
+        List<String> lines = splitIntoLines();
         List<String> words = new LinkedList<>();
         for (String line : lines) {
             String[] splitLine =  line.split(" ");
@@ -97,7 +102,13 @@ public class Request {
         return words;
     }
 
-    public boolean knownUri() {
-        return router.isExisting(uri);
+    private List<String> splitIntoLines() {
+        String[] lines = incoming.split("\n");
+        return Arrays.asList(lines);
     }
+
+    private String authorisation() {
+        return components.get(components.indexOf("Authorization:") + 1) + " " + components.get(components.indexOf("Authorization:") + 2);
+    }
+
 }

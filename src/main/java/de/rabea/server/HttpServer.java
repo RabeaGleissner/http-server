@@ -21,6 +21,7 @@ public class HttpServer {
     public void start(String directory) {
         Request request = handleIncoming(directory, connection.read());
         Response response = new Response(request, contentStorage);
+        System.out.println("response = " + response.head());
         connection.write(response.head(), response.body());
         try {
             connection.close();
@@ -30,6 +31,7 @@ public class HttpServer {
     }
 
     private Request handleIncoming(String directoryPath, String incoming) {
+        System.out.println("incoming = " + incoming);
         Request request = new Request(incoming, new Directory(directoryPath));
         contentStorage.update(request.route, responseBody(request), request.httpVerb);
         return request;
