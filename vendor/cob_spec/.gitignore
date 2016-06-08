@@ -1,0 +1,15 @@
+FitNesseRoot/files/testResults
+FitNesseRoot/RecentChanges/
+FitNesseRoot/ErrorLogs
+*.zip
+.bundle
+target/
+.idea/
+*.iml
+
+*.swp
+
+*.DS_Store
+.idea/
+CobSpec.iml
+target/
