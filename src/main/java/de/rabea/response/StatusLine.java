@@ -38,7 +38,7 @@ public class StatusLine {
             return NOT_ALLOWED;
         }
 
-        if (request.uri.equals("/logs")) {
+        if (router.routeNeedsAuthorisation(request.uri)) {
             return UNAUTHORIZED;
         }
 
