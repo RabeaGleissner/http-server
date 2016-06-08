@@ -25,7 +25,7 @@ public class Header {
         }
 
         if (request.httpVerb == OPTIONS) {
-            return "Allow: " + new Router().optionsFor(request.route) + "\n";
+            return "Allow: " + new Router(request.directory).optionsFor(request.route) + "\n";
         } else {
             return "";
         }

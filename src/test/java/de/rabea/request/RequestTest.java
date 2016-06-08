@@ -11,11 +11,13 @@ public class RequestTest {
 
     private Request simpleGetRequest;
     private Request requestWithParams;
+    private Directory directory;
 
     @Before
     public void setup() {
-        simpleGetRequest = new Request("GET / HTTP/1.1");
-        requestWithParams = new Request("GET /form?code=hello HTTP/1.1");
+        directory = new Directory("PUBLIC_DIR");
+        simpleGetRequest = new Request("GET / HTTP/1.1", directory);
+        requestWithParams = new Request("GET /form?code=hello HTTP/1.1", directory);
     }
 
     @Test
@@ -37,7 +39,7 @@ public class RequestTest {
                 "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
-                "data=fatcat");
+                "data=fatcat", directory);
         assertEquals("data=fatcat", request.body);
     }
 
@@ -53,7 +55,7 @@ public class RequestTest {
 
     @Test
     public void returnsRangeForReadingFileContent() {
-        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4");
+        Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", directory);
         assertEquals("0-4", request.range);
     }
 }

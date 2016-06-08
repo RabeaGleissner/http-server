@@ -1,26 +1,26 @@
 package de.rabea.response;
 
+import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import de.rabea.server.ContentStorage;
 import org.junit.Test;
 
 import static de.rabea.TestHelper.asString;
-import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
 public class ResponseTest {
 
     @Test
     public void returnsResponseBody() {
-        Response response = new Response(new RequestDummy(), directory(),
+        Response response = new Response(new RequestDummy(),
                 new ContentStorageStub());
         assertEquals("some content", asString(response.body()));
     }
 
     @Test
     public void returnsResponseHeader() {
-        Response response = new Response(new Request("GET / HTTP/1.1" ),
-                "PUBLIC_DIR", new ContentStorage());
+        Response response = new Response(new Request("GET / HTTP/1.1", new Directory("PUBLIC_DIR")),
+                new ContentStorage());
         assertEquals("HTTP/1.1 200 OK\n\n", response.head());
     }
 

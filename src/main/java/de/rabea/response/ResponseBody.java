@@ -8,17 +8,15 @@ import de.rabea.server.Router;
 public class ResponseBody {
 
     private final String receivedMessage;
-    private final String directoryPath;
     private final Request request;
     private final Router router;
     private final Directory directory;
 
-    public ResponseBody(Request request, String directory) {
+    public ResponseBody(Request request) {
         this.request = request;
-        this.directoryPath = directory;
         this.receivedMessage = receivedMessage();
-        this.router = new Router();
-        this.directory = new Directory(directoryPath);
+        this.router = new Router(request.directory);
+        this.directory = request.directory;
     }
 
     public byte[] create() {
@@ -60,9 +58,9 @@ public class ResponseBody {
     private byte[] readFileContent() {
         if (folderContainsRequestedFile()) {
             if (request.requestsPartialContent()) {
-                return new FileParser(directoryPath + request.route, request.range).read();
+                return new FileParser(directory.path + request.route, request.range).read();
             } else {
-                return new FileParser(directoryPath + request.route).read();
+                return new FileParser(directory.path + request.route).read();
             }
         }
         return null;
@@ -73,7 +71,7 @@ public class ResponseBody {
     }
 
     private String requestedFile() {
-        return directoryPath + request.route;
+        return directory.path + request.route;
     }
 
     private boolean directoryHasContent() {
