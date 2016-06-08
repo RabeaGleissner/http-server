@@ -10,8 +10,8 @@ public class NetworkTest {
     @Test
     public void readsOneLineOfInputForSimpleGETRequest() {
         String request = "GET/form HTTP/1.1\n";
-        FakeSocket fakeSocket = new FakeSocket(request);
-        Network network = new Network(fakeSocket);
+        SocketStub socketStub = new SocketStub(request);
+        Network network = new Network(socketStub);
         assertEquals("GET/form HTTP/1.1\n", network.read());
     }
 
@@ -25,7 +25,7 @@ public class NetworkTest {
                 "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat";
-        Network network = new Network(new FakeSocket(request));
+        Network network = new Network(new SocketStub(request));
         String[] parsedRequestLines = network.read().split("\n");
         String lastLine = parsedRequestLines[parsedRequestLines.length -1];
         assertEquals("data=fatcat", lastLine);
@@ -39,28 +39,28 @@ public class NetworkTest {
                 "Connection: Keep-Alive\n" +
                 "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
                 "Accept-Encoding: gzip,deflate\n";
-        Network network = new Network(new FakeSocket(request));
+        Network network = new Network(new SocketStub(request));
         assertEquals(request, network.read());
     }
 
     @Test
     public void sendsHeaderAndBodyToClient() {
-        FakeSocket fakeSocket = new FakeSocket();
-        Network network = new Network(fakeSocket);
+        SocketStub socketStub = new SocketStub();
+        Network network = new Network(socketStub);
         String message = "hello!";
         network.write(message, "body".getBytes());
-        assertEquals("hello!body", fakeSocket.messageSent());
+        assertEquals("hello!body", socketStub.messageSent());
     }
 
     @Test
     public void closesSocket() {
-        SocketSpy socketSpy = new SocketSpy();
+        SocketStubSpy socketSpy = new SocketStubSpy();
         Network network = new Network(socketSpy);
         network.close();
         assertTrue(socketSpy.socketWasClosed);
     }
 
-    public class SocketSpy extends FakeSocket {
+    public class SocketStubSpy extends SocketStub {
         public boolean socketWasClosed = false;
 
         public void close() {

@@ -5,16 +5,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.Socket;
 
-public class FakeSocket extends Socket {
+public class SocketStub extends Socket {
 
     private final String message;
     private ByteArrayInputStream inputStream;
     private ByteArrayOutputStream outputStream;
 
-    public FakeSocket(String message) {
+    public SocketStub(String message) {
         this.message = message;
     }
-    public FakeSocket() {
+    public SocketStub() {
         this.message = "";
     }
 

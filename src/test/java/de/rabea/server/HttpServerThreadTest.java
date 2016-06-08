@@ -8,10 +8,10 @@ public class HttpServerThreadTest {
 
     @Test
     public void createsNewHttpServerWhichReturnsResponse() {
-        FakeNetwork fakeNetwork = new FakeNetwork("GET / HTTP/1.1");
-        HttpServerThread thread = new HttpServerThread(fakeNetwork, new ContentStorage());
+        NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1");
+        HttpServerThread thread = new HttpServerThread(networkStub, new ContentStorage());
         thread.start("PUBLIC_DIR");
 
-        assertEquals("HTTP/1.1 200 OK\n\n", fakeNetwork.returnedResponse);
+        assertEquals("HTTP/1.1 200 OK\n\n", networkStub.returnedResponse);
     }
 }
