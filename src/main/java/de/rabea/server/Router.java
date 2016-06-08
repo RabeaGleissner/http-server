@@ -5,6 +5,8 @@ import de.rabea.request.Directory;
 import java.util.List;
 import java.util.Map;
 
+import static de.rabea.server.HttpVerb.*;
+
 public class Router {
 
     private final Map<String, List<HttpVerb>> existingRoutes;
@@ -40,7 +42,17 @@ public class Router {
         return route.equals("/redirect");
     }
 
-    public boolean validMethod(HttpVerb verb, String uri) {
+    public boolean validMethod(HttpVerb requestedAction, String uri) {
+        if (isExisting(uri) && !directory.contains(uri)) {
+            List<HttpVerb> allowedMethods = existingRoutes.get(uri);
+            return (allowedMethods.contains(requestedAction));
+        } else if (directory.contains(uri)) {
+            return getRequestToFile(requestedAction, uri);
+        }
         return false;
+    }
+
+    private boolean getRequestToFile(HttpVerb requestedAction, String uri) {
+        return directory.contains(uri) && requestedAction == GET;
     }
 }

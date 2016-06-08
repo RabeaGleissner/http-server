@@ -96,4 +96,8 @@ public class Request {
         }
         return words;
     }
+
+    public boolean knownUri() {
+        return router.isExisting(uri);
+    }
 }

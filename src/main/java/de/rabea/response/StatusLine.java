@@ -1,22 +1,23 @@
 package de.rabea.response;
 
-import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import de.rabea.server.Router;
 
 public class StatusLine {
 
     private Request request;
-    private Directory directory;
+    private Router router;
     private final String REDIRECT = "302 Found\n";
     private final String TEAPOT = "418 I'm a teapot\n";
     private final String PARTIAL = "206 Partial Content\n";
     private final String OK = "200 OK\n";
     private final String NOT_FOUND = "404 Not Found\n";
+    private final String NOT_ALLOWED = "405 Method Not Allowed\n";
+    private final String INTERNAL_SERVER_ERROR = "500 Internal Server Error";
 
-    public StatusLine(Request request, Directory directory) {
+    public StatusLine(Request request) {
         this.request = request;
-        this.directory = directory;
+        this.router = new Router(request.directory);
     }
 
     public String generate() {
@@ -28,15 +29,26 @@ public class StatusLine {
             return TEAPOT;
         }
 
+        if (!request.knownUri()) {
+            return NOT_FOUND;
+        }
+
+        if (methodNotAllowed()) {
+            return NOT_ALLOWED;
+        }
+
         if (request.requestsPartialContent()) {
             return PARTIAL;
         }
 
-        if (new Router(directory).isExisting(request.route)) {
+        if (request.knownUri()) {
             return OK;
         } else {
-            return NOT_FOUND;
+            return INTERNAL_SERVER_ERROR;
         }
+    }
 
+    private boolean methodNotAllowed() {
+        return !router.validMethod(request.httpVerb, request.uri);
     }
 }

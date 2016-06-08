@@ -5,6 +5,7 @@ import de.rabea.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
 public class ResponseHeadTest {
@@ -43,6 +44,7 @@ public class ResponseHeadTest {
 
     @Test
     public void returns206ForPartialContent() {
+        Directory directory = new Directory(directory());
         ResponseHead responseHead = new ResponseHead(new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", directory));
         assertEquals(PROTOCOL + "206 Partial Content" + EMPTY_LINE, responseHead.generate());
     }

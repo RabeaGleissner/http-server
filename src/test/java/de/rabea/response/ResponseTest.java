@@ -32,8 +32,5 @@ public class ResponseTest {
     }
 
     private class RequestDummy extends Request {
-        public String route() {
-           return "";
-        }
     }
 }

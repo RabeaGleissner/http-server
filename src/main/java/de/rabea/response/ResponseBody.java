@@ -24,7 +24,7 @@ public class ResponseBody {
             return receivedMessage.getBytes();
         }
 
-        if (directoryHasContent()) {
+        if (directoryHasContent() && requestMethodAllowed()) {
             byte[] fileContent = readFileContent();
             if (fileContent != null) return fileContent;
 
@@ -81,6 +81,10 @@ public class ResponseBody {
     private String fileName(String file) {
         String[] folders = file.split("/");
         return folders[folders.length - 1];
+    }
+
+    private boolean requestMethodAllowed() {
+        return router.validMethod(request.httpVerb, request.uri);
     }
 
     private boolean showDirectoryContents() {

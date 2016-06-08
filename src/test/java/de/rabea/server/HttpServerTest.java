@@ -2,7 +2,6 @@ package de.rabea.server;
 
 import de.rabea.TestHelper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -46,7 +45,6 @@ public class HttpServerTest {
     }
 
     @Test
-    @Ignore
     public void returns405ForRequestWithIllegalMethod() {
         FakeNetwork fakeNetwork = new FakeNetwork("POST /file.txt HTTP/1.1");
         HttpServer httpServer = new HttpServer(fakeNetwork, new ContentStorage());
