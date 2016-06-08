@@ -5,12 +5,10 @@ import de.rabea.request.Request;
 public class ResponseHead {
 
     private Request request;
-    private String directory;
     private final String PROTOCOL = "HTTP/1.1 ";
 
-    public ResponseHead(Request request, String directory) {
+    public ResponseHead(Request request) {
         this.request = request;
-        this.directory = directory;
     }
 
     public String generate() {
@@ -22,6 +20,6 @@ public class ResponseHead {
     }
 
     public String statusLine() {
-        return new StatusLine(request, directory).generate();
+        return new StatusLine(request).generate();
     }
 }

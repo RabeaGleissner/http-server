@@ -43,4 +43,13 @@ public class HttpServerTest {
 
         assertEquals("HTTP/1.1 200 OK\n\nSome content", fakeNetwork.returnedResponse);
     }
+
+    @Test
+    public void returns405ForRequestWithIllegalMethod() {
+        FakeNetwork fakeNetwork = new FakeNetwork("POST /file.txt HTTP/1.1");
+        HttpServer httpServer = new HttpServer(fakeNetwork, new ContentStorage());
+        httpServer.start(directory);
+
+        assertEquals("HTTP/1.1 405 Method Not Allowed\n\n", fakeNetwork.returnedResponse);
+    }
 }

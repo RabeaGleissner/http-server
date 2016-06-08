@@ -15,14 +15,16 @@ public class Request {
     public String route;
     public String range;
     public String urlParams;
+    public Directory directory;
     private List<String> components;
     private UriParser uriParser;
     private String incoming;
     private Router router;
 
-    public Request(String incoming) {
+    public Request(String incoming, Directory directory) {
         this.incoming = incoming;
-        this.router = new Router();
+        this.directory = directory;
+        this.router = new Router(directory);
         this.components = split();
         this.uriParser = new UriParser(uri());
         this.httpVerb = httpVerb();
@@ -93,5 +95,9 @@ public class Request {
             Collections.addAll(words, splitLine);
         }
         return words;
+    }
+
+    public boolean knownUri() {
+        return router.isExisting(uri);
     }
 }

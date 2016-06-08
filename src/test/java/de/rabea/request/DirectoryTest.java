@@ -18,6 +18,6 @@ public class DirectoryTest {
     @Test
     public void returnsTrueIfResourceIsInPublicDirectory() {
         Directory directory = new Directory(directoryPath);
-        assertTrue(directory.isInDirectory("/file.txt"));
+        assertTrue(directory.contains("/file.txt"));
     }
 }
