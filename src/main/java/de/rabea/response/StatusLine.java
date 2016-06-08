@@ -13,7 +13,8 @@ public class StatusLine {
     private final String OK = "200 OK\n";
     private final String NOT_FOUND = "404 Not Found\n";
     private final String NOT_ALLOWED = "405 Method Not Allowed\n";
-    private final String INTERNAL_SERVER_ERROR = "500 Internal Server Error";
+    private final String INTERNAL_SERVER_ERROR = "500 Internal Server Error\n";
+    private final String UNAUTHORIZED = "401 Found\nWWW-Authenticate: Basic realm=\"Server logs\"\n";
 
     public StatusLine(Request request) {
         this.request = request;
@@ -35,6 +36,10 @@ public class StatusLine {
 
         if (methodNotAllowed()) {
             return NOT_ALLOWED;
+        }
+
+        if (request.uri.equals("/logs")) {
+            return UNAUTHORIZED;
         }
 
         if (request.requestsPartialContent()) {

@@ -54,4 +54,10 @@ public class ResponseHeadTest {
         ResponseHead responseHead = new ResponseHead(new Request("GET /redirect HTTP/1.1", directory));
         assertEquals(PROTOCOL + "302 Found\nLocation: http://localhost:5000/" + EMPTY_LINE, responseHead.generate());
     }
+
+    @Test
+    public void returns401ForUriWithAuthentication() {
+        ResponseHead responseHead = new ResponseHead(new Request("GET /logs HTTP/1.1", directory));
+        assertEquals(PROTOCOL + "401 Found\nWWW-Authenticate: Basic realm=\"Server logs\"" + EMPTY_LINE, responseHead.generate());
+    }
 }

@@ -22,7 +22,8 @@ public class RouteConfiguration {
                 "/method_options",
                 "/method_options2",
                 "/parameters", "/redirect",
-                "/tea"
+                "/tea",
+                "/logs"
         };
     }
 
