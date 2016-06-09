@@ -1,5 +1,7 @@
 package de.rabea.server;
 
+import de.rabea.server.exceptions.BufferedReaderException;
+import de.rabea.server.exceptions.SocketException;
 import org.junit.Test;
 
 import java.io.*;
@@ -73,26 +75,54 @@ public class NetworkTest {
 
     @Test(expected = SocketException.class)
     public void socketThrowsIOExceptionWhenItCannotClose() throws IOException {
-        SocketWithException socket = new SocketWithException();
+        SocketWithException socket = new SocketWithException("SocketException");
         Network network = new Network(socket);
         network.close();
     }
 
+    @Test(expected = SocketException.class)
+    public void throwsBufferedReaderException() throws IOException {
+        SocketWithException socket = new SocketWithException("InputStream");
+        Network network = new Network(socket);
+        network.createReader();
+    }
+
+    @Test(expected = SocketException.class)
+    public void throwsSocketExceptionWhenItCannotGetOutputStream() {
+        SocketWithException socket = new SocketWithException("OutputStream");
+        Network network = new Network(socket);
+        network.createSender();
+    }
+
     public class SocketWithException extends Socket {
 
-        @Override
-        public void close() throws IOException {
-            throw new IOException();
+        private String exceptionType;
+
+        public SocketWithException(String exceptionType) {
+            this.exceptionType = exceptionType;
         }
 
         @Override
-        public InputStream getInputStream() {
+        public void close() throws IOException {
+            if (exceptionType.equals("SocketException")) {
+                throw new IOException();
+            }
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            if (exceptionType.equals("InputStream")) {
+                throw new IOException();
+            }
             return new ByteArrayInputStream("".getBytes()) {
             };
         }
 
         @Override
-        public OutputStream getOutputStream() {
+        public OutputStream getOutputStream() throws IOException {
+            if (exceptionType.equals("OutputStream")) {
+                throw new IOException();
+            }
             return new ByteArrayOutputStream();
         }
     }

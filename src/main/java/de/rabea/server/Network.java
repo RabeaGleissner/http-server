@@ -1,6 +1,8 @@
 package de.rabea.server;
 
 import de.rabea.request.InputParser;
+import de.rabea.server.exceptions.BufferedReaderException;
+import de.rabea.server.exceptions.SocketException;
 
 import java.io.*;
 import java.net.Socket;
@@ -57,7 +59,7 @@ public class Network implements Connection {
         try {
             socket.close();
         } catch (IOException e) {
-            throw new SocketException("could not close socket: " + e.getMessage());
+            throw new SocketException("Could not close: " + e.getMessage());
         }
     }
 
@@ -81,21 +83,19 @@ public class Network implements Connection {
         return out.toByteArray();
     }
 
-    private BufferedReader createReader() {
+    public BufferedReader createReader() {
         try {
             return new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SocketException("Could not get InputStream" + e.getMessage());
         }
-        return null;
     }
 
-    private OutputStream createSender() {
+    public OutputStream createSender() {
         try {
             return new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SocketException("Could not get OutputStream" + e.getMessage());
         }
-        return null;
     }
 }

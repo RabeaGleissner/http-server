@@ -1,4 +1,4 @@
-package de.rabea.server;
+package de.rabea.server.exceptions;
 
 public class SocketException extends RuntimeException {
 
