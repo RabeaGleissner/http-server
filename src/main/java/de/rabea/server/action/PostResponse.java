@@ -1,6 +1,7 @@
-package de.rabea.server;
+package de.rabea.server.action;
 
 import de.rabea.request.Request;
+import de.rabea.server.Action;
 
 public class PostResponse implements Action {
 
@@ -14,8 +15,6 @@ public class PostResponse implements Action {
     public String response() {
         if (request.hasBody()) {
             return request.body;
-        } else if (request.hasUrlParams()) {
-            return request.urlParams;
         } else {
             return "";
         }

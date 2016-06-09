@@ -7,7 +7,6 @@ import de.rabea.server.Router;
 
 public class ResponseBody {
 
-    private String receivedMessage;
     private Request request;
     private Router router;
     private Directory directory;
@@ -19,7 +18,6 @@ public class ResponseBody {
 
     public ResponseBody(Request request) {
         this.request = request;
-        this.receivedMessage = receivedMessage();
         this.router = new Router(request.directory);
         this.directory = request.directory;
         this.response = "";
@@ -39,17 +37,6 @@ public class ResponseBody {
         }
 
         return new byte[0];
-    }
-
-
-    public String receivedMessage() {
-        if (request.hasBody()) {
-            return request.body;
-        } else if (request.hasUrlParams()) {
-            return request.urlParams;
-        } else {
-            return "";
-        }
     }
 
     private byte[] listLinksToFiles() {

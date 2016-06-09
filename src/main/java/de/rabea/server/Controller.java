@@ -11,10 +11,16 @@ public class Controller {
     public Controller(Request request, Log log) {
         this.request = request;
         this.log = log;
-        log.register(request.head());
+        logAllIncoming(request, log);
     }
 
     public Action action() {
         return new ActionCreator(request, log).create();
     }
+
+    private void logAllIncoming(Request request, Log log) {
+        log.register(request.head());
+    }
+
+
 }

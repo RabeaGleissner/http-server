@@ -1,6 +1,7 @@
-package de.rabea.server;
+package de.rabea.server.action;
 
 import de.rabea.request.Log;
+import de.rabea.server.Action;
 
 public class GetLogs implements Action {
 
