@@ -30,10 +30,6 @@ public class ResponseBody {
             return response.getBytes();
         }
 
-        if (!receivedMessage.equals("")) {
-            return receivedMessage.getBytes();
-        }
-
         if (directoryHasContent() && requestMethodAllowed()) {
             byte[] fileContent = readFileContent();
             if (fileContent != null) return fileContent;

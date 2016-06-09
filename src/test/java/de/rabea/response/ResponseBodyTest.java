@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import static de.rabea.TestHelper.asString;
 import static de.rabea.TestHelper.directory;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class ResponseBodyTest {
@@ -50,12 +49,6 @@ public class ResponseBodyTest {
     public void returnsEmptyStringIfItHasNotReceivedMessages() {
         ResponseBody body = new ResponseBody(getRequest);
         assertEquals("", body.receivedMessage());
-    }
-
-    @Test
-    public void returnsPostRequestBodyAsBytes() {
-        ResponseBody body = new ResponseBody(requestWithBody);
-        assertArrayEquals("data=fatcat".getBytes(), body.create());
     }
 
     @Test

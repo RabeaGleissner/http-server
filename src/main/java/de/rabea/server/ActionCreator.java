@@ -14,10 +14,20 @@ public class ActionCreator {
     }
 
     public Action create() {
-        if (request.asksForLogs()) {
+        if (requestForLogs()) {
             return new GetLogs(log);
+        } else if (postRequest()) {
+            return new PostResponse(request);
         } else {
             return new EmptyResponse();
         }
+    }
+
+    private boolean requestForLogs() {
+        return request.asksForLogs();
+    }
+
+    private boolean postRequest() {
+        return request.httpVerb == HttpVerb.POST;
     }
 }
