@@ -69,10 +69,21 @@ public class Request {
         return router.isRedirect(route);
     }
 
+    public boolean notAuthorised() {
+        return authorisation.equals("");
+    }
+
+    public boolean isAuthorised() {
+        return authorisation.equals(AUTHORISATION_KEY);
+    }
+
+    public boolean asksForLogs() {
+        return httpVerb == GET && route.equals("/logs");
+    }
+
     private HttpVerb httpVerb() {
         return convert(components.get(0));
     }
-
 
     private String route() {
         return uriParser.route();
@@ -120,17 +131,5 @@ public class Request {
             return components.get(index + 1) + " " + components.get(index + 2);
         }
         return "";
-    }
-
-    public boolean notAuthorised() {
-        return authorisation.equals("");
-    }
-
-    public boolean isAuthorised() {
-        return authorisation.equals(AUTHORISATION_KEY);
-    }
-
-    public boolean askForLogs() {
-        return httpVerb == GET && route.equals("/logs");
     }
 }

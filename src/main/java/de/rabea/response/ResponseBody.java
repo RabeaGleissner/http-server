@@ -2,35 +2,34 @@ package de.rabea.response;
 
 import de.rabea.request.Directory;
 import de.rabea.request.FileParser;
-import de.rabea.request.Log;
 import de.rabea.request.Request;
 import de.rabea.server.Router;
 
 public class ResponseBody {
 
-    private final String receivedMessage;
-    private final Request request;
-    private final Router router;
-    private final Directory directory;
-    private final Log log;
+    private String receivedMessage;
+    private Request request;
+    private Router router;
+    private Directory directory;
+    private String response;
+
+    public ResponseBody(String response) {
+        this.response = response;
+    }
 
     public ResponseBody(Request request) {
         this.request = request;
-        this.log = new Log();
         this.receivedMessage = receivedMessage();
         this.router = new Router(request.directory);
         this.directory = request.directory;
-    }
-
-    public ResponseBody(Request request, Log log) {
-        this.request = request;
-        this.log = log;
-        this.receivedMessage = receivedMessage();
-        this.router = new Router(request.directory);
-        this.directory = request.directory;
+        this.response = "";
     }
 
     public byte[] create() {
+        if (!response.equals("")) {
+            return response.getBytes();
+        }
+
         if (!receivedMessage.equals("")) {
             return receivedMessage.getBytes();
         }
@@ -43,11 +42,9 @@ public class ResponseBody {
             if (urlsToFiles != null) return urlsToFiles;
         }
 
-        if (log.available() && request.askForLogs()) {
-            return log.show().getBytes();
-        }
         return new byte[0];
     }
+
 
     public String receivedMessage() {
         if (request.hasBody()) {

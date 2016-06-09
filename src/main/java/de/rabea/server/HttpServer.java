@@ -36,15 +36,19 @@ public class HttpServer {
         }
     }
 
-    private Request handleIncoming(String directoryPath, String incoming) {
+    public Request handleIncoming(String directoryPath, String incoming) {
         Request request = new Request(incoming, new Directory(directoryPath));
-        String head = request.head();
-        log.register(head);
-        contentStorage.update(request.route, responseBody(request), request.httpVerb);
+        contentStorage.update(request.route,
+                responseBody(request, new Controller(request, log)),
+                request.httpVerb);
         return request;
     }
 
-    private byte[] responseBody(Request request) {
-        return new ResponseBody(request, log).create();
+    private byte[] responseBody(Request request, Controller controller) {
+        if (!controller.response().equals("")) {
+            String res = controller.response();
+           return new ResponseBody(res).create();
+        }
+        return new ResponseBody(request).create();
     }
 }

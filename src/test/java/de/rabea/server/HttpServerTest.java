@@ -65,4 +65,14 @@ public class HttpServerTest {
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
         httpServer.start("PUBLIC_DIR");
     }
+
+    @Test
+    public void returnsLogsForAuthorisedRequest() {
+        NetworkStub networkStub = new NetworkStub ("GET /logs HTTP/1.1\n" +
+                "Authorization: Basic YWRtaW46aHVudGVyMg==\n");
+        HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
+        httpServer.start("PUBLIC_DIR");
+
+        assertEquals("HTTP/1.1 200 OK\n\n" + "GET /logs HTTP/1.1\n", networkStub.returnedResponse);
+    }
 }

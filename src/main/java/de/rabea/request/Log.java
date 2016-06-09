@@ -21,8 +21,4 @@ public class Log {
         }
         return logs;
     }
-
-    public boolean available() {
-        return !show().equals("");
-    }
 }
