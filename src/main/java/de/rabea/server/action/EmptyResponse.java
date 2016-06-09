@@ -5,7 +5,7 @@ import de.rabea.server.Action;
 public class EmptyResponse implements Action {
 
     @Override
-    public String response() {
-        return "";
+    public byte[] response() {
+        return "".getBytes();
     }
 }

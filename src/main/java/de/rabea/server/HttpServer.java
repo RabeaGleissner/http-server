@@ -4,7 +4,6 @@ import de.rabea.request.Directory;
 import de.rabea.request.Log;
 import de.rabea.request.Request;
 import de.rabea.response.Response;
-import de.rabea.response.ResponseBody;
 import de.rabea.server.exceptions.SocketException;
 
 import java.io.IOException;
@@ -37,21 +36,15 @@ public class HttpServer {
     }
 
     public Request handleIncoming(String directoryPath, String incoming) {
-//        System.out.println("incoming = " + incoming);
         Request request = new Request(incoming, new Directory(directoryPath));
         contentStorage.update(request.route,
-                responseBody(request, new Controller(request, log)),
+                responseBody(new Controller(request, log)),
                 request.httpVerb);
         return request;
     }
 
-    private byte[] responseBody(Request request, Controller controller) {
+    private byte[] responseBody(Controller controller) {
         Action action = controller.action();
-        String response =  action.response();
-
-        if (!response.equals("")) {
-           return new ResponseBody(action.response()).create();
-        }
-        return new ResponseBody(request).create();
+           return action.response();
     }
 }

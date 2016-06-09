@@ -12,7 +12,11 @@ public class Params implements Action {
     }
 
     @Override
-    public String response() {
+    public byte[] response() {
+        return paramsAsBody().getBytes();
+    }
+
+    private String paramsAsBody() {
         if (request.hasUrlParams()) {
             return request.urlParams;
         } else {

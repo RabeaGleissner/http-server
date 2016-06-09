@@ -25,6 +25,8 @@ public class ActionCreator {
             return new Params(request);
         } else if (showDirectoryContents()) {
             return new DirectoryContent(request.directory);
+        } else if (directoryHasContent() && requestMethodAllowed()) {
+            return new FileContent(request.route, request.range, request.directory, request.requestsPartialContent());
         } else {
             return new EmptyResponse();
         }
@@ -32,11 +34,6 @@ public class ActionCreator {
 
     private boolean directoryHasContent() {
         return request.directory.containsContent();
-    }
-
-    private String fileName(String file) {
-        String[] folders = file.split("/");
-        return folders[folders.length - 1];
     }
 
     private boolean requestMethodAllowed() {

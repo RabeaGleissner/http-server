@@ -12,8 +12,8 @@ public class DirectoryContent implements Action {
     }
 
     @Override
-    public String response() {
-        return listLinksToFiles();
+    public byte[] response() {
+        return listLinksToFiles().getBytes();
     }
 
     private String listLinksToFiles() {

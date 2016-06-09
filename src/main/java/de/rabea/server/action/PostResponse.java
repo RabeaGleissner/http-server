@@ -12,7 +12,11 @@ public class PostResponse implements Action {
     }
 
     @Override
-    public String response() {
+    public byte[] response() {
+        return returnBody().getBytes();
+    }
+
+    private String returnBody() {
         if (request.hasBody()) {
             return request.body;
         } else {

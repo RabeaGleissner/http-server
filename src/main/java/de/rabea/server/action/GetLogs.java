@@ -12,7 +12,7 @@ public class GetLogs implements Action {
     }
 
     @Override
-    public String response() {
-        return log.show();
+    public byte[] response() {
+        return log.show().getBytes();
     }
 }
