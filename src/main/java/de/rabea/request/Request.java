@@ -5,6 +5,8 @@ import de.rabea.server.Router;
 
 import java.util.*;
 
+import static de.rabea.server.HttpVerb.*;
+
 public class Request {
 
     public String body;
@@ -39,6 +41,10 @@ public class Request {
     public Request() {
     }
 
+    public String head() {
+        return splitIntoLines().get(0);
+    }
+
     public boolean hasBody() {
         return !body.equals("");
     }
@@ -64,7 +70,7 @@ public class Request {
     }
 
     private HttpVerb httpVerb() {
-        return HttpVerb.convert(components.get(0));
+        return convert(components.get(0));
     }
 
 
@@ -122,5 +128,9 @@ public class Request {
 
     public boolean isAuthorised() {
         return authorisation.equals(AUTHORISATION_KEY);
+    }
+
+    public boolean askForLogs() {
+        return httpVerb == GET && route.equals("/logs");
     }
 }

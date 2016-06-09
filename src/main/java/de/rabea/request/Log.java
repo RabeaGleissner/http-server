@@ -11,10 +11,18 @@ public class Log {
     }
 
     public void register(String requestHead) {
-
+        requests.add(requestHead);
     }
 
     public String show() {
-        return null;
+        String logs = "";
+        for (String request : requests) {
+           logs += request + "\n";
+        }
+        return logs;
+    }
+
+    public boolean available() {
+        return !show().equals("");
     }
 }

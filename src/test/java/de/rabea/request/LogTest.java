@@ -10,6 +10,6 @@ public class LogTest {
         Log log = new Log();
         log.register("request one");
         log.register("request two");
-        assertEquals("request one\n request two", log.show());
+        assertEquals("request one\nrequest two\n", log.show());
     }
 }
