@@ -32,8 +32,8 @@ public class ResponseBody {
             byte[] fileContent = readFileContent();
             if (fileContent != null) return fileContent;
 
-            byte[] urlsToFiles = listLinksToFiles();
-            if (urlsToFiles != null) return urlsToFiles;
+//            byte[] urlsToFiles = listLinksToFiles();
+//            if (urlsToFiles != null) return urlsToFiles;
         }
 
         return new byte[0];

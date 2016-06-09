@@ -15,6 +15,7 @@ public class ControllerTest {
     private Request requestWithParams;
     private Request requestToFile;
     private Request getRequest;
+    private Request getRequestWithEmptyDirectory;
     private Directory directory;
 
     @Before
@@ -27,6 +28,7 @@ public class ControllerTest {
                 "data=fatcat", directory);
         requestWithParams = new Request("GET /parameters?code=hello HTTP/1.1", directory);
         requestToFile = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", directory);
+        getRequestWithEmptyDirectory = new Request("GET / HTTP/1.1", new Directory("PUBLIC_DIR"));
         getRequest = new Request("GET / HTTP/1.1", directory);
     }
 
@@ -50,7 +52,13 @@ public class ControllerTest {
 
     @Test
     public void returnsEmptyStringIfItHasNotReceivedMessages() {
-        Controller controller = new Controller(getRequest, new Log());
+        Controller controller = new Controller(getRequestWithEmptyDirectory, new Log());
         assertEquals("", controller.action().response());
+    }
+
+    @Test
+    public void returnsLinksToFilesInDirectory() {
+        Controller controller = new Controller(getRequest, new Log());
+        assertEquals("<a href=/file.txt>file.txt</a>", controller.action().response());
     }
 }
