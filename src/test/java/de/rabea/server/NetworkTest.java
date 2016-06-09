@@ -71,7 +71,7 @@ public class NetworkTest {
         }
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = SocketException.class)
     public void socketThrowsIOExceptionWhenItCannotClose() throws IOException {
         SocketWithException socket = new SocketWithException();
         Network network = new Network(socket);

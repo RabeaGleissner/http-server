@@ -21,10 +21,10 @@ public class HttpServer {
         Request request = handleIncoming(directory, connection.read());
         Response response = new Response(request, contentStorage);
         connection.write(response.head(), response.body());
+        // catch all exceptions here and return 500
         try {
             connection.close();
         } catch (IOException e) {
-            System.out.println("Cannot close connection");
             e.printStackTrace();
         }
     }

@@ -20,17 +20,26 @@ public class Network implements Connection {
     public String read() {
         InputParser parser = new InputParser();
         String requestBuilder = "";
-        String line;
+        return readRequest(parser, requestBuilder);
+    }
+
+    private String readRequest(InputParser parser, String requestBuilder) {
         try {
-            while ((line = clientInputReader.readLine()) != null) {
-                requestBuilder += (line + "\n");
-                if (isEmptyLine(line)) {
-                    requestBuilder += readBody(parser, requestBuilder);
-                    break;
-                }
-            }
+            requestBuilder = readLines(parser, requestBuilder);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return requestBuilder;
+    }
+
+    private String readLines(InputParser parser, String requestBuilder) throws IOException {
+        String line;
+        while ((line = clientInputReader.readLine()) != null) {
+            requestBuilder += (line + "\n");
+            if (isEmptyLine(line)) {
+                requestBuilder += readBody(parser, requestBuilder);
+                break;
+            }
         }
         return requestBuilder;
     }
@@ -44,8 +53,12 @@ public class Network implements Connection {
         }
     }
 
-    public void close() throws IOException {
-        socket.close();
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new SocketException("could not close socket: " + e.getMessage());
+        }
     }
 
     private boolean isEmptyLine(String line) {
