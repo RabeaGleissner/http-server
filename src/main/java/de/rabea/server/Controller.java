@@ -14,11 +14,7 @@ public class Controller {
         log.register(request.head());
     }
 
-    public String response() {
-        if (request.asksForLogs()) {
-            return log.show();
-        } else {
-            return "";
-        }
+    public Action action() {
+        return new ActionCreator(request, log).create();
     }
 }

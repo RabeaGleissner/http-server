@@ -37,6 +37,7 @@ public class HttpServer {
     }
 
     public Request handleIncoming(String directoryPath, String incoming) {
+//        System.out.println("incoming = " + incoming);
         Request request = new Request(incoming, new Directory(directoryPath));
         contentStorage.update(request.route,
                 responseBody(request, new Controller(request, log)),
@@ -45,9 +46,11 @@ public class HttpServer {
     }
 
     private byte[] responseBody(Request request, Controller controller) {
-        if (!controller.response().equals("")) {
-            String res = controller.response();
-           return new ResponseBody(res).create();
+        Action action = controller.action();
+        String response =  action.response();
+
+        if (!response.equals("")) {
+           return new ResponseBody(action.response()).create();
         }
         return new ResponseBody(request).create();
     }
