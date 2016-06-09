@@ -1,6 +1,5 @@
 package de.rabea.server;
 
-import de.rabea.server.exceptions.BufferedReaderException;
 import de.rabea.server.exceptions.SocketException;
 import org.junit.Test;
 
@@ -75,43 +74,43 @@ public class NetworkTest {
 
     @Test(expected = SocketException.class)
     public void socketThrowsIOExceptionWhenItCannotClose() throws IOException {
-        SocketWithException socket = new SocketWithException("SocketException");
+        SocketWithException socket = new SocketWithException("close");
         Network network = new Network(socket);
         network.close();
     }
 
     @Test(expected = SocketException.class)
     public void throwsBufferedReaderException() throws IOException {
-        SocketWithException socket = new SocketWithException("InputStream");
+        SocketWithException socket = new SocketWithException("getInputStream");
         Network network = new Network(socket);
         network.createReader();
     }
 
     @Test(expected = SocketException.class)
     public void throwsSocketExceptionWhenItCannotGetOutputStream() {
-        SocketWithException socket = new SocketWithException("OutputStream");
+        SocketWithException socket = new SocketWithException("getOutputStream");
         Network network = new Network(socket);
         network.createSender();
     }
 
     public class SocketWithException extends Socket {
 
-        private String exceptionType;
+        private String method;
 
-        public SocketWithException(String exceptionType) {
-            this.exceptionType = exceptionType;
+        public SocketWithException(String method) {
+            this.method = method;
         }
 
         @Override
         public void close() throws IOException {
-            if (exceptionType.equals("SocketException")) {
+            if (method.equals("close")) {
                 throw new IOException();
             }
         }
 
         @Override
         public InputStream getInputStream() throws IOException {
-            if (exceptionType.equals("InputStream")) {
+            if (method.equals("getInputStream")) {
                 throw new IOException();
             }
             return new ByteArrayInputStream("".getBytes()) {
@@ -120,7 +119,7 @@ public class NetworkTest {
 
         @Override
         public OutputStream getOutputStream() throws IOException {
-            if (exceptionType.equals("OutputStream")) {
+            if (method.equals("getOutputStream")) {
                 throw new IOException();
             }
             return new ByteArrayOutputStream();

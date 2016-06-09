@@ -4,6 +4,7 @@ import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import de.rabea.response.Response;
 import de.rabea.response.ResponseBody;
+import de.rabea.server.exceptions.SocketException;
 
 import java.io.IOException;
 
@@ -21,11 +22,10 @@ public class HttpServer {
         Request request = handleIncoming(directory, connection.read());
         Response response = new Response(request, contentStorage);
         connection.write(response.head(), response.body());
-        // catch all exceptions here and return 500
         try {
             connection.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SocketException("Could not close: " + e.getMessage());
         }
     }
 

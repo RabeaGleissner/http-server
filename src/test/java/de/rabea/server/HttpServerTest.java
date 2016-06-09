@@ -1,6 +1,7 @@
 package de.rabea.server;
 
 import de.rabea.TestHelper;
+import de.rabea.server.exceptions.SocketException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,5 +54,12 @@ public class HttpServerTest {
         httpServer.start(directory);
 
         assertEquals("HTTP/1.1 405 Method Not Allowed\n\n", networkStub.returnedResponse);
+    }
+
+    @Test(expected = SocketException.class)
+    public void throwsSocketExceptionWhenItCannotCloseSocket() throws IOException {
+        NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1", "throw exception");
+        HttpServer httpServer = new HttpServer(networkStub, new ContentStorage());
+        httpServer.start("PUBLIC_DIR");
     }
 }

@@ -1,7 +1,6 @@
 package de.rabea.server;
 
 import de.rabea.request.InputParser;
-import de.rabea.server.exceptions.BufferedReaderException;
 import de.rabea.server.exceptions.SocketException;
 
 import java.io.*;
@@ -20,21 +19,21 @@ public class Network implements Connection {
     }
 
     public String read() {
-        InputParser parser = new InputParser();
-        String requestBuilder = "";
-        return readRequest(parser, requestBuilder);
+        return readRequest(new InputParser());
     }
 
-    private String readRequest(InputParser parser, String requestBuilder) {
+    private String readRequest(InputParser parser) {
+        String request = "";
         try {
-            requestBuilder = readLines(parser, requestBuilder);
+            request = readLines(parser);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return requestBuilder;
+        return request;
     }
 
-    private String readLines(InputParser parser, String requestBuilder) throws IOException {
+    private String readLines(InputParser parser) throws IOException {
+        String requestBuilder = "";
         String line;
         while ((line = clientInputReader.readLine()) != null) {
             requestBuilder += (line + "\n");
@@ -63,6 +62,22 @@ public class Network implements Connection {
         }
     }
 
+    public BufferedReader createReader() {
+        try {
+            return new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (IOException e) {
+            throw new SocketException("Could not get InputStream" + e.getMessage());
+        }
+    }
+
+    public OutputStream createSender() {
+        try {
+            return new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            throw new SocketException("Could not get OutputStream" + e.getMessage());
+        }
+    }
+
     private boolean isEmptyLine(String line) {
         return line.equals("");
     }
@@ -81,21 +96,5 @@ public class Network implements Connection {
         out.write(head.getBytes());
         out.write(body);
         return out.toByteArray();
-    }
-
-    public BufferedReader createReader() {
-        try {
-            return new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            throw new SocketException("Could not get InputStream" + e.getMessage());
-        }
-    }
-
-    public OutputStream createSender() {
-        try {
-            return new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            throw new SocketException("Could not get OutputStream" + e.getMessage());
-        }
     }
 }
