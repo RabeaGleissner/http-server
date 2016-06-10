@@ -15,7 +15,7 @@ public class HttpServer {
     private final ContentStorage contentStorage;
     private Log log;
 
-    public HttpServer(Connection connection, ContentStorage contentStorage) {
+    private HttpServer(Connection connection, ContentStorage contentStorage) {
         this.connection = connection;
         this.contentStorage = contentStorage;
     }

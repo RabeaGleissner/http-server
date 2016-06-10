@@ -7,8 +7,8 @@ import de.rabea.response.ResponseBodyCreator;
 
 public class Controller {
 
-    private Request request;
-    private Log log;
+    private final Request request;
+    private final Log log;
 
     public Controller(Request request, Log log) {
         this.request = request;

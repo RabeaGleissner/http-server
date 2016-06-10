@@ -5,8 +5,8 @@ import de.rabea.server.Router;
 
 public class StatusLine {
 
-    private Request request;
-    private Router router;
+    private final Request request;
+    private final Router router;
     private final String REDIRECT = "302 Found\n";
     private final String TEAPOT = "418 I'm a teapot\n";
     private final String PARTIAL = "206 Partial Content\n";

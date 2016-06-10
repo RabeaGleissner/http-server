@@ -47,7 +47,7 @@ public class ContentStorage {
         }
     }
 
-    public void deleteFor(String url) {
+    private void deleteFor(String url) {
         storage.remove(url);
     }
 

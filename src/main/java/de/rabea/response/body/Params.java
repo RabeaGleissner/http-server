@@ -5,7 +5,7 @@ import de.rabea.response.ResponseBody;
 
 public class Params implements ResponseBody {
 
-    private Request request;
+    private final Request request;
 
     public Params(Request request) {
         this.request = request;

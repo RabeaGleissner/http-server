@@ -28,7 +28,8 @@ public class ResponseBodyCreator {
         } else if (showDirectoryContents()) {
             return new DirectoryContent(request.directory);
         } else if (directoryHasContent() && requestMethodAllowed()) {
-            return new FileContent(request.route, request.range, request.directory, request.requestsPartialContent());
+            return new FileContent(request.route, request.range,
+                    request.directory, request.requestsPartialContent());
         } else {
             return new EmptyResponse();
         }

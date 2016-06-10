@@ -11,7 +11,7 @@ public class Router {
 
     private final Map<String, List<HttpVerb>> existingRoutes;
     private final RouteConfiguration routeConfiguration;
-    private Directory directory;
+    private final Directory directory;
 
     public Router(Directory directory) {
         this.routeConfiguration = new RouteConfiguration();

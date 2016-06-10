@@ -5,8 +5,8 @@ import de.rabea.server.ContentStorage;
 
 public class Response {
 
-    private Request request;
-    private ContentStorage contentStorage;
+    private final Request request;
+    private final ContentStorage contentStorage;
 
     public Response(Request request, ContentStorage contentStorage) {
         this.request = request;

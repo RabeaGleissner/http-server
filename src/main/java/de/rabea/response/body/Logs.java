@@ -5,7 +5,7 @@ import de.rabea.response.ResponseBody;
 
 public class Logs implements ResponseBody {
 
-    private Log log;
+    private final Log log;
 
     public Logs(Log log) {
         this.log = log;

@@ -6,7 +6,7 @@ public class HttpServerThread extends Thread {
 
     private final Connection connection;
     private final ContentStorage contentStorage;
-    private Log log;
+    private final Log log;
 
     public HttpServerThread(Connection connection, ContentStorage contentStorage, Log log) {
         this.connection = connection;

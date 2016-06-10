@@ -5,7 +5,7 @@ import de.rabea.response.ResponseBody;
 
 public class DirectoryContent implements ResponseBody {
 
-    private Directory directory;
+    private final Directory directory;
 
     public DirectoryContent(Directory directory) {
         this.directory = directory;

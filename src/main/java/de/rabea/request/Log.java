@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Log {
 
-    private List<String> requests;
+    private final List<String> requests;
     public Log() {
         this.requests =  new LinkedList<>();
     }
