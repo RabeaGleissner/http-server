@@ -74,43 +74,71 @@ public class NetworkTest {
 
     @Test(expected = SocketException.class)
     public void socketThrowsIOExceptionWhenItCannotClose() throws IOException {
-        SocketWithException socket = new SocketWithException("close");
+        SocketWithException socket = new SocketWithException().throwExceptionForClose();
         Network network = new Network(socket);
         network.close();
     }
 
     @Test(expected = SocketException.class)
     public void throwsBufferedReaderException() throws IOException {
-        SocketWithException socket = new SocketWithException("getInputStream");
+        SocketWithException socket = new SocketWithException().throwExceptionForInputStream();
         Network network = new Network(socket);
         network.createReader();
     }
 
     @Test(expected = SocketException.class)
     public void throwsSocketExceptionWhenItCannotGetOutputStream() {
-        SocketWithException socket = new SocketWithException("getOutputStream");
+        SocketWithException socket = new SocketWithException().throwExceptionForOutputStream();
         Network network = new Network(socket);
         network.createSender();
     }
 
     public class SocketWithException extends Socket {
 
-        private String method;
+        private boolean inputStreamException;
+        private boolean outputStreamException;
+        private boolean exceptionForClose;
 
-        public SocketWithException(String method) {
-            this.method = method;
+        public SocketWithException() {
+        }
+
+        public SocketWithException(boolean closeException, boolean inputStreamException, boolean outputStreamException) {
+            this.exceptionForClose = closeException;
+            this.inputStreamException = inputStreamException;
+            this.outputStreamException = outputStreamException;
+        }
+
+        public SocketWithException throwExceptionForClose() {
+            exceptionForClose = true;
+            inputStreamException = false;
+            outputStreamException = false;
+            return new SocketWithException(exceptionForClose, inputStreamException, outputStreamException);
+        }
+
+        public SocketWithException throwExceptionForOutputStream() {
+            exceptionForClose = false;
+            inputStreamException = false;
+            outputStreamException = true;
+            return new SocketWithException(exceptionForClose, inputStreamException, outputStreamException);
+        }
+
+        public SocketWithException throwExceptionForInputStream() {
+            exceptionForClose = false;
+            inputStreamException = true;
+            outputStreamException = false;
+            return new SocketWithException(exceptionForClose, inputStreamException, outputStreamException);
         }
 
         @Override
         public void close() throws IOException {
-            if (method.equals("close")) {
+            if (exceptionForClose) {
                 throw new IOException();
             }
         }
 
         @Override
         public InputStream getInputStream() throws IOException {
-            if (method.equals("getInputStream")) {
+            if (inputStreamException) {
                 throw new IOException();
             }
             return new ByteArrayInputStream("".getBytes()) {
@@ -119,7 +147,7 @@ public class NetworkTest {
 
         @Override
         public OutputStream getOutputStream() throws IOException {
-            if (method.equals("getOutputStream")) {
+            if (outputStreamException) {
                 throw new IOException();
             }
             return new ByteArrayOutputStream();

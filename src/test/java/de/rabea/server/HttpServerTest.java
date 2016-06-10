@@ -58,7 +58,7 @@ public class HttpServerTest {
 
     @Test(expected = SocketException.class)
     public void throwsSocketExceptionWhenItCannotCloseSocket() throws IOException {
-        NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1", "throw exception");
+        NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1").throwsIOException();
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage());
         httpServer.start("PUBLIC_DIR");
     }

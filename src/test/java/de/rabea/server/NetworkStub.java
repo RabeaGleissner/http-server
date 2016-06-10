@@ -6,17 +6,22 @@ import static de.rabea.TestHelper.asString;
 
 public class NetworkStub implements Connection {
 
-    private final String message;
-    private String exception = "";
+    private String message;
     public String returnedResponse;
+    private boolean throwException = false;
+
 
     public NetworkStub(String message) {
         this.message = message;
     }
 
-    public NetworkStub(String message, String exception) {
+    public NetworkStub throwsIOException() {
+        return new NetworkStub("GET / HTTP/1.1", true);
+    }
+
+    public NetworkStub(String message, boolean throwException) {
+        this.throwException = throwException;
         this.message = message;
-        this.exception = exception;
     }
 
     public String read() {
@@ -28,7 +33,7 @@ public class NetworkStub implements Connection {
     }
 
     public void close() throws IOException {
-        if (exception.equals("throw exception")) {
+        if (throwException) {
             throw new IOException();
         }
     }
