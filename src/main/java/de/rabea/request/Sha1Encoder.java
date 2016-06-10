@@ -1,5 +1,7 @@
 package de.rabea.request;
 
+import de.rabea.exceptions.ShaComputingException;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

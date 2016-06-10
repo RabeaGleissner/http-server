@@ -1,7 +1,7 @@
 package de.rabea.server;
 
+import de.rabea.exceptions.SocketException;
 import de.rabea.request.InputParser;
-import de.rabea.server.exceptions.SocketException;
 
 import java.io.*;
 import java.net.Socket;

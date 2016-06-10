@@ -1,5 +1,7 @@
 package de.rabea.request;
 
+import de.rabea.exceptions.FileWritingException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

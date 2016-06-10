@@ -1,4 +1,4 @@
-package de.rabea.request;
+package de.rabea.exceptions;
 
 public class ShaComputingException extends RuntimeException {
 

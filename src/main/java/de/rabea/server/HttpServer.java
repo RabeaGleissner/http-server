@@ -1,11 +1,11 @@
 package de.rabea.server;
 
+import de.rabea.exceptions.SocketException;
 import de.rabea.request.Directory;
 import de.rabea.request.Log;
 import de.rabea.request.Request;
 import de.rabea.response.Response;
 import de.rabea.response.ResponseBody;
-import de.rabea.server.exceptions.SocketException;
 
 import java.io.IOException;
 

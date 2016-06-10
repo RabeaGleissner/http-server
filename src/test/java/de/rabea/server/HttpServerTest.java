@@ -1,7 +1,7 @@
 package de.rabea.server;
 
+import de.rabea.exceptions.SocketException;
 import de.rabea.request.Log;
-import de.rabea.server.exceptions.SocketException;
 import org.junit.Before;
 import org.junit.Test;
 

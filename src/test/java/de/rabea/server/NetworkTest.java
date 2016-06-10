@@ -1,6 +1,6 @@
 package de.rabea.server;
 
-import de.rabea.server.exceptions.SocketException;
+import de.rabea.exceptions.SocketException;
 import org.junit.Test;
 
 import java.io.*;

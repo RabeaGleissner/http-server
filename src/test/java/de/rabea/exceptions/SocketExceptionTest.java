@@ -1,4 +1,4 @@
-package de.rabea.server.exceptions;
+package de.rabea.exceptions;
 
 import org.junit.Test;
 
