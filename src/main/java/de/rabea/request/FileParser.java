@@ -2,7 +2,9 @@ package de.rabea.request;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import static java.util.Arrays.copyOfRange;
 
@@ -36,8 +38,16 @@ public class FileParser {
         return null;
     }
 
+    public void updateExistingFile(String updated) {
+        try {
+            Files.write(path(), updated.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private byte[] readCompleteFile() throws IOException {
-        return Files.readAllBytes(Paths.get(filePath));
+        return Files.readAllBytes(path());
     }
 
     private byte[] readPartialFile(byte[] fileContent) {
@@ -78,5 +88,9 @@ public class FileParser {
 
     private int toInteger(String number) {
         return Integer.parseInt(number);
+    }
+
+    private Path path() {
+        return Paths.get(filePath);
     }
 }

@@ -3,9 +3,13 @@ package de.rabea.request;
 import de.rabea.server.HttpVerb;
 import de.rabea.server.Router;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import static de.rabea.server.HttpVerb.*;
+import static de.rabea.server.HttpVerb.GET;
+import static de.rabea.server.HttpVerb.convert;
 
 public class Request {
 
@@ -57,6 +61,10 @@ public class Request {
         return uriParser.hasParams();
     }
 
+    public String eTag() {
+        return findValueFor("If-Match:");
+    }
+
     public boolean requestsPartialContent() {
         return components.indexOf("Range:") != -1;
     }
@@ -91,7 +99,8 @@ public class Request {
 
     private String body() {
         if (new InputParser().hasBody(incoming)) {
-            return components.get(components.size() -1);
+            List<String> lines = splitIntoLines();
+            return lines.get(lines.size() - 1);
         } else {
             return "";
         }
@@ -102,8 +111,13 @@ public class Request {
     }
 
     private String range() {
-        String range = components.get(components.indexOf("Range:") + 1);
-        return range.substring(range.indexOf("=") + 1);
+        return findValueFor("Range:");
+    }
+
+    private String findValueFor(String key) {
+        String value = components.get(components.indexOf(key) + 1);
+        return value.substring(value.indexOf("=") + 1);
+
     }
 
     private String uri() {
@@ -132,4 +146,5 @@ public class Request {
         }
         return "";
     }
+
 }

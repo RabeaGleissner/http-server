@@ -1,5 +1,6 @@
 package de.rabea.server;
 
+import de.rabea.request.FileParser;
 import de.rabea.request.Log;
 import de.rabea.request.Request;
 import de.rabea.response.ResponseBody;
@@ -25,4 +26,8 @@ public class Controller {
     }
 
 
+    public void updateFile() {
+        FileParser fileParser = new FileParser(request.directory.path + request.uri);
+        fileParser.updateExistingFile(request.body);
+    }
 }

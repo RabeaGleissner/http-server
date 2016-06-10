@@ -1,13 +1,13 @@
 package de.rabea.server;
 
 import de.rabea.request.Directory;
+import de.rabea.request.FileParser;
 import de.rabea.request.Log;
 import de.rabea.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.TestHelper.asString;
-import static de.rabea.TestHelper.directory;
+import static de.rabea.TestHelper.*;
 import static org.junit.Assert.assertEquals;
 
 public class ControllerTest {
@@ -59,5 +59,21 @@ public class ControllerTest {
     public void returnsLinksToFilesInDirectory() {
         Controller controller = new Controller(getRequest, new Log());
         assertEquals("<a href=/file.txt>file.txt</a>", asString(controller.action().response()));
+    }
+
+    @Test
+    public void updatesFileForPatchRequestWithEtag() {
+        FileParser fileParser = new FileParser(directory() + "/file.txt");
+        Request request = new Request("PATCH /file.txt HTTP/1.1\n" +
+                "If-Match: dc50a0d27dda2eee9f6\n" +
+                "Content-Length: 15\n" +
+                "\n" +
+                "patched content\n", directory);
+        Controller controller = new Controller(request, new Log());
+        controller.updateFile();
+
+        assertEquals("patched content", asString(fileParser.read()));
+
+        resetFileContent();
     }
 }

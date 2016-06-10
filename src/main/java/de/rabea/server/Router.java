@@ -5,7 +5,7 @@ import de.rabea.request.Directory;
 import java.util.List;
 import java.util.Map;
 
-import static de.rabea.server.HttpVerb.*;
+import static de.rabea.server.HttpVerb.GET;
 
 public class Router {
 

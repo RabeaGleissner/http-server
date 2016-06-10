@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static de.rabea.TestHelper.asString;
-import static de.rabea.server.HttpVerb.*;
+import static de.rabea.server.HttpVerb.DELETE;
 import static org.junit.Assert.assertEquals;
 
 public class ContentStorageTest {

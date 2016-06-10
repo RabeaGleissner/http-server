@@ -78,4 +78,18 @@ public class RequestTest {
                 "Accept-Encoding: gzip,deflate\n", directory);
         assertTrue(request.isAuthorised());
     }
+
+    @Test
+    public void returnsEtag() {
+        Request request = new Request(" PATCH /patch-content.txt HTTP/1.1\n" +
+                "If-Match: dc50a0d27dda2eee9f6\n" +
+                "Content-Length: 15\n" +
+                "Host: localhost:5000\n" +
+                "Connection: Keep-Alive\n" +
+                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
+                "Accept-Encoding: gzip,deflate\n" +
+                "\n" +
+                "patched content\n", directory);
+        assertEquals("dc50a0d27dda2eee9f6", request.eTag());
+    }
 }
