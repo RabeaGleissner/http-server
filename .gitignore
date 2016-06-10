@@ -50,7 +50,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-
 ### Maven ###
 target/
 pom.xml.tag
@@ -61,3 +60,18 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+
+### Fitness test suite ###
+vendor/cob_spec/FitNesseRoot/files/testResults
+vendor/cob_spec/FitNesseRoot/RecentChanges/
+vendor/cob_spec/FitNesseRoot/ErrorLogs
+vendor/HttpTestSuite.*zip
+vendor/cob_spec/.bundle
+vendor/cob_spec/target/
+vendor/cob_spec/.idea/
+vendor/cob_spec/*.iml
+vendor/cob_spec/*.swp
+vendor/cob_spec/*.DS_Store
+vendor/cob_spec/.idea/
+vendor/cob_spec/CobSpec.iml
+vendor/cob_spec/target/

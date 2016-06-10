@@ -1,6 +1,7 @@
 package de.rabea.server;
 
 import de.rabea.request.InputParser;
+import de.rabea.server.exceptions.SocketException;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,21 +19,63 @@ public class Network implements Connection {
     }
 
     public String read() {
-        InputParser parser = new InputParser();
-        String requestBuilder = "";
-        String line;
+        return readRequest(new InputParser());
+    }
+
+    private String readRequest(InputParser parser) {
+        String request = "";
         try {
-            while ((line = clientInputReader.readLine()) != null) {
-                requestBuilder += (line + "\n");
-                if (isEmptyLine(line)) {
-                    requestBuilder += readBody(parser, requestBuilder);
-                    break;
-                }
-            }
+            request = readLines(parser);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return request;
+    }
+
+    private String readLines(InputParser parser) throws IOException {
+        String requestBuilder = "";
+        String line;
+        while ((line = clientInputReader.readLine()) != null) {
+            requestBuilder += (line + "\n");
+            if (isEmptyLine(line)) {
+                requestBuilder += readBody(parser, requestBuilder);
+                break;
+            }
+        }
         return requestBuilder;
+    }
+
+    public void write(String head, byte[] body) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            sender.write(combinedHeadAndBody(head, body, out));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new SocketException("Could not close: " + e.getMessage());
+        }
+    }
+
+    public BufferedReader createReader() {
+        try {
+            return new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (IOException e) {
+            throw new SocketException("Could not get InputStream" + e.getMessage());
+        }
+    }
+
+    public OutputStream createSender() {
+        try {
+            return new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            throw new SocketException("Could not get OutputStream" + e.getMessage());
+        }
     }
 
     private boolean isEmptyLine(String line) {
@@ -49,44 +92,9 @@ public class Network implements Connection {
         return charAccumulator;
     }
 
-    public void write(String head, byte[] body) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            sender.write(combinedHeadAndBody(head, body, out));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private byte[] combinedHeadAndBody(String head, byte[] body, ByteArrayOutputStream out) throws IOException {
         out.write(head.getBytes());
         out.write(body);
         return out.toByteArray();
-    }
-
-    private BufferedReader createReader() {
-        try {
-            return new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private OutputStream createSender() {
-        try {
-            return new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

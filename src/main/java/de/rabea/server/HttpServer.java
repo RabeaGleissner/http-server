@@ -4,6 +4,9 @@ import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import de.rabea.response.Response;
 import de.rabea.response.ResponseBody;
+import de.rabea.server.exceptions.SocketException;
+
+import java.io.IOException;
 
 public class HttpServer {
 
@@ -19,7 +22,11 @@ public class HttpServer {
         Request request = handleIncoming(directory, connection.read());
         Response response = new Response(request, contentStorage);
         connection.write(response.head(), response.body());
-        connection.close();
+        try {
+            connection.close();
+        } catch (IOException e) {
+            throw new SocketException("Could not close: " + e.getMessage());
+        }
     }
 
     private Request handleIncoming(String directoryPath, String incoming) {

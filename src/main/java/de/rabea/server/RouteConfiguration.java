@@ -38,6 +38,9 @@ public class RouteConfiguration {
             case "/method_options2":
                 legalVerbs.addAll(Arrays.asList(GET, OPTIONS));
                 break;
+            case "/":
+                legalVerbs.addAll(Arrays.asList(GET, HEAD));
+                break;
             default:
                 legalVerbs.add(GET);
         }
