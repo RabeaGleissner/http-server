@@ -1,13 +1,13 @@
 package de.rabea.response.body;
 
 import de.rabea.request.Log;
-import de.rabea.server.ResponseBody;
+import de.rabea.response.ResponseBody;
 
-public class GetLogs implements ResponseBody {
+public class Logs implements ResponseBody {
 
     private Log log;
 
-    public GetLogs(Log log) {
+    public Logs(Log log) {
         this.log = log;
     }
 

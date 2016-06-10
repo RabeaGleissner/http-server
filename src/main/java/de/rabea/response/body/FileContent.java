@@ -2,7 +2,7 @@ package de.rabea.response.body;
 
 import de.rabea.request.Directory;
 import de.rabea.request.FileParser;
-import de.rabea.server.ResponseBody;
+import de.rabea.response.ResponseBody;
 
 public class FileContent implements ResponseBody {
 

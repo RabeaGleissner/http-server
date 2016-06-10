@@ -1,16 +1,18 @@
-package de.rabea.server;
+package de.rabea.response;
 
 import de.rabea.request.Log;
 import de.rabea.request.Request;
 import de.rabea.response.body.*;
+import de.rabea.server.HttpVerb;
+import de.rabea.server.Router;
 
-public class ActionCreator {
+public class ResponseBodyCreator {
 
     private Request request;
     private Log log;
     private Router router;
 
-    public ActionCreator(Request request, Log log) {
+    public ResponseBodyCreator(Request request, Log log) {
         this.request = request;
         this.log = log;
         this.router = new Router(request.directory);
@@ -18,7 +20,7 @@ public class ActionCreator {
 
     public ResponseBody create() {
         if (requestForLogs()) {
-            return new GetLogs(log);
+            return new Logs(log);
         } else if (postRequest() ||requestToForms()) {
             return new PostResponse(request);
         } else if (requestWithUrlParams()) {

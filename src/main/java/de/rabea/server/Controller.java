@@ -2,6 +2,8 @@ package de.rabea.server;
 
 import de.rabea.request.Log;
 import de.rabea.request.Request;
+import de.rabea.response.ResponseBody;
+import de.rabea.response.ResponseBodyCreator;
 
 public class Controller {
 
@@ -15,7 +17,7 @@ public class Controller {
     }
 
     public ResponseBody action() {
-        return new ActionCreator(request, log).create();
+        return new ResponseBodyCreator(request, log).create();
     }
 
     private void logAllIncoming(Request request, Log log) {
