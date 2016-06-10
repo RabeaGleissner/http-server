@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class Sha1EncoderTest {
+
     @Test
     public void convertsTextToSha1() {
         Sha1Encoder sha1Encoder = new Sha1Encoder("Some content");

@@ -13,25 +13,21 @@ public class Sha1Encoder {
         this.text = text;
     }
 
-    public String computeSha1()
-            throws UnsupportedOperationException, NullPointerException {
+    public String computeSha1() {
         try {
             return computeSha1OfByteArray(text.getBytes(("UTF-8")));
         } catch (UnsupportedEncodingException ex) {
-            throw new UnsupportedOperationException(ex);
+            throw new ShaComputingException("Encoding not supported " + ex.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            throw new ShaComputingException("This algorithm does not exist " + e.getMessage());
         }
     }
 
-    private String computeSha1OfByteArray(final byte[] message)
-            throws UnsupportedOperationException {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(message);
-            byte[] res = md.digest();
+    private String computeSha1OfByteArray(final byte[] message) throws UnsupportedOperationException, NoSuchAlgorithmException {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            messageDigest.update(message);
+            byte[] res = messageDigest.digest();
             return toHexString(res);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new UnsupportedOperationException(ex);
-        }
     }
 
     private String toHexString(byte[] bytes) {
