@@ -40,10 +40,14 @@ public class FileParser {
 
     public void updateExistingFile(String updated) {
         try {
-            Files.write(path(), updated.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+            overwriteFileContent(updated);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileWritingException("Could not write to file " + e.getMessage());
         }
+    }
+
+    private void overwriteFileContent(String updated) throws IOException {
+        Files.write(path(), updated.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
     }
 
     private byte[] readCompleteFile() throws IOException {

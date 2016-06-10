@@ -1,12 +1,10 @@
 package de.rabea.response;
 
-import de.rabea.TestHelper;
 import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.TestHelper.*;
 import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
