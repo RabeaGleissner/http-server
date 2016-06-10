@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Directory {
 
-    public String path;
-    public List<String> contents;
+    public final String path;
+    public final List<String> contents;
 
     public Directory(String path) {
         this.path = path;

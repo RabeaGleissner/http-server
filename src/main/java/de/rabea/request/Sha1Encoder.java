@@ -8,8 +8,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class Sha1Encoder {
 
-    final protected static char[] hexArray = "0123456789abcdef".toCharArray();
-    private String text;
+    private final static char[] hexArray = "0123456789abcdef".toCharArray();
+    private final String text;
 
     public Sha1Encoder(String text) {
         this.text = text;
@@ -28,8 +28,7 @@ public class Sha1Encoder {
     private String computeSha1OfByteArray(final byte[] message) throws UnsupportedOperationException, NoSuchAlgorithmException {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
             messageDigest.update(message);
-            byte[] res = messageDigest.digest();
-            return toHexString(res);
+        return toHexString(messageDigest.digest());
     }
 
     private String toHexString(byte[] bytes) {

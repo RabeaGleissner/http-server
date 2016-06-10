@@ -28,9 +28,13 @@ public class Controller {
 
     public void updateFile() {
         if (requestToPatchFile()) {
-            FileParser fileParser = new FileParser(request.directory.path + request.uri);
-            fileParser.updateExistingFile(request.body);
+            updateExistingFile();
         }
+    }
+
+    private void updateExistingFile() {
+        FileParser fileParser = new FileParser(request.directory.path + request.uri);
+        fileParser.updateExistingFile(request.body);
     }
 
     private boolean requestToPatchFile() {

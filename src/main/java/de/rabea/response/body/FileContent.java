@@ -7,10 +7,10 @@ import de.rabea.response.ResponseBody;
 public class FileContent implements ResponseBody {
 
 
-    private String route;
-    private String range;
-    private Directory directory;
-    private boolean partialContent;
+    private final String route;
+    private final String range;
+    private final Directory directory;
+    private final boolean partialContent;
 
     public FileContent(String route, String range, Directory directory, boolean partialContent) {
 

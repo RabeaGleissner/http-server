@@ -36,7 +36,7 @@ public class HttpServer {
         }
     }
 
-    public Request handleIncoming(String directoryPath, String incoming) {
+    private Request handleIncoming(String directoryPath, String incoming) {
         Request request = new Request(incoming, new Directory(directoryPath));
         contentStorage.update(request.route,
                 responseBody(new Controller(request, log)),

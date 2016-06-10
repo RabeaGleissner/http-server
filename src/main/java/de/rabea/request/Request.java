@@ -26,7 +26,7 @@ public class Request {
     private UriParser uriParser;
     private String incoming;
     private Router router;
-    private String AUTHORISATION_KEY = "Basic YWRtaW46aHVudGVyMg==";
+    private final String AUTHORISATION_KEY = "Basic YWRtaW46aHVudGVyMg==";
 
     public Request(String incoming, Directory directory) {
         this.incoming = incoming;
@@ -62,12 +62,17 @@ public class Request {
         return uriParser.hasParams();
     }
 
-    public boolean hasETag() {
-       return !eTag().equals("");
-    }
-
     public String eTag() {
         return findValueFor("If-Match:");
+    }
+
+    public boolean isPatch() {
+        return httpVerb == HttpVerb.PATCH;
+    }
+
+    public boolean hasCorrectETag() {
+        Sha1Encoder sha1Encoder = new Sha1Encoder(asString(readFile()));
+        return eTag().equals(sha1Encoder.computeSha1());
     }
 
     public boolean requestsPartialContent() {
@@ -152,20 +157,11 @@ public class Request {
         return "";
     }
 
-    public boolean isPatch() {
-        return httpVerb == HttpVerb.PATCH;
-    }
-
-    public boolean hasCorrectETag() {
-        Sha1Encoder sha1Encoder = new Sha1Encoder(asString(readFile()));
-        return eTag().equals(sha1Encoder.computeSha1());
-    }
-
     private byte[] readFile() {
         return new FileParser(directory.path + uri).read();
     }
 
-    public static String asString(byte[] bytes) {
+    private static String asString(byte[] bytes) {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 }

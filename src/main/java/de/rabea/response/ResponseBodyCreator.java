@@ -8,9 +8,9 @@ import de.rabea.server.Router;
 
 public class ResponseBodyCreator {
 
-    private Request request;
-    private Log log;
-    private Router router;
+    private final Request request;
+    private final Log log;
+    private final Router router;
 
     public ResponseBodyCreator(Request request, Log log) {
         this.request = request;
