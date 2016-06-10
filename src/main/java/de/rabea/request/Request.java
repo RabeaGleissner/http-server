@@ -61,6 +61,10 @@ public class Request {
         return uriParser.hasParams();
     }
 
+    public boolean hasETag() {
+       return !eTag().equals("");
+    }
+
     public String eTag() {
         return findValueFor("If-Match:");
     }
@@ -147,4 +151,7 @@ public class Request {
         return "";
     }
 
+    public boolean isPatch() {
+        return httpVerb == HttpVerb.PATCH;
+    }
 }

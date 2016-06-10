@@ -15,6 +15,7 @@ public class Controller {
         this.request = request;
         this.log = log;
         logAllIncoming(request, log);
+        updateFile();
     }
 
     public ResponseBody action() {
@@ -25,9 +26,14 @@ public class Controller {
         log.register(request.head());
     }
 
-
     public void updateFile() {
-        FileParser fileParser = new FileParser(request.directory.path + request.uri);
-        fileParser.updateExistingFile(request.body);
+        if (requestToPatchFile()) {
+            FileParser fileParser = new FileParser(request.directory.path + request.uri);
+            fileParser.updateExistingFile(request.body);
+        }
+    }
+
+    private boolean requestToPatchFile() {
+        return request.isPatch() && request.hasETag();
     }
 }

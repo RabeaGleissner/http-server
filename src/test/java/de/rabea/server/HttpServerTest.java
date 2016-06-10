@@ -1,6 +1,5 @@
 package de.rabea.server;
 
-import de.rabea.TestHelper;
 import de.rabea.request.Log;
 import de.rabea.server.exceptions.SocketException;
 import org.junit.Before;
@@ -8,6 +7,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
 public class HttpServerTest {
@@ -16,7 +16,7 @@ public class HttpServerTest {
 
     @Before
     public void setup() {
-        directory = TestHelper.directory();
+        directory = directory();
         log = new Log();
     }
 

@@ -6,7 +6,8 @@ public enum HttpVerb {
     PUT,
     OPTIONS,
     HEAD,
-    DELETE;
+    DELETE,
+    PATCH;
 
     public static HttpVerb convert(String word) {
         for (HttpVerb verb : HttpVerb.values()) {
