@@ -1,9 +1,9 @@
-package de.rabea.server.action;
+package de.rabea.response.body;
 
 import de.rabea.request.Directory;
-import de.rabea.server.Action;
+import de.rabea.server.ResponseBody;
 
-public class DirectoryContent implements Action {
+public class DirectoryContent implements ResponseBody {
 
     private Directory directory;
 

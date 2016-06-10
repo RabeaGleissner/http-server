@@ -44,7 +44,7 @@ public class HttpServer {
     }
 
     private byte[] responseBody(Controller controller) {
-        Action action = controller.action();
-           return action.response();
+        ResponseBody responseBody = controller.action();
+           return responseBody.response();
     }
 }

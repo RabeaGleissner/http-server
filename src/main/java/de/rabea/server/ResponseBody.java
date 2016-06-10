@@ -1,5 +1,5 @@
 package de.rabea.server;
 
-public interface Action {
+public interface ResponseBody {
     byte[] response();
 }

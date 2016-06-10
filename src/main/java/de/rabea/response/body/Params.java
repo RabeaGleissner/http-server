@@ -1,9 +1,9 @@
-package de.rabea.server.action;
+package de.rabea.response.body;
 
 import de.rabea.request.Request;
-import de.rabea.server.Action;
+import de.rabea.server.ResponseBody;
 
-public class Params implements Action {
+public class Params implements ResponseBody {
 
     private Request request;
 

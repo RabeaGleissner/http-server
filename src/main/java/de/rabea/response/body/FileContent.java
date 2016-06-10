@@ -1,10 +1,10 @@
-package de.rabea.server.action;
+package de.rabea.response.body;
 
 import de.rabea.request.Directory;
 import de.rabea.request.FileParser;
-import de.rabea.server.Action;
+import de.rabea.server.ResponseBody;
 
-public class FileContent implements Action {
+public class FileContent implements ResponseBody {
 
 
     private String route;

@@ -14,7 +14,7 @@ public class Controller {
         logAllIncoming(request, log);
     }
 
-    public Action action() {
+    public ResponseBody action() {
         return new ActionCreator(request, log).create();
     }
 

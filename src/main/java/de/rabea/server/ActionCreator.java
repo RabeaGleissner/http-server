@@ -2,7 +2,7 @@ package de.rabea.server;
 
 import de.rabea.request.Log;
 import de.rabea.request.Request;
-import de.rabea.server.action.*;
+import de.rabea.response.body.*;
 
 public class ActionCreator {
 
@@ -16,7 +16,7 @@ public class ActionCreator {
         this.router = new Router(request.directory);
     }
 
-    public Action create() {
+    public ResponseBody create() {
         if (requestForLogs()) {
             return new GetLogs(log);
         } else if (postRequest() ||requestToForms()) {

@@ -1,9 +1,9 @@
-package de.rabea.server.action;
+package de.rabea.response.body;
 
 import de.rabea.request.Log;
-import de.rabea.server.Action;
+import de.rabea.server.ResponseBody;
 
-public class GetLogs implements Action {
+public class GetLogs implements ResponseBody {
 
     private Log log;
 
