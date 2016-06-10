@@ -3,6 +3,7 @@ package de.rabea.request;
 import de.rabea.server.HttpVerb;
 import de.rabea.server.Router;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -153,5 +154,18 @@ public class Request {
 
     public boolean isPatch() {
         return httpVerb == HttpVerb.PATCH;
+    }
+
+    public boolean hasCorrectETag() {
+        Sha1Encoder sha1Encoder = new Sha1Encoder(asString(readFile()));
+        return eTag().equals(sha1Encoder.computeSha1());
+    }
+
+    private byte[] readFile() {
+        return new FileParser(directory.path + uri).read();
+    }
+
+    public static String asString(byte[] bytes) {
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

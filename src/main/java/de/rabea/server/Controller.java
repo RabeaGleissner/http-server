@@ -34,6 +34,6 @@ public class Controller {
     }
 
     private boolean requestToPatchFile() {
-        return request.isPatch() && request.hasETag();
+        return request.isPatch() && request.hasCorrectETag();
     }
 }

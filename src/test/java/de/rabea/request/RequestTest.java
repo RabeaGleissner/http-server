@@ -3,6 +3,7 @@ package de.rabea.request;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.*;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -81,15 +82,21 @@ public class RequestTest {
 
     @Test
     public void returnsEtag() {
-        Request request = new Request(" PATCH /patch-content.txt HTTP/1.1\n" +
+        Request request = new Request("PATCH /patch-content.txt HTTP/1.1\n" +
                 "If-Match: dc50a0d27dda2eee9f6\n" +
                 "Content-Length: 15\n" +
-                "Host: localhost:5000\n" +
-                "Connection: Keep-Alive\n" +
-                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
-                "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "patched content\n", directory);
         assertEquals("dc50a0d27dda2eee9f6", request.eTag());
+    }
+
+    @Test
+    public void hasCorrectEtag() {
+        Request request = new Request("PATCH /file.txt HTTP/1.1\n" +
+                "If-Match: 9f1a6ecf74e9f9b1ae52e8eb581d420e63e8453a\n" +
+                "Content-Length: 15\n" +
+                "\n" +
+                "patched content\n", new Directory(directory()));
+        assertTrue(request.hasCorrectETag());
     }
 }

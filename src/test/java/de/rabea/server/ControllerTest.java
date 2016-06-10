@@ -65,7 +65,7 @@ public class ControllerTest {
     public void updatesFileForPatchRequestWithEtag() {
         FileParser fileParser = new FileParser(directory() + "/file.txt");
         Request request = new Request("PATCH /file.txt HTTP/1.1\n" +
-                "If-Match: dc50a0d27dda2eee9f6\n" +
+                "If-Match: 9f1a6ecf74e9f9b1ae52e8eb581d420e63e8453a\n" +
                 "Content-Length: 15\n" +
                 "\n" +
                 "patched content\n", directory);
