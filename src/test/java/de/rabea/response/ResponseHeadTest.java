@@ -1,10 +1,12 @@
 package de.rabea.response;
 
+import de.rabea.TestHelper;
 import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.*;
 import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
@@ -59,5 +61,19 @@ public class ResponseHeadTest {
     public void returns401ForUriWithAuthentication() {
         ResponseHead responseHead = new ResponseHead(new Request("GET /logs HTTP/1.1", directory));
         assertEquals(PROTOCOL + "401 Found\nWWW-Authenticate: Basic realm=\"Server logs\"" + EMPTY_LINE, responseHead.generate());
+    }
+
+    @Test
+    public void returns204ForPatchRequest() {
+        ResponseHead responseHead = new ResponseHead(new Request("PATCH /file.txt HTTP/1.1\n" +
+                "If-Match: dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec\n" +
+                "Content-Length: 15\n" +
+                "Host: localhost:5000\n" +
+                "Connection: Keep-Alive\n" +
+                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
+                "Accept-Encoding: gzip,deflate\n" +
+                "\n" +
+                "patched content\n", new Directory(directory())));
+        assertEquals(PROTOCOL + "204 No Content" + EMPTY_LINE, responseHead.generate());
     }
 }
