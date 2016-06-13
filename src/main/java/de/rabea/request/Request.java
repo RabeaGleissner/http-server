@@ -62,17 +62,17 @@ public class Request {
         return uriParser.hasParams();
     }
 
-    public String eTag() {
+    public boolean hasCorrectETag() {
+        Sha1Encoder sha1Encoder = new Sha1Encoder(asString(readFile()));
+        return eTag().equals(sha1Encoder.computeSha1());
+    }
+
+    private String eTag() {
         return findValueFor("If-Match:");
     }
 
     public boolean isPatch() {
         return httpVerb == HttpVerb.PATCH;
-    }
-
-    public boolean hasCorrectETag() {
-        Sha1Encoder sha1Encoder = new Sha1Encoder(asString(readFile()));
-        return eTag().equals(sha1Encoder.computeSha1());
     }
 
     public boolean requestsPartialContent() {

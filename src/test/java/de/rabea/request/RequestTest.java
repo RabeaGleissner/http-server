@@ -81,16 +81,6 @@ public class RequestTest {
     }
 
     @Test
-    public void returnsEtag() {
-        Request request = new Request("PATCH /patch-content.txt HTTP/1.1\n" +
-                "If-Match: dc50a0d27dda2eee9f6\n" +
-                "Content-Length: 15\n" +
-                "\n" +
-                "patched content\n", directory);
-        assertEquals("dc50a0d27dda2eee9f6", request.eTag());
-    }
-
-    @Test
     public void hasCorrectEtag() {
         Request request = new Request("PATCH /file.txt HTTP/1.1\n" +
                 "If-Match: 9f1a6ecf74e9f9b1ae52e8eb581d420e63e8453a\n" +
