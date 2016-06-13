@@ -1,24 +1,18 @@
 package de.rabea.server;
 
-import de.rabea.request.Log;
-
 public class HttpServerRunner implements Runnable {
 
-    private Network network;
-    private ContentStorage contentStorage;
-    private Log log;
     private String directory;
+    private HttpServerFactory httpServerFactory;
 
-    public HttpServerRunner(Network network, ContentStorage contentStorage,
-                            Log log, String directory) {
-        this.network = network;
-        this.contentStorage = contentStorage;
-        this.log = log;
+    public HttpServerRunner(HttpServerFactory httpServerFactory,
+                            String directory) {
         this.directory = directory;
+        this.httpServerFactory = httpServerFactory;
     }
 
     @Override
     public void run() {
-        new HttpServer(network, contentStorage, log).start(directory);
+        httpServerFactory.create().start(directory);
     }
 }

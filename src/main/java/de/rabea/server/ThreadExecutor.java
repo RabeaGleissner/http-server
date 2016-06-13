@@ -45,7 +45,11 @@ public class ThreadExecutor implements Runnable {
     }
 
     public void executeServerRunnerInThread() throws IOException {
-        executorService.execute(new HttpServerRunner(new Network(serverSocket.accept()),
-                contentStorage, log, directory));
+        executorService.execute(new HttpServerRunner(
+                new HttpServerFactory(
+                        new Network(serverSocket.accept()),
+                        contentStorage,
+                        log), directory)
+        );
     }
 }
