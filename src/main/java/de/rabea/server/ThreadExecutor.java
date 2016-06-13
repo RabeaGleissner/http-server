@@ -8,12 +8,12 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 
 public class ThreadExecutor implements Runnable {
-    private ExecutorService executorService;
-    private int poolSize = 20;
-    private ServerSocket serverSocket;
-    private ContentStorage contentStorage;
-    private Log log;
-    private String directory;
+    private final ExecutorService executorService;
+    private final int poolSize = 20;
+    private final ServerSocket serverSocket;
+    private final ContentStorage contentStorage;
+    private final Log log;
+    private final String directory;
 
     public ThreadExecutor(ExecutorServiceFactory executorServiceFactory, ServerSocket serverSocket,
                           ContentStorage contentStorage, Log log, String directory) {

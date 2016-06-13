@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ThreadPoolExecutorServiceFactoryTest {
 

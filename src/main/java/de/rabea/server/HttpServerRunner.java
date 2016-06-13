@@ -2,8 +2,8 @@ package de.rabea.server;
 
 public class HttpServerRunner implements Runnable {
 
-    private String directory;
-    private ServerFactory serverFactory;
+    private final String directory;
+    private final ServerFactory serverFactory;
 
     public HttpServerRunner(ServerFactory serverFactory,
                             String directory) {

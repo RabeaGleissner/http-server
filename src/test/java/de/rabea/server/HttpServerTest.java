@@ -5,8 +5,6 @@ import de.rabea.request.Log;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 

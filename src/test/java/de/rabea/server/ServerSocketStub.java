@@ -9,12 +9,12 @@ public class ServerSocketStub extends ServerSocket {
     private static boolean throwException;
 
     public ServerSocketStub() throws IOException {
-        this.throwException = false;
+        throwException = false;
     }
 
-    public ServerSocketStub(boolean throwException) throws IOException {
+    private ServerSocketStub(boolean throwException) throws IOException {
         super();
-        this.throwException = throwException;
+        ServerSocketStub.throwException = throwException;
     }
 
     public static ServerSocket throwsException() throws IOException {

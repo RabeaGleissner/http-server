@@ -3,7 +3,7 @@ package de.rabea.response;
 import de.rabea.request.Request;
 import de.rabea.server.Router;
 
-public class StatusLine {
+class StatusLine {
 
     private final Request request;
     private final Router router;

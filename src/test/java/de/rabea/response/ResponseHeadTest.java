@@ -3,7 +3,6 @@ package de.rabea.response;
 import de.rabea.request.Directory;
 import de.rabea.request.Request;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static de.rabea.TestHelper.directory;

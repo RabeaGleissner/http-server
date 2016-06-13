@@ -3,7 +3,7 @@ package de.rabea.request;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.rabea.TestHelper.*;
+import static de.rabea.TestHelper.directory;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
