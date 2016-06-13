@@ -15,6 +15,10 @@ public class NetworkStub implements Connection {
         this.message = message;
     }
 
+    public NetworkStub() {
+        this.message = "";
+    }
+
     public NetworkStub throwsIOException() {
         return new NetworkStub("GET / HTTP/1.1", true);
     }

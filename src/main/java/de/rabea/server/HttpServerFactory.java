@@ -2,7 +2,7 @@ package de.rabea.server;
 
 import de.rabea.request.Log;
 
-public class HttpServerFactory {
+public class HttpServerFactory implements ServerFactory {
 
     private Connection network;
     private ContentStorage contentStorage;

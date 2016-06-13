@@ -3,16 +3,16 @@ package de.rabea.server;
 public class HttpServerRunner implements Runnable {
 
     private String directory;
-    private HttpServerFactory httpServerFactory;
+    private ServerFactory serverFactory;
 
-    public HttpServerRunner(HttpServerFactory httpServerFactory,
+    public HttpServerRunner(ServerFactory serverFactory,
                             String directory) {
         this.directory = directory;
-        this.httpServerFactory = httpServerFactory;
+        this.serverFactory = serverFactory;
     }
 
     @Override
     public void run() {
-        httpServerFactory.create().start(directory);
+       serverFactory.create().start(directory);
     }
 }
