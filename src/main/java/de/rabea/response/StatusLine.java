@@ -15,6 +15,7 @@ public class StatusLine {
     private final String NOT_ALLOWED = "405 Method Not Allowed\n";
     private final String INTERNAL_SERVER_ERROR = "500 Internal Server Error\n";
     private final String UNAUTHORIZED = "401 Found\nWWW-Authenticate: Basic realm=\"Server logs\"\n";
+    private final String NO_CONTENT = "204 No Content\n";
 
     public StatusLine(Request request) {
         this.request = request;
@@ -38,12 +39,16 @@ public class StatusLine {
             return NOT_ALLOWED;
         }
 
-        if (router.routeNeedsAuthorisation(request.uri) && request.notAuthorised()) {
+        if (unauthorisedRequest()) {
             return UNAUTHORIZED;
         }
 
         if (request.requestsPartialContent()) {
             return PARTIAL;
+        }
+
+        if (request.isPatch()) {
+            return NO_CONTENT;
         }
 
         if (request.knownUri() || request.isAuthorised()) {
@@ -53,7 +58,11 @@ public class StatusLine {
         }
     }
 
+    private boolean unauthorisedRequest() {
+        return router.routeNeedsAuthorisation(request.uri) && request.notAuthorised();
+    }
+
     private boolean methodNotAllowed() {
-        return !router.validMethod(request.httpVerb, request.uri);
+        return request.knownUri() && !router.validMethod(request.httpVerb, request.uri);
     }
 }

@@ -6,7 +6,7 @@ import static de.rabea.TestHelper.asString;
 
 public class NetworkStub implements Connection {
 
-    private String message;
+    private final String message;
     public String returnedResponse;
     private boolean throwException = false;
 
@@ -19,7 +19,7 @@ public class NetworkStub implements Connection {
         return new NetworkStub("GET / HTTP/1.1", true);
     }
 
-    public NetworkStub(String message, boolean throwException) {
+    private NetworkStub(String message, boolean throwException) {
         this.throwException = throwException;
         this.message = message;
     }

@@ -1,8 +1,12 @@
 package de.rabea.request;
 
+import de.rabea.exceptions.FileWritingException;
+
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import static java.util.Arrays.copyOfRange;
 
@@ -36,8 +40,20 @@ public class FileParser {
         return null;
     }
 
+    public void updateExistingFile(String updated) {
+        try {
+            overwriteFileContent(updated);
+        } catch (IOException e) {
+            throw new FileWritingException("Could not write to file " + e.getMessage());
+        }
+    }
+
+    private void overwriteFileContent(String updated) throws IOException {
+        Files.write(path(), updated.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
     private byte[] readCompleteFile() throws IOException {
-        return Files.readAllBytes(Paths.get(filePath));
+        return Files.readAllBytes(path());
     }
 
     private byte[] readPartialFile(byte[] fileContent) {
@@ -78,5 +94,9 @@ public class FileParser {
 
     private int toInteger(String number) {
         return Integer.parseInt(number);
+    }
+
+    private Path path() {
+        return Paths.get(filePath);
     }
 }

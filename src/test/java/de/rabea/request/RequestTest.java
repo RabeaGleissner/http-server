@@ -3,6 +3,7 @@ package de.rabea.request;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.*;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -77,5 +78,15 @@ public class RequestTest {
                 "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
                 "Accept-Encoding: gzip,deflate\n", directory);
         assertTrue(request.isAuthorised());
+    }
+
+    @Test
+    public void hasCorrectEtag() {
+        Request request = new Request("PATCH /file.txt HTTP/1.1\n" +
+                "If-Match: 9f1a6ecf74e9f9b1ae52e8eb581d420e63e8453a\n" +
+                "Content-Length: 15\n" +
+                "\n" +
+                "patched content\n", new Directory(directory()));
+        assertTrue(request.hasCorrectETag());
     }
 }

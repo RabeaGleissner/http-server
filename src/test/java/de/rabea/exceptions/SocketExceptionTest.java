@@ -1,8 +1,8 @@
-package de.rabea.server.exceptions;
+package de.rabea.exceptions;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SocketExceptionTest {
     @Test

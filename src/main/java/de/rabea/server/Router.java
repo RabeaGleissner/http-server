@@ -5,7 +5,8 @@ import de.rabea.request.Directory;
 import java.util.List;
 import java.util.Map;
 
-import static de.rabea.server.HttpVerb.*;
+import static de.rabea.server.HttpVerb.GET;
+import static de.rabea.server.HttpVerb.PATCH;
 
 public class Router {
 
@@ -53,12 +54,12 @@ public class Router {
             List<HttpVerb> allowedMethods = existingRoutes.get(uri);
             return (allowedMethods.contains(requestedAction));
         } else if (directory.contains(uri)) {
-            return getRequestToFile(requestedAction, uri);
+            return legalMethodForFile(requestedAction);
         }
         return false;
     }
 
-    private boolean getRequestToFile(HttpVerb requestedAction, String uri) {
-        return directory.contains(uri) && requestedAction == GET;
+    private boolean legalMethodForFile(HttpVerb requestedAction) {
+        return requestedAction == GET || requestedAction == PATCH;
     }
 }

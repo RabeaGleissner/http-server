@@ -1,6 +1,6 @@
 package de.rabea.server;
 
-import de.rabea.server.exceptions.SocketException;
+import de.rabea.exceptions.SocketException;
 import org.junit.Test;
 
 import java.io.*;
@@ -57,7 +57,7 @@ public class NetworkTest {
     }
 
     @Test
-    public void closesSocket() throws IOException {
+    public void closesSocket() {
         SocketSpy socketSpy = new SocketSpy();
         Network network = new Network(socketSpy);
         network.close();
@@ -73,14 +73,14 @@ public class NetworkTest {
     }
 
     @Test(expected = SocketException.class)
-    public void socketThrowsIOExceptionWhenItCannotClose() throws IOException {
+    public void socketThrowsIOExceptionWhenItCannotClose() {
         SocketWithException socket = new SocketWithException().throwExceptionForClose();
         Network network = new Network(socket);
         network.close();
     }
 
     @Test(expected = SocketException.class)
-    public void throwsBufferedReaderException() throws IOException {
+    public void throwsBufferedReaderException() {
         SocketWithException socket = new SocketWithException().throwExceptionForInputStream();
         Network network = new Network(socket);
         network.createReader();

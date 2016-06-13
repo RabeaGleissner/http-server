@@ -2,8 +2,7 @@ package de.rabea.request;
 
 import org.junit.Test;
 
-import static de.rabea.TestHelper.asString;
-import static de.rabea.TestHelper.directory;
+import static de.rabea.TestHelper.*;
 import static org.junit.Assert.assertEquals;
 
 public class FileParserTest {
@@ -31,5 +30,13 @@ public class FileParserTest {
     public void readsPartialContentWithOnlyRangeStartGiven() {
         FileParser fileParser = new FileParser(file, "4-");
         assertEquals(" content", asString(fileParser.read()));
+    }
+
+    @Test
+    public void updatesFileWithGivenContent() {
+        FileParser fileParser = new FileParser(file);
+        fileParser.updateExistingFile("updated");
+        assertEquals("updated", asString(fileParser.read()));
+        resetFileContent();
     }
 }

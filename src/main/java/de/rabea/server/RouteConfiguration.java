@@ -29,6 +29,7 @@ public class RouteConfiguration {
                 "/method_options2",
                 "/parameters", "/redirect",
                 "/tea",
+                "/coffee",
                 "/logs"
         };
     }

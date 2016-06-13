@@ -1,13 +1,13 @@
 package de.rabea.server;
 
-import de.rabea.TestHelper;
+import de.rabea.exceptions.SocketException;
 import de.rabea.request.Log;
-import de.rabea.server.exceptions.SocketException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
+import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
 public class HttpServerTest {
@@ -16,12 +16,12 @@ public class HttpServerTest {
 
     @Before
     public void setup() {
-        directory = TestHelper.directory();
+        directory = directory();
         log = new Log();
     }
 
     @Test
-    public void returns200ForAGetRequestToEmptyDirectory() throws IOException {
+    public void returns200ForAGetRequestToEmptyDirectory() {
         NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
         httpServer.start("PUBLIC_DIR");
@@ -30,7 +30,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returns200AndDirectoryContentsForGetRequest() throws IOException {
+    public void returns200AndDirectoryContentsForGetRequest() {
         NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
         String file = "file.txt";
@@ -42,7 +42,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returnsFileContentInTheResponseBody() throws IOException {
+    public void returnsFileContentInTheResponseBody() {
         NetworkStub networkStub = new NetworkStub("GET /file.txt HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
         httpServer.start(directory);
@@ -51,7 +51,7 @@ public class HttpServerTest {
     }
 
     @Test
-    public void returns405ForRequestWithIllegalMethod() throws IOException {
+    public void returns405ForRequestWithIllegalMethod() {
         NetworkStub networkStub = new NetworkStub("POST /file.txt HTTP/1.1");
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
         httpServer.start(directory);
@@ -60,7 +60,7 @@ public class HttpServerTest {
     }
 
     @Test(expected = SocketException.class)
-    public void throwsSocketExceptionWhenItCannotCloseSocket() throws IOException {
+    public void throwsSocketExceptionWhenItCannotCloseSocket() {
         NetworkStub networkStub = new NetworkStub("GET / HTTP/1.1").throwsIOException();
         HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
         httpServer.start("PUBLIC_DIR");

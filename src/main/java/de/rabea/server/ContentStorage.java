@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.rabea.server.HttpVerb.*;
+import static de.rabea.server.HttpVerb.DELETE;
 
 public class ContentStorage {
     private final Map<String, byte[]> storage;
