@@ -1,7 +1,8 @@
-package de.rabea.response;
+package de.rabea.response.head;
 
 import de.rabea.request.Directory;
 import de.rabea.request.Request;
+import de.rabea.response.head.ResponseHead;
 import org.junit.Before;
 import org.junit.Test;
 

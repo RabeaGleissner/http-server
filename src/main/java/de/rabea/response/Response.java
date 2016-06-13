@@ -1,6 +1,7 @@
 package de.rabea.response;
 
 import de.rabea.request.Request;
+import de.rabea.response.head.ResponseHead;
 import de.rabea.server.ContentStorage;
 
 public class Response {
