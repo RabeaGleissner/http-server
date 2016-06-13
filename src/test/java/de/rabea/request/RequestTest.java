@@ -32,12 +32,8 @@ public class RequestTest {
 
     @Test
     public void returnsBodyForPostRequest() {
-       Request request = new Request("POST /form HTTP/1.1\n" +
+        Request request = new Request("POST /form HTTP/1.1\n" +
                 "Content-Length: 11\n" +
-                "Host: localhost:5000\n" +
-                "Connection: Keep-Alive\n" +
-                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
-                "Accept-Encoding: gzip,deflate\n" +
                 "\n" +
                 "data=fatcat", directory);
         assertEquals("data=fatcat", request.body);
@@ -57,5 +53,29 @@ public class RequestTest {
     public void returnsRangeForReadingFileContent() {
         Request request = new Request("GET /file.txt HTTP/1.1\nRange: bytes=0-4", directory);
         assertEquals("0-4", request.range);
+    }
+
+    @Test
+    public void returnsAuthorisationDetails() {
+        Request request = new Request("GET /logs HTTP/1.1\n" +
+                "Authorization: Basic YWRtaW46aHVudGVyMg==\n", directory);
+        assertEquals("Basic YWRtaW46aHVudGVyMg==", request.authorisation);
+    }
+
+    @Test
+    public void returnsEmptyStringIfRequestHasNoAuthorisation() {
+        Request request = new Request("GET /logs HTTP/1.1\n" , directory);
+        assertEquals("", request.authorisation);
+    }
+
+    @Test
+    public void returnsTrueIfAuthorised() {
+        Request request = new Request("GET /logs HTTP/1.1\n" +
+                "Authorization: Basic YWRtaW46aHVudGVyMg==\n" +
+                "Host: localhost:5000\n" +
+                "Connection: Keep-Alive\n" +
+                "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\n" +
+                "Accept-Encoding: gzip,deflate\n", directory);
+        assertTrue(request.isAuthorised());
     }
 }

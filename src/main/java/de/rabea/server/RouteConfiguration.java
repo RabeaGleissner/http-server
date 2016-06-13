@@ -15,6 +15,12 @@ public class RouteConfiguration {
         return existingRoutes;
     }
 
+    public List<String> needingAuthorisation() {
+       List<String> routesNeedingAuth  = new LinkedList<>();
+        routesNeedingAuth.add("/logs");
+        return routesNeedingAuth;
+    }
+
     private String[] availableRoutes() {
         return new String[]{
                 "/",
@@ -22,7 +28,8 @@ public class RouteConfiguration {
                 "/method_options",
                 "/method_options2",
                 "/parameters", "/redirect",
-                "/tea"
+                "/tea",
+                "/logs"
         };
     }
 

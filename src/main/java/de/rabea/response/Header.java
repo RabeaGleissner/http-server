@@ -7,7 +7,7 @@ import static de.rabea.server.HttpVerb.OPTIONS;
 
 public class Header {
 
-    private Request request;
+    private final Request request;
     private final String TEAPOT_HEADER = "\nI'm a teapot\n";
     private final String LOCATION = "Location: http://localhost:5000/\n";
 

@@ -4,7 +4,7 @@ import de.rabea.request.Request;
 
 public class ResponseHead {
 
-    private Request request;
+    private final Request request;
     private final String PROTOCOL = "HTTP/1.1 ";
 
     public ResponseHead(Request request) {
@@ -19,7 +19,7 @@ public class ResponseHead {
         return new Header(request).generate();
     }
 
-    public String statusLine() {
+    private String statusLine() {
         return new StatusLine(request).generate();
     }
 }

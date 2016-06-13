@@ -1,5 +1,6 @@
 package de.rabea;
 
+import de.rabea.request.Log;
 import de.rabea.server.Arguments;
 import de.rabea.server.ContentStorage;
 import de.rabea.server.MultiHttpServer;
@@ -18,7 +19,7 @@ public class Main {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentStorage());
+            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentStorage(), new Log());
             multiHttpServer.run(directory);
 
         } catch (IOException e) {

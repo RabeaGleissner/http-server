@@ -3,9 +3,9 @@ package de.rabea.request;
 import de.rabea.server.HttpVerb;
 import de.rabea.server.Router;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
+import static de.rabea.server.HttpVerb.*;
 
 public class Request {
 
@@ -16,16 +16,18 @@ public class Request {
     public String range;
     public String urlParams;
     public Directory directory;
+    public String authorisation;
     private List<String> components;
     private UriParser uriParser;
     private String incoming;
     private Router router;
+    private String AUTHORISATION_KEY = "Basic YWRtaW46aHVudGVyMg==";
 
     public Request(String incoming, Directory directory) {
         this.incoming = incoming;
         this.directory = directory;
-        this.router = new Router(directory);
         this.components = split();
+        this.router = new Router(directory);
         this.uriParser = new UriParser(uri());
         this.httpVerb = httpVerb();
         this.uri = uri();
@@ -33,13 +35,22 @@ public class Request {
         this.route = route();
         this.range = range();
         this.urlParams = urlParams();
+        this.authorisation = authorisation();
     }
 
     public Request() {
     }
 
+    public String head() {
+        return splitIntoLines().get(0);
+    }
+
     public boolean hasBody() {
         return !body.equals("");
+    }
+
+    public boolean knownUri() {
+        return router.isExisting(uri);
     }
 
     public boolean hasUrlParams() {
@@ -58,8 +69,20 @@ public class Request {
         return router.isRedirect(route);
     }
 
+    public boolean notAuthorised() {
+        return authorisation.equals("");
+    }
+
+    public boolean isAuthorised() {
+        return authorisation.equals(AUTHORISATION_KEY);
+    }
+
+    public boolean asksForLogs() {
+        return httpVerb == GET && route.equals("/logs");
+    }
+
     private HttpVerb httpVerb() {
-        return HttpVerb.convert(components.get(0));
+        return convert(components.get(0));
     }
 
     private String route() {
@@ -88,7 +111,7 @@ public class Request {
     }
 
     private List<String> split() {
-        String[] lines = incoming.split("\n");
+        List<String> lines = splitIntoLines();
         List<String> words = new LinkedList<>();
         for (String line : lines) {
             String[] splitLine =  line.split(" ");
@@ -97,7 +120,16 @@ public class Request {
         return words;
     }
 
-    public boolean knownUri() {
-        return router.isExisting(uri);
+    private List<String> splitIntoLines() {
+        String[] lines = incoming.split("\n");
+        return Arrays.asList(lines);
+    }
+
+    private String authorisation() {
+        int index = components.indexOf("Authorization:");
+        if (index != -1) {
+            return components.get(index + 1) + " " + components.get(index + 2);
+        }
+        return "";
     }
 }

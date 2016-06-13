@@ -10,15 +10,21 @@ import static de.rabea.server.HttpVerb.*;
 public class Router {
 
     private final Map<String, List<HttpVerb>> existingRoutes;
-    private Directory directory;
+    private final RouteConfiguration routeConfiguration;
+    private final Directory directory;
 
     public Router(Directory directory) {
-        existingRoutes = new RouteConfiguration().existingRoutes();
+        this.routeConfiguration = new RouteConfiguration();
+        this.existingRoutes = routeConfiguration.existingRoutes();
         this.directory = directory;
     }
 
     public boolean requestRoot(String route) {
         return route.equals("/");
+    }
+
+    public boolean routeNeedsAuthorisation(String route) {
+        return routeConfiguration.needingAuthorisation().contains(route);
     }
 
     public boolean isExisting(String route) {
