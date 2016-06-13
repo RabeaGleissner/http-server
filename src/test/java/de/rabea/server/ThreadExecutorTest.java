@@ -1,5 +1,6 @@
 package de.rabea.server;
 
+import de.rabea.exceptions.ServerSocketException;
 import de.rabea.request.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,5 +30,12 @@ public class ThreadExecutorTest {
     public void executorServiceShutsDown() throws IOException {
         threadExecutor.shutdown();
         assertTrue(executorServiceSpy.hasShutDown);
+    }
+
+    @Test(expected = ServerSocketException.class)
+    public void throwsExceptionWhenServerSocketCannotCreateSocket() throws IOException {
+        ThreadExecutor threadExecutor = new ThreadExecutor(new ExecutorServiceSpyFactory(executorServiceSpy),
+                new ServerSocketStub().throwsException(), new ContentStorage(), new Log(), "PUBLIC_DIR");
+        threadExecutor.execute();
     }
 }

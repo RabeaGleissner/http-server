@@ -1,5 +1,6 @@
 package de.rabea.server;
 
+import de.rabea.exceptions.ServerSocketException;
 import de.rabea.request.Log;
 
 import java.io.IOException;
@@ -26,12 +27,16 @@ public class ThreadExecutor implements Runnable {
     @Override
     public void run() {
         while (true) {
-            try {
-                executeServerRunnerInThread();
-            } catch (IOException e) {
-                e.getMessage();
-                shutdown();
-            }
+            execute();
+        }
+    }
+
+    public void execute() {
+        try {
+            executeServerRunnerInThread();
+        } catch (IOException e) {
+            shutdown();
+            throw new ServerSocketException("Cannot create Socket" + e.getMessage());
         }
     }
 

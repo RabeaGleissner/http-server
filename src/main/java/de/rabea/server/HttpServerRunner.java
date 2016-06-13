@@ -17,10 +17,6 @@ public class HttpServerRunner implements Runnable {
         this.directory = directory;
     }
 
-    public HttpServerRunner() {
-
-    }
-
     @Override
     public void run() {
         new HttpServer(network, contentStorage, log).start(directory);
