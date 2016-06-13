@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 class ExecutorServiceSpy implements ExecutorService {
 
     public boolean executesHttpServerRunner = false;
+    public boolean hasShutDown = false;
 
     @Override
     public void execute(Runnable command) {
@@ -15,6 +16,7 @@ class ExecutorServiceSpy implements ExecutorService {
 
     @Override
     public void shutdown() {
+        hasShutDown = true;
 
     }
 

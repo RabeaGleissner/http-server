@@ -14,7 +14,8 @@ public class ThreadExecutor implements Runnable {
     private Log log;
     private String directory;
 
-    public ThreadExecutor(ExecutorServiceFactory executorServiceFactory, ServerSocket serverSocket, ContentStorage contentStorage, Log log, String directory) {
+    public ThreadExecutor(ExecutorServiceFactory executorServiceFactory, ServerSocket serverSocket,
+                          ContentStorage contentStorage, Log log, String directory) {
         this.serverSocket = serverSocket;
         this.executorService = executorServiceFactory.create(poolSize);
         this.contentStorage = contentStorage;
@@ -29,9 +30,13 @@ public class ThreadExecutor implements Runnable {
                 executeServerRunnerInThread();
             } catch (IOException e) {
                 e.getMessage();
-                executorService.shutdown();
+                shutdown();
             }
         }
+    }
+
+    public void shutdown() {
+        executorService.shutdown();
     }
 
     public void executeServerRunnerInThread() throws IOException {
