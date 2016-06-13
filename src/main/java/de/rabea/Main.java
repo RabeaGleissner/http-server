@@ -3,7 +3,7 @@ package de.rabea;
 import de.rabea.request.Log;
 import de.rabea.server.Arguments;
 import de.rabea.server.ContentStorage;
-import de.rabea.server.MultiHttpServer;
+import de.rabea.server.ThreadExecutor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,8 +19,10 @@ public class Main {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentStorage(), new Log());
-            multiHttpServer.run(directory);
+            ThreadExecutor threadExecutor = new ThreadExecutor(serverSocket, new ContentStorage(), new Log(), directory);
+            threadExecutor.run();
+//            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentStorage(), new Log());
+//            multiHttpServer.run(directory);
 
         } catch (IOException e) {
             System.out.println("Cannot connect to port: " + port);
