@@ -1,8 +1,10 @@
 package de.rabea.request;
 
+import de.rabea.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
+import static de.rabea.TestHelper.*;
 import static de.rabea.TestHelper.directory;
 import static de.rabea.server.HttpVerb.GET;
 import static org.junit.Assert.assertEquals;
@@ -87,6 +89,7 @@ public class RequestTest {
                 "Content-Length: 15\n" +
                 "\n" +
                 "patched content\n", new Directory(directory()));
+        resetFileContent();
         assertTrue(request.hasCorrectETag());
     }
 }

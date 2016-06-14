@@ -1,5 +1,6 @@
 package de.rabea.request;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static de.rabea.TestHelper.*;
@@ -7,6 +8,11 @@ import static org.junit.Assert.assertEquals;
 
 public class FileParserTest {
     private final String file = directory() + "/file.txt";
+
+    @Before
+    public void setup() {
+        resetFileContent();
+    }
 
     @Test
     public void readFileContents() {
@@ -37,6 +43,5 @@ public class FileParserTest {
         FileParser fileParser = new FileParser(file);
         fileParser.updateExistingFile("updated");
         assertEquals("updated", asString(fileParser.read()));
-        resetFileContent();
     }
 }

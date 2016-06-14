@@ -41,11 +41,26 @@ public class Request {
         this.range = range();
         this.urlParams = urlParams();
         this.authorisation = authorisation();
+        updateFile();
     }
 
     public Request() {
     }
 
+    public void updateFile() {
+        if (requestToPatchFile()) {
+            updateExistingFile();
+        }
+    }
+
+    private void updateExistingFile() {
+        FileParser fileParser = new FileParser(directory.path + uri);
+        fileParser.updateExistingFile(body);
+    }
+
+    private boolean requestToPatchFile() {
+        return isPatch() && hasCorrectETag();
+    }
     public String head() {
         return splitIntoLines().get(0);
     }
@@ -55,7 +70,7 @@ public class Request {
     }
 
     public boolean knownUri() {
-        return router.isExisting(uri);
+        return router.isExisting(route);
     }
 
     public boolean hasUrlParams() {

@@ -27,7 +27,8 @@ public class RouteConfiguration {
                 "/form",
                 "/method_options",
                 "/method_options2",
-                "/parameters", "/redirect",
+                "/parameters",
+                "/redirect",
                 "/tea",
                 "/coffee",
                 "/logs"

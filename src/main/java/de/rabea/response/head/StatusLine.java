@@ -63,6 +63,6 @@ class StatusLine {
     }
 
     private boolean methodNotAllowed() {
-        return request.knownUri() && !router.validMethod(request.httpVerb, request.uri);
+        return request.knownUri() && !router.validMethod(request.httpVerb, request.route);
     }
 }
