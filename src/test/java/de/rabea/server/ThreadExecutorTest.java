@@ -35,7 +35,7 @@ public class ThreadExecutorTest {
     @Test(expected = ServerSocketException.class)
     public void throwsExceptionWhenServerSocketCannotCreateSocket() throws IOException {
         ThreadExecutor threadExecutor = new ThreadExecutor(new ExecutorServiceSpyFactory(executorServiceSpy),
-                new ServerSocketStub().throwsException(), new ContentStorage(), new Log(), "PUBLIC_DIR");
+                ServerSocketStub.throwsException(), new ContentStorage(), new Log(), "PUBLIC_DIR");
         threadExecutor.execute();
     }
 }

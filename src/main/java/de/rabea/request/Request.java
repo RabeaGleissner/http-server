@@ -53,14 +53,6 @@ public class Request {
         }
     }
 
-    private void updateExistingFile() {
-        FileParser fileParser = new FileParser(directory.path + uri);
-        fileParser.updateExistingFile(body);
-    }
-
-    private boolean requestToPatchFile() {
-        return isPatch() && hasCorrectETag();
-    }
     public String head() {
         return splitIntoLines().get(0);
     }
@@ -112,6 +104,15 @@ public class Request {
 
     public boolean asksForLogs() {
         return httpVerb == GET && route.equals("/logs");
+    }
+
+    private void updateExistingFile() {
+        FileParser fileParser = new FileParser(directory.path + uri);
+        fileParser.updateExistingFile(body);
+    }
+
+    private boolean requestToPatchFile() {
+        return isPatch() && hasCorrectETag();
     }
 
     private HttpVerb httpVerb() {

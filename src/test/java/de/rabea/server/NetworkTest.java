@@ -73,14 +73,14 @@ public class NetworkTest {
     }
 
     @Test(expected = SocketException.class)
-    public void socketThrowsIOExceptionWhenItCannotClose() {
+    public void socketThrowsSocketExceptionWhenItCannotClose() {
         SocketWithException socket = new SocketWithException().throwExceptionForClose();
         Network network = new Network(socket);
         network.close();
     }
 
     @Test(expected = SocketException.class)
-    public void throwsBufferedReaderException() {
+    public void throwsSocketExceptionWhenItCannotGetInputStream() {
         SocketWithException socket = new SocketWithException().throwExceptionForInputStream();
         Network network = new Network(socket);
         network.createReader();
