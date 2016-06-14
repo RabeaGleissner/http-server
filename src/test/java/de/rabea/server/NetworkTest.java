@@ -74,82 +74,71 @@ public class NetworkTest {
 
     @Test(expected = SocketException.class)
     public void socketThrowsSocketExceptionWhenItCannotClose() {
-        SocketWithException socket = new SocketWithException().throwExceptionForClose();
+        SocketWithExceptionForClose socket = new SocketWithExceptionForClose();
         Network network = new Network(socket);
         network.close();
     }
 
     @Test(expected = SocketException.class)
     public void throwsSocketExceptionWhenItCannotGetInputStream() {
-        SocketWithException socket = new SocketWithException().throwExceptionForInputStream();
+        SocketWithInputStreamException socket = new SocketWithInputStreamException();
         Network network = new Network(socket);
         network.createReader();
     }
 
     @Test(expected = SocketException.class)
     public void throwsSocketExceptionWhenItCannotGetOutputStream() {
-        SocketWithException socket = new SocketWithException().throwExceptionForOutputStream();
+        SocketWithOutputStreamException socket = new SocketWithOutputStreamException();
         Network network = new Network(socket);
         network.createSender();
     }
 
-    public class SocketWithException extends Socket {
-
-        private boolean inputStreamException;
-        private boolean outputStreamException;
-        private boolean exceptionForClose;
-
-        public SocketWithException() {
-        }
-
-        public SocketWithException(boolean closeException, boolean inputStreamException, boolean outputStreamException) {
-            this.exceptionForClose = closeException;
-            this.inputStreamException = inputStreamException;
-            this.outputStreamException = outputStreamException;
-        }
-
-        public SocketWithException throwExceptionForClose() {
-            exceptionForClose = true;
-            inputStreamException = false;
-            outputStreamException = false;
-            return new SocketWithException(exceptionForClose, inputStreamException, outputStreamException);
-        }
-
-        public SocketWithException throwExceptionForOutputStream() {
-            exceptionForClose = false;
-            inputStreamException = false;
-            outputStreamException = true;
-            return new SocketWithException(exceptionForClose, inputStreamException, outputStreamException);
-        }
-
-        public SocketWithException throwExceptionForInputStream() {
-            exceptionForClose = false;
-            inputStreamException = true;
-            outputStreamException = false;
-            return new SocketWithException(exceptionForClose, inputStreamException, outputStreamException);
-        }
-
+    public class SocketWithExceptionForClose extends Socket {
         @Override
         public void close() throws IOException {
-            if (exceptionForClose) {
-                throw new IOException();
-            }
+            throw new IOException();
         }
 
         @Override
         public InputStream getInputStream() throws IOException {
-            if (inputStreamException) {
-                throw new IOException();
-            }
+            return new ByteArrayInputStream("".getBytes());
+        }
+
+        @Override
+        public OutputStream getOutputStream() throws IOException {
+            return new ByteArrayOutputStream();
+        }
+    }
+
+    public class SocketWithOutputStreamException extends Socket {
+        @Override
+        public void close() throws IOException {
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
             return new ByteArrayInputStream("".getBytes()) {
             };
         }
 
         @Override
         public OutputStream getOutputStream() throws IOException {
-            if (outputStreamException) {
-                throw new IOException();
-            }
+            throw new IOException();
+        }
+    }
+
+    public class SocketWithInputStreamException extends Socket {
+        @Override
+        public void close() throws IOException {
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            throw new IOException();
+        }
+
+        @Override
+        public OutputStream getOutputStream() throws IOException {
             return new ByteArrayOutputStream();
         }
     }
