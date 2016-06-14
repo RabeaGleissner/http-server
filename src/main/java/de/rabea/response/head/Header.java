@@ -1,11 +1,11 @@
-package de.rabea.response;
+package de.rabea.response.head;
 
 import de.rabea.request.Request;
 import de.rabea.server.Router;
 
 import static de.rabea.server.HttpVerb.OPTIONS;
 
-public class Header {
+class Header {
 
     private final Request request;
     private final String TEAPOT_HEADER = "\nI'm a teapot\n";

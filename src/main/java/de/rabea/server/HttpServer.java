@@ -6,6 +6,7 @@ import de.rabea.request.Log;
 import de.rabea.request.Request;
 import de.rabea.response.Response;
 import de.rabea.response.ResponseBody;
+import de.rabea.response.ResponseBodyCreator;
 
 import java.io.IOException;
 
@@ -38,14 +39,13 @@ public class HttpServer {
 
     private Request handleIncoming(String directoryPath, String incoming) {
         Request request = new Request(incoming, new Directory(directoryPath));
-        contentStorage.update(request.route,
-                responseBody(new Controller(request, log)),
-                request.httpVerb);
+        log.register(request.head());
+        contentStorage.update(request.route, responseBody(request), request.httpVerb);
         return request;
     }
 
-    private byte[] responseBody(Controller controller) {
-        ResponseBody responseBody = controller.action();
+    private byte[] responseBody(Request request) {
+        ResponseBody responseBody = new ResponseBodyCreator(request, log).create();
            return responseBody.response();
     }
 }

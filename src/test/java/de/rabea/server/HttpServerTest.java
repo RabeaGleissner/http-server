@@ -5,8 +5,6 @@ import de.rabea.request.Log;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static de.rabea.TestHelper.directory;
 import static org.junit.Assert.assertEquals;
 
@@ -74,5 +72,14 @@ public class HttpServerTest {
         httpServer.start("PUBLIC_DIR");
 
         assertEquals("HTTP/1.1 200 OK\n\n" + "GET /logs HTTP/1.1\n", networkStub.returnedResponse);
+    }
+
+    @Test
+    public void returnsUrlParamsInTheResponse() {
+        NetworkStub networkStub = new NetworkStub ("GET /parameters?code=hello HTTP/1.1\n");
+        HttpServer httpServer = new HttpServer(networkStub, new ContentStorage(), log);
+        httpServer.start(directory);
+
+        assertEquals("HTTP/1.1 200 OK\n\n" + "code = hello\n", networkStub.returnedResponse);
     }
 }

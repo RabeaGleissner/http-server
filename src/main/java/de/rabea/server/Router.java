@@ -49,11 +49,11 @@ public class Router {
         return route.equals("/redirect");
     }
 
-    public boolean validMethod(HttpVerb requestedAction, String uri) {
-        if (isExisting(uri) && !directory.contains(uri)) {
-            List<HttpVerb> allowedMethods = existingRoutes.get(uri);
+    public boolean validMethod(HttpVerb requestedAction, String route) {
+        if (isExisting(route) && !directory.contains(route)) {
+            List<HttpVerb> allowedMethods = existingRoutes.get(route);
             return (allowedMethods.contains(requestedAction));
-        } else if (directory.contains(uri)) {
+        } else if (directory.contains(route)) {
             return legalMethodForFile(requestedAction);
         }
         return false;

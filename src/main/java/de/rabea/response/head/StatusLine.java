@@ -1,9 +1,9 @@
-package de.rabea.response;
+package de.rabea.response.head;
 
 import de.rabea.request.Request;
 import de.rabea.server.Router;
 
-public class StatusLine {
+class StatusLine {
 
     private final Request request;
     private final Router router;
@@ -63,6 +63,6 @@ public class StatusLine {
     }
 
     private boolean methodNotAllowed() {
-        return request.knownUri() && !router.validMethod(request.httpVerb, request.uri);
+        return request.knownUri() && !router.validMethod(request.httpVerb, request.route);
     }
 }

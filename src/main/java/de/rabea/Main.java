@@ -3,7 +3,8 @@ package de.rabea;
 import de.rabea.request.Log;
 import de.rabea.server.Arguments;
 import de.rabea.server.ContentStorage;
-import de.rabea.server.MultiHttpServer;
+import de.rabea.server.ThreadExecutor;
+import de.rabea.server.ThreadPoolExecutorServiceFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,12 +17,15 @@ public class Main {
         int port = Integer.parseInt(arguments.get("port"));
 
         System.out.println("Port: " + port + "\nDirectory: " + directory);
-        ServerSocket serverSocket;
         try {
-            serverSocket = new ServerSocket(port);
-            MultiHttpServer multiHttpServer = new MultiHttpServer(serverSocket, new ContentStorage(), new Log());
-            multiHttpServer.run(directory);
-
+            ServerSocket serverSocket = new ServerSocket(port);
+            ThreadExecutor threadExecutor = new ThreadExecutor(
+                    new ThreadPoolExecutorServiceFactory(),
+                    serverSocket,
+                    new ContentStorage(),
+                    new Log(),
+                    directory);
+            threadExecutor.run();
         } catch (IOException e) {
             System.out.println("Cannot connect to port: " + port);
             e.printStackTrace();
