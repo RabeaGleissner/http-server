@@ -21,13 +21,13 @@ public class ThreadExecutorTest {
     }
 
     @Test
-    public void executesHttpServerRunner() throws IOException {
-        threadExecutor.executeServerRunnerInThread();
+    public void executesHttpServerRunner() {
+        threadExecutor.execute();
         assertTrue(executorServiceSpy.executesHttpServerRunner);
     }
 
     @Test
-    public void executorServiceShutsDown() throws IOException {
+    public void executorServiceShutsDown() {
         threadExecutor.shutdown();
         assertTrue(executorServiceSpy.hasShutDown);
     }

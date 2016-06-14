@@ -44,7 +44,7 @@ public class ThreadExecutor implements Runnable {
         executorService.shutdown();
     }
 
-    public void executeServerRunnerInThread() throws IOException {
+    private void executeServerRunnerInThread() throws IOException {
         executorService.execute(new HttpServerRunner(
                 new HttpServerFactory(
                         new Network(serverSocket.accept()),

@@ -14,5 +14,4 @@ public class ExecutorServiceSpyFactory implements ExecutorServiceFactory {
     public ExecutorService create(int amount) {
         return executorServiceSpy;
     }
-
 }

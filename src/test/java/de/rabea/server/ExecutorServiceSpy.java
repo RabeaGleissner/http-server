@@ -17,7 +17,6 @@ class ExecutorServiceSpy extends AbstractExecutorService {
     @Override
     public void shutdown() {
         hasShutDown = true;
-
     }
 
     @Override
@@ -39,5 +38,4 @@ class ExecutorServiceSpy extends AbstractExecutorService {
     public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
         return false;
     }
-
 }
